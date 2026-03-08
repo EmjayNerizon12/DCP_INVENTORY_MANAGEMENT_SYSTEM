@@ -18,6 +18,99 @@ use Illuminate\Support\Facades\Validator;
 
 class DCPBatchController extends Controller
 {
+    public function listJson(Request $request)
+    {
+        $perPage = (int) $request->query('per_page', 20);
+        if ($perPage <= 0) $perPage = 20;
+        if ($perPage > 100) $perPage = 100;
+
+        $queryText = trim((string) $request->query('q', ''));
+
+        $query = DB::table('dcp_batches')
+            ->join('dcp_package_types', 'dcp_batches.dcp_package_type_id', '=', 'dcp_package_types.pk_dcp_package_types_id')
+            ->join('schools', 'dcp_batches.school_id', '=', 'schools.pk_school_id')
+            ->leftJoin('dcp_batch_approval', 'dcp_batch_approval.dcp_batches_id', '=', 'dcp_batches.pk_dcp_batches_id')
+            ->select(
+                'dcp_batches.pk_dcp_batches_id as id',
+                'dcp_batches.batch_label',
+                'dcp_batches.description',
+                'dcp_batches.budget_year',
+                'dcp_batches.delivery_date',
+                'dcp_batches.supplier_name',
+                'dcp_batches.mode_of_delivery',
+                'dcp_batches.submission_status',
+                'dcp_batches.date_approved',
+                'dcp_batches.school_id',
+                'dcp_batches.dcp_package_type_id',
+                'dcp_package_types.name as package_type_name',
+                'schools.SchoolName as school_name',
+                'schools.SchoolLevel as school_level',
+                'schools.SchoolID as school_code',
+                'dcp_batch_approval.status as approval_status'
+            )
+            ->orderBy('dcp_batches.delivery_date', 'desc');
+
+        if ($queryText !== '') {
+            $query->where(function ($q) use ($queryText) {
+                $q->where('dcp_batches.batch_label', 'like', "%{$queryText}%")
+                    ->orWhere('dcp_batches.description', 'like', "%{$queryText}%")
+                    ->orWhere('schools.SchoolName', 'like', "%{$queryText}%")
+                    ->orWhere('schools.SchoolLevel', 'like', "%{$queryText}%")
+                    ->orWhere('dcp_batches.budget_year', 'like', "%{$queryText}%");
+            });
+        }
+
+        $paginator = $query->paginate($perPage)->withQueryString();
+
+        $batches = collect($paginator->items())->map(function ($item) {
+            $deliveryDateRaw = $item->delivery_date;
+            $deliveryDateFormatted = null;
+
+            if ($deliveryDateRaw) {
+                try {
+                    $deliveryDateFormatted = Carbon::parse($deliveryDateRaw)->format('F d, Y');
+                } catch (\Throwable $e) {
+                    $deliveryDateFormatted = (string) $deliveryDateRaw;
+                }
+            }
+
+            return [
+                'id' => (int) $item->id,
+                'batch_label' => $item->batch_label,
+                'description' => $item->description,
+                'budget_year' => $item->budget_year,
+                'delivery_date' => $item->delivery_date,
+                'delivery_date_formatted' => $deliveryDateFormatted,
+                'supplier_name' => $item->supplier_name,
+                'mode_of_delivery' => $item->mode_of_delivery,
+                'submission_status' => $item->submission_status,
+                'date_approved' => $item->date_approved,
+                'approval_status' => $item->approval_status,
+                'package_type_name' => $item->package_type_name,
+                'dcp_package_type_id' => $item->dcp_package_type_id,
+                'school_id' => $item->school_id,
+                'school_name' => $item->school_name,
+                'school_level' => $item->school_level,
+                'school_code' => $item->school_code,
+            ];
+        })->values();
+
+        return response()->json([
+            'success' => true,
+            'data' => [
+                'batches' => $batches,
+                'meta' => [
+                    'current_page' => $paginator->currentPage(),
+                    'last_page' => $paginator->lastPage(),
+                    'per_page' => $paginator->perPage(),
+                    'total' => $paginator->total(),
+                    'from' => $paginator->firstItem(),
+                    'to' => $paginator->lastItem(),
+                ],
+            ],
+        ]);
+    }
+
     public function getSchoolsWithPackages()
     {
         $schools = School::with(['dcpBatches.dcpBatchItems'])
@@ -34,10 +127,10 @@ class DCPBatchController extends Controller
                 });
 
             return [
-                'SchoolName'  => $school->SchoolName,
+                'SchoolName' => $school->SchoolName,
                 'SchoolLevel' => $school->SchoolLevel,
-                'TotalBatch'  => $school->dcp_batches_count ?? 0,
-                'TotalCost'   => $totalCost
+                'TotalBatch' => $school->dcp_batches_count ?? 0,
+                'TotalCost' => $totalCost,
             ];
         });
 
@@ -46,10 +139,11 @@ class DCPBatchController extends Controller
 
         return response()->json([
             'schools' => $result,
-            'overall_total_cost' => $overallTotal
+            'overall_total_cost' => $overallTotal,
         ]);
     }
-    public function approve($id)
+
+    public function approve(Request $request, $id)
     {
         $batch = DCPBatch::findOrFail($id);
         $batch->submission_status = 'Approved';
@@ -62,58 +156,53 @@ class DCPBatchController extends Controller
         DCPBatchApproval::where('dcp_batches_id', $batch->pk_dcp_batches_id ?? '')
             ->update(['status' => 'Approved']);
 
+        if ($request->expectsJson()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'DCP Batch approved successfully!',
+            ]);
+        }
+
         return redirect()->back()->with('success', 'DCP Batch approved successfully!');
     }
 
     public function index()
     {
         $packageTypes = DCPPackageTypes::all();
-        $dcpBatches = DB::table('dcp_batches')
-            ->join('dcp_package_types', 'dcp_batches.dcp_package_type_id', '=', 'dcp_package_types.pk_dcp_package_types_id')
-            ->join('schools', 'dcp_batches.school_id', '=', 'schools.pk_school_id')
-            ->leftJoin('dcp_batch_approval', 'dcp_batch_approval.dcp_batches_id', '=', 'dcp_batches.pk_dcp_batches_id')
-            ->select(
-                'dcp_batches.*',
-                'dcp_package_types.name as package_type_name',
-                'schools.SchoolName as school_name',
-                'schools.SchoolLevel as school_level',
-                'schools.SchoolID as school_id',
-                'dcp_batch_approval.status as approval_status'
-            )
-            ->orderBy('dcp_batches.delivery_date', 'desc')
-            ->paginate(20)->withQueryString();
-
 
         $schools = School::all();
         $total_pending = DCPBatchApproval::where('status', 'Pending')->count();
         $total_approved = DCPBatchApproval::where('status', 'Approved')->count();
         $total_batches = DCPBatch::all()->count();
-        return view('AdminSide.DCPBatch.Batch', compact('dcpBatches', 'packageTypes', 'schools', 'total_pending', 'total_approved', 'total_batches'));
-    }
+        $total_unsubmitted = DCPBatch::doesntHave('approval')->count();
 
+        return view('AdminSide.DCPBatch.Batch', compact('packageTypes', 'schools', 'total_pending', 'total_approved', 'total_batches', 'total_unsubmitted'));
+    }
 
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'dcp_package_type_id' => 'required|integer',
-            'school_id' => 'nullable|integer',
-            'batch_label' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'school_email' => 'nullable|email',
-            'budget_year' => 'required|integer',
-            'delivery_date' => 'required|date',
-            'supplier_name' => 'required|string|max:255',
-            'mode_of_delivery' => 'required|string|max:255',
-            'submission_status' => 'required|string|max:50',
-        ]);
+	        $validator = Validator::make($request->all(), [
+	            'dcp_package_type_id' => 'required|integer|exists:dcp_package_types,pk_dcp_package_types_id',
+	            'school_id' => 'nullable|integer|exists:schools,pk_school_id',
+	            'batch_label' => 'required|string|max:255',
+	            'description' => 'nullable|string',
+	            'budget_year' => 'required|integer',
+	            'delivery_date' => 'required|date',
+	            'supplier_name' => 'required|string|max:255',
+	            'mode_of_delivery' => 'required|string|max:255',
+	        ]);
         if ($validator->fails()) {
+            if ($request->expectsJson()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Validation failed.',
+                    'errors' => $validator->errors(),
+                ], 422);
+            }
+
             return redirect()->back()->withErrors($validator)->withInput();
         }
         $batch = DCPBatch::create($validator->validated());
-
-
-
-
 
         $contents = DCPPackageContent::where('dcp_package_types_id', $batch->dcp_package_type_id)->get();
 
@@ -121,8 +210,54 @@ class DCPBatchController extends Controller
             $this->storeBatchItem($batch->pk_dcp_batches_id, $content); // ✅ calling the method
         }
 
+        if ($request->expectsJson()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'DCP Batch created successfully!',
+                'data' => [
+                    'id' => $batch->pk_dcp_batches_id,
+                    'batch_label' => $batch->batch_label,
+                ],
+            ], 201);
+        }
 
         return redirect()->back()->with('success', 'DCP Batch created successfully!');
+    }
+
+    public function update(Request $request)
+    {
+	        $validator = Validator::make($request->all(), [
+	            'id' => 'required|integer|exists:dcp_batches,pk_dcp_batches_id',
+	            'dcp_package_type_id' => 'required|integer|exists:dcp_package_types,pk_dcp_package_types_id',
+	            'school_id' => 'nullable|integer|exists:schools,pk_school_id',
+	            'batch_label' => 'required|string|max:255',
+	            'description' => 'nullable|string',
+	            'budget_year' => 'required|integer',
+	            'delivery_date' => 'required|date',
+	            'supplier_name' => 'required|string|max:255',
+	            'mode_of_delivery' => 'required|string|max:255',
+	        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Validation failed.',
+                'errors' => $validator->errors(),
+            ], 422);
+        }
+
+        $data = $validator->validated();
+        $batch = DCPBatch::findOrFail($data['id']);
+        unset($data['id']);
+        $batch->update($data);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'DCP Batch updated successfully!',
+            'data' => [
+                'id' => $batch->pk_dcp_batches_id,
+            ],
+        ]);
     }
 
     public function storeBatchItem($batchId, DCPPackageContent $packageContent)
@@ -142,22 +277,22 @@ class DCPBatchController extends Controller
             default => 'Unknown',
         };
 
-        $deliveryDate = \Carbon\Carbon::parse($batch->delivery_date)->format('mdy');
+        $deliveryDate = Carbon::parse($batch->delivery_date)->format('mdy');
 
         // Build code prefix
         $codePrefix = "DCP{$batch->budget_year}-{$packageType->code}-{$itemType->code}-{$schoolLevel}-{$school->SchoolID}-{$deliveryDate}-";
 
         // Get latest code count for this prefix
-        $latestItem = DCPBatchItem::where('generated_code', 'like', $codePrefix . '%')
+        $latestItem = DCPBatchItem::where('generated_code', 'like', $codePrefix.'%')
             ->orderByDesc('generated_code')
             ->first();
 
-        $lastCount = $latestItem ? (int)substr($latestItem->generated_code, -5) : 0;
+        $lastCount = $latestItem ? (int) substr($latestItem->generated_code, -5) : 0;
 
         // Loop based on quantity in package content
         for ($i = 1; $i <= $packageContent->quantity; $i++) {
             $itemCountPadded = str_pad($lastCount + $i, 5, '0', STR_PAD_LEFT);
-            $generatedCode = $codePrefix . $itemCountPadded;
+            $generatedCode = $codePrefix.$itemCountPadded;
 
             $batchItem = DCPBatchItem::create([
                 'dcp_batch_id' => $batch->pk_dcp_batches_id,
@@ -166,7 +301,7 @@ class DCPBatchController extends Controller
                 'unit_price' => $packageContent->unit_price,
                 'unit' => 'unit ',
                 'brand' => $brand->pk_dcp_batch_item_brands_id,
-                'quantity' => 1
+                'quantity' => 1,
             ]);
             DCPItemWarrantyStatus::create([
                 'dcp_batch_item_id' => $batchItem->pk_dcp_batch_items_id,
@@ -185,11 +320,10 @@ class DCPBatchController extends Controller
                 'batch_label' => $batch->batch_label,
                 'package_type' => $packageType->name,
                 'item_type' => $itemType->name,
-                'quantity' => $packageContent->quantity
-            ]
+                'quantity' => $packageContent->quantity,
+            ],
         ]);
     }
-
 
     public function destroy($batchId)
     {
@@ -198,10 +332,9 @@ class DCPBatchController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'DCP Batch deleted successfully!'
+            'message' => 'DCP Batch deleted successfully!',
         ]);
     }
-
 
     public function search(Request $request)
     {
@@ -232,6 +365,7 @@ class DCPBatchController extends Controller
             $item->delivery_date = $item->delivery_date
                 ? \Carbon\Carbon::parse($item->delivery_date)->format('F d, Y')
                 : null;
+
             return $item;
         });
 
