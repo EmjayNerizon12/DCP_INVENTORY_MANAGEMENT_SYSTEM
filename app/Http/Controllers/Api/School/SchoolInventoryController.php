@@ -3,25 +3,20 @@
 namespace App\Http\Controllers\Api\School;
 
 use App\Http\Controllers\Controller;
-use App\Models\DCPBatch;
 use App\Models\DCPBatchItem;
 use App\Models\SchoolUser;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Gate;
-use Tymon\JWTAuth\Facades\JWTAuth;
 
 class SchoolInventoryController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-
     public function index() {}
+
     public function searchBatchItems(Request $request, int $schoolId)
     {
-
 
         try {
             // Parse JWT token and get authenticated user
@@ -55,7 +50,7 @@ class SchoolInventoryController extends Controller
                 'dcpItemType',
                 'dcpBatch',
                 'dcpBatch.school',
-                'brand_details'
+                'brand_details',
             ])
                 // 👉 relationship filter
                 ->whereHas('dcpBatch', function ($q) use ($user) {
@@ -80,21 +75,21 @@ class SchoolInventoryController extends Controller
                         'pk_dcp_batch_items_id' => $item->pk_dcp_batch_items_id,
                         'generated_code' => $item->generated_code,
 
-                        'batch_label'    => $item->dcpBatch->batch_label ?? null,
+                        'batch_label' => $item->dcpBatch->batch_label ?? null,
 
-                        'brand_name'     => $item->brand_details->brand_name ?? null,
+                        'brand_name' => $item->brand_details->brand_name ?? null,
 
-                        'item_type'      => $item->dcpItemType->name ?? null,
-                        'created_at'     => $item->created_at
+                        'item_type' => $item->dcpItemType->name ?? null,
+                        'created_at' => $item->created_at,
                     ];
                 });
-
 
             return response()->json($results, 200);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
+
     /**
      * Store a newly created resource in storage.
      */

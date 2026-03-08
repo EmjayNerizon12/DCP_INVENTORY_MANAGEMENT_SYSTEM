@@ -6,30 +6,28 @@ use App\Models\DCPBatch;
 use App\Models\DCPBatchItem;
 use App\Models\DCPItemCondition;
 use App\Models\Equipment\EquipmentBiometricDetails;
-use App\Models\Equipment\EquipmentBiometricType;
 use App\Models\Equipment\EquipmentCCTVDetails;
-use App\Models\Equipment\EquipmentDetails;
 use App\Models\ISP\ISPDetails;
 use App\Models\School;
-use Illuminate\Http\Request;
 
 class AdminDashboardController extends Controller
 {
-
     public function get_current_condition_of_item()
     {
 
         $conditions = DCPItemCondition::all()->groupBy('current_condition_id');
 
-        $conditions =   $conditions->map(function ($group) {
+        $conditions = $conditions->map(function ($group) {
             return [
                 'id' => $group->first()->current_condition_id,
                 'condition' => $group->first()->dcpCurrentCondition?->name,
                 'count' => $group->count(),
             ];
         })->values()->toArray();
+
         return response()->json($conditions);
     }
+
     public function showItemCondition($id)
     {
         if ($id != 0) {
@@ -45,7 +43,7 @@ class AdminDashboardController extends Controller
                 'dcpCurrentCondition',
                 'dcpBatchItem.dcpItemType',
                 'dcpBatchItem.dcpBatch',
-                'dcpBatchItem.dcpBatch.school'
+                'dcpBatchItem.dcpBatch.school',
             ])
                 ->get();
         }
@@ -64,15 +62,18 @@ class AdminDashboardController extends Controller
 
         return view('AdminSide.ItemConditions.show', compact('condition'));
     }
-    public  function itemReport($id)
+
+    public function itemReport($id)
     {
         $batch_item = DCPBatchItem::where('pk_dcp_batch_items_id', $id)
             ->with('dcpItemType')
             ->with('dcpBatch.school')
             ->with('dcpItemCurrentCondition.dcpCurrentCondition')
             ->first();
+
         return response()->json($batch_item);
     }
+
     public function school_with_isp()
     {
 
@@ -83,13 +84,14 @@ class AdminDashboardController extends Controller
             ->distinct('school_id')
             ->count('school_id');
 
-
         $isp_count = ISPDetails::where('school_id', '!=', null)
             ->distinct('school_id')
             ->count('school_id');
         $total_schools = School::all()->count();
+
         return response()->json(['cctv_count' => $cctv_count, 'biometric_count' => $biometric_count, 'isp_count' => $isp_count, 'total_schools' => $total_schools]);
     }
+
     public function get_item_categories()
     {
         $counts = DCPBatchItem::select('item_type_id')
@@ -100,6 +102,7 @@ class AdminDashboardController extends Controller
 
         return response()->json($counts);
     }
+
     public function get_package_categories()
     {
         $counts = DCPBatch::select('dcp_package_type_id')
@@ -108,12 +111,14 @@ class AdminDashboardController extends Controller
             ->with('dcpPackageType')
             ->orderBy('total', 'desc')
             ->get();
+
         return response()->json($counts);
     }
+
     public function get_schools_dcp_count()
     {
         $count = DCPBatch::select('school_id')
-            ->selectRaw("COUNT(*) as total")
+            ->selectRaw('COUNT(*) as total')
             ->groupBy('school_id')
             ->with('school')
             ->orderBy('total', 'desc')

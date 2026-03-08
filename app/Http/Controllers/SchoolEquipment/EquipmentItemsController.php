@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\SchoolEquipment;
 
-use App\Models\SchoolEquipment\EquipmentItems;
 use App\Http\Controllers\Controller;
+use App\Models\SchoolEquipment\EquipmentItems;
 use Illuminate\Http\Request;
 
 class EquipmentItemsController extends Controller

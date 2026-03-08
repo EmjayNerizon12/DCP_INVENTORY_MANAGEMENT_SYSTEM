@@ -14,20 +14,21 @@ class CCTVController extends Controller
     public function index(int $schoolId)
     {
         $cctv_info = EquipmentCCTVDetails::where('school_id', $schoolId)
-        ->with([
-            'equipment_details.equipmentType', 
-            'equipment_details.incharge',
-            'equipment_details.installer',
-            'equipment_details.location',
-            'equipment_details.powersource',
-            'equipment_details.brand_model',
-            'cctv_type',
-        ])
-        ->get();
+            ->with([
+                'equipment_details.equipmentType',
+                'equipment_details.incharge',
+                'equipment_details.installer',
+                'equipment_details.location',
+                'equipment_details.powersource',
+                'equipment_details.brand_model',
+                'cctv_type',
+            ])
+            ->get();
+
         return response()->json([
             'success' => true,
-            'data' => $cctv_info
-        ],200);
+            'data' => $cctv_info,
+        ], 200);
     }
 
     /**

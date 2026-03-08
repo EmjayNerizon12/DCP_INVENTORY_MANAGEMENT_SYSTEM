@@ -4,12 +4,12 @@ namespace App\Models;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Tymon\JWTAuth\Contracts\JWTSubject;
 use Laravel\Sanctum\HasApiTokens;
 
 class SchoolUser extends Authenticatable
 {
     use HasApiTokens, Notifiable;
+
     protected $table = 'school_users';
 
     protected $fillable = [
@@ -31,6 +31,7 @@ class SchoolUser extends Authenticatable
     {
         return $this->belongsTo(School::class, 'pk_school_id', 'pk_school_id');
     }
+
     public function getJWTIdentifier()
     {
         return $this->getKey(); // usually the primary key

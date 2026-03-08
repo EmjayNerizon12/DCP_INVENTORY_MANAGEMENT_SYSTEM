@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\DCPBatchItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Gate;
 
 class SchoolInventoryController extends Controller
 {
@@ -38,7 +36,6 @@ class SchoolInventoryController extends Controller
                 ->where('dcp_batches.school_id', Auth::guard('school')->user()->school->pk_school_id) // ✅ filter by school_id
                 ->orderBy('dcp_batches.created_at', 'desc')
                 ->get();
-
 
             return response()->json($results);
         } catch (\Exception $e) {

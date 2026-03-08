@@ -18,15 +18,16 @@ class ISPController extends Controller
             $internet = ISPDetails::with(['ispInfo', 'ispList', 'ispConnectionType', 'ispInternetQuality', 'ispPurpose', 'ispSpeedTest', 'ispAreaDetails.ispAreaAvailable'])
                 ->where('school_id', $school_id)
                 ->get();
+
             return response()->json([
                 'success' => true,
-                'data' => $internet
+                'data' => $internet,
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
                 'message' => 'Failed to retrieve internet data',
-                'error' => $e->getMessage()
+                'error' => $e->getMessage(),
             ], 500);
         }
     }

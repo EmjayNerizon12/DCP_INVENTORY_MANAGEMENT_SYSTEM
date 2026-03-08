@@ -11,9 +11,9 @@ class Badge extends Component
     /**
      * Create a new component instance.
      */
-    public String $color;
+    public string $color;
 
-    public function __construct(String $color)
+    public function __construct(string $color)
     {
         $this->color = $color;
     }

@@ -35,10 +35,11 @@ class SchoolEquipmentDocumentController extends Controller
 
             $validated = $request->validate([
                 'school_equipment_id' => 'required|exists:school_equipment,id',
-                'document_type_id' => 'required|integer|exists:school_equipment_document_types,id|unique:school_equipment_documents,document_type_id,NULL,id,school_equipment_id,' . $request->school_equipment_id,
+                'document_type_id' => 'required|integer|exists:school_equipment_document_types,id|unique:school_equipment_documents,document_type_id,NULL,id,school_equipment_id,'.$request->school_equipment_id,
                 'document_number' => 'required|string|max:255',
             ]);
             $document = SchoolEquipmentDocument::create($validated);
+
             return response()->json([
                 'success' => true,
                 'message' => 'School Equipment Document saved successfully',
@@ -82,11 +83,12 @@ class SchoolEquipmentDocumentController extends Controller
         try {
 
             $validated = $request->validate([
-                'document_type_id' => 'required|integer|exists:school_equipment_document_types,id|unique:school_equipment_documents,document_type_id,NULL,id,school_equipment_id,' . $request->school_equipment_id,
+                'document_type_id' => 'required|integer|exists:school_equipment_document_types,id|unique:school_equipment_documents,document_type_id,NULL,id,school_equipment_id,'.$request->school_equipment_id,
                 'document_number' => 'required|string|max:255',
             ]);
             $document = SchoolEquipmentDocument::findOrFail($id);
             $document->update($validated);
+
             return response()->json([
                 'success' => true,
                 'message' => 'School Equipment Document saved successfully',
@@ -115,6 +117,7 @@ class SchoolEquipmentDocumentController extends Controller
         try {
             $document = SchoolEquipmentDocument::findOrFail($id);
             $remove_document = $document->delete();
+
             return response()->json([
                 'success' => true,
                 'message' => 'School Equipment Document removed successfully',

@@ -13,6 +13,7 @@ class ReportsController extends Controller
     {
         return view('AdminSide.Reports.index');
     }
+
     public function generateReport()
     {
         // Logic to generate report based on request parameters
@@ -24,8 +25,10 @@ class ReportsController extends Controller
                     $batch->grouped_items = $batch->dcpBatchItems->groupBy(function ($item) {
                         return $item->dcpItemType->name ?? 'Unknown Type';
                     });
+
                     return $batch;
                 });
+
                 return $school;
             })
             ->sortBy('SchoolName') // sort alphabetically
@@ -44,6 +47,7 @@ class ReportsController extends Controller
         // Process the data and generate the report
         return response()->json(['success' => true, 'data' => $schools]);
     }
+
     public function totalCost()
     {
         // $overallTotal = School::with(['dcpBatches.dcpBatchItems'])
@@ -76,6 +80,7 @@ class ReportsController extends Controller
             })
             ->sortBy('SchoolName')
             ->values();
+
         return response()->json(['success' => true, 'data' => $schools]);
     }
 }

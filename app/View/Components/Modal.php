@@ -12,9 +12,13 @@ class Modal extends Component
      * Create a new component instance.
      */
     public string $id;
+
     public string $size;
+
     public string $type;
+
     public string $icon;
+
     public function __construct(string $id, string $size, string $type, string $icon)
     {
         $this->id = $id;

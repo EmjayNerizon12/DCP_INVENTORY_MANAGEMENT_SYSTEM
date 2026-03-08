@@ -9,11 +9,10 @@ use Illuminate\Database\Eloquent\Model;
 class School extends Model
 {
     protected $table = 'schools';
+
     protected $primaryKey = 'pk_school_id';
 
-
     protected $fillable = [
-        'pk_school_id',
         'SchoolID',
         'SchoolName',
         'SchoolLevel',
@@ -25,42 +24,32 @@ class School extends Model
         'image_path',
         'Province',
         'CityMunicipality',
-        'SchoolAddress', //new
+        'SchoolAddress', // new
 
         'SchoolContactNumber',
-        'SchoolContactNumber2', //new
-        'SchoolTelNumber', //new
+        'SchoolContactNumber2', // new
+        'SchoolTelNumber', // new
         'SchoolEmailAddress',
 
-        'PrincipalName',
-        'PrincipalContact',
-        'PrincipalEmail',
+        'admin_position', // new
+        'admin_email', // new
+        'admin_mobile_no', // new
 
-        'ICTName',
-        'ICTContact',
-        'ICTEmail',
-
-        'CustodianName',
-        'CustodianContact',
-        'CustodianEmail',
-
-        'admin_position', //new
-        'admin_email', //new
-        'admin_mobile_no', //new
-
-        'admin_staff_email', //new
-        'admin_staff_mobile_no', //new
+        'admin_staff_email', // new
+        'admin_staff_mobile_no', // new
 
         'has_network_admin', // 0 or 1
         'has_bandwidth', // 0 or 1
 
         'created_at',
-        'updated_at'
+        'updated_at',
     ];
+
     public function schoolEquipments()
     {
         return $this->hasMany(SchoolEquipment\SchoolEquipment::class, 'school_id', 'pk_school_id');
     }
+
     public function dcpBatches()
     {
         return $this->hasMany(DCPBatch::class, 'school_id', 'pk_school_id');
@@ -70,6 +59,7 @@ class School extends Model
     {
         return $this->hasOne(SchoolUser::class, 'pk_school_id', 'pk_school_id');
     }
+
     public function schoolCoordinates()
     {
         return $this->hasOne(SchoolCoordinates::class, 'pk_school_id', 'pk_school_id');
@@ -79,16 +69,24 @@ class School extends Model
     {
         return $this->hasMany(SchoolData::class, 'pk_school_id', 'pk_school_id');
     }
+
     public function ispDetails()
     {
         return $this->hasMany(ISPDetails::class, 'school_id', 'pk_school_id');
     }
+
     public function nonDCPItems()
     {
         return $this->hasMany(NonDCPItem::class, 'school_id', 'pk_school_id');
     }
+
     public function biometricDetails()
     {
         return $this->hasMany(EquipmentBiometricDetails::class, 'school_id', 'pk_school_id');
+    }
+
+    public function schoolOfficials()
+    {
+        return $this->hasMany(SchoolOfficial::class, 'school_id', 'pk_school_id');
     }
 }

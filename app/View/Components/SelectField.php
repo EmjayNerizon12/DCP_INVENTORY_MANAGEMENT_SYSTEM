@@ -13,13 +13,20 @@ class SelectField extends Component
      * Create a new component instance.
      */
     public string $name;
+
     public string $label;
+
     public Collection|array $options;
+
     public bool $required;
+
     public bool $edit;
+
     public string $textField;
+
     public string $valueField;
-    public function __construct(string $name, string $label,  $options = [], bool $required = false, bool $edit,  string $valueField = 'id', string $textField = 'name')
+
+    public function __construct(string $name, string $label, $options, bool $required, bool $edit, string $valueField = 'id', string $textField = 'name')
     {
         $this->name = $name;
         $this->label = $label;

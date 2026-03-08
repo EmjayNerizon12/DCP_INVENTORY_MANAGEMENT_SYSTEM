@@ -4,17 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\DCPBatch;
 use App\Models\DCPBatchItem;
-use App\Models\DCPCurrentCondition;
 use App\Models\DCPItemCondition;
 use App\Models\DCPItemTypes;
 use App\Models\DCPPackageTypes;
-use App\Models\Equipment\EquipmentBiometricDetails;
-use App\Models\Equipment\EquipmentCCTVDetails;
-use App\Models\ISP\ISPDetails;
 use App\Models\SchoolData;
-use App\Models\SchoolEmployee;
-use App\Models\SchoolEquipment\SchoolEquipment;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class SchoolDashboardController extends Controller
@@ -64,7 +57,7 @@ class SchoolDashboardController extends Controller
         $totalForDisposal = 0;
         $totalForMissing = 0;
         foreach ($items as $batch_items) {
-            $current_condition =  DCPItemCondition::where(
+            $current_condition = DCPItemCondition::where(
                 'dcp_batch_item_id',
                 $batch_items->pk_dcp_batch_items_id,
             )->value('current_condition_id');
@@ -83,17 +76,14 @@ class SchoolDashboardController extends Controller
             }
         }
 
-
         $totalBatches = $batches->count();
         $totalItems = $items->count();
-
 
         $schoolData = SchoolData::where('pk_school_id', Auth::guard('school')->user()->school->pk_school_id)->get();
         $totalLearners = 0;
         $totalClassrooms = 0;
         $totalTeachers = 0;
         $totalSections = 0;
-
 
         foreach ($schoolData as $data) {
             $totalLearners = $totalLearners + $data->RegisteredLearners;
@@ -108,11 +98,11 @@ class SchoolDashboardController extends Controller
             foreach ($item_types as $types) {
                 $item_names = DCPItemTypes::where('pk_dcp_item_types_id', $types)->value('name');
                 $item_names_collect->push([
-                    'items' => $item_names
+                    'items' => $item_names,
                 ]);
             }
         }
-        $item_sorted =   $item_names_collect->groupBy('items')->map->count()->sortDesc();
+        $item_sorted = $item_names_collect->groupBy('items')->map->count()->sortDesc();
         $total_under_warranty = 0;
         $total_out_of_warranty = 0;
         foreach ($batches as $batch) {
@@ -129,6 +119,7 @@ class SchoolDashboardController extends Controller
                 }
             }
         }
+
         return view('SchoolSide.Dashboard.index', compact(
             'totalLearners',
             'item_sorted',

@@ -16,13 +16,14 @@ class EmployeeController extends Controller
 
         return view('AdminSide.Employee.index', compact('employee_position'));
     }
+
     public function store(Request $request)
     {
         $validated = $request->validate([
             'name' => 'required|string|unique:position_title,name',
         ], [
             'name.unique' => 'The position is already in the list.',
-            'name.required' => 'Please enter a position name.'
+            'name.required' => 'Please enter a position name.',
         ]);
         $store = EmployeePosition::create($validated);
         if ($store) {
@@ -33,14 +34,14 @@ class EmployeeController extends Controller
     public function update(Request $request)
     {
         $validated = $request->validate([
-            'id'   => 'required|integer',
+            'id' => 'required|integer',
             'name' => [
                 'required',
                 'string',
-                Rule::unique('position_title', 'name')->ignore($request->id, 'pk_school_position_id')
+                Rule::unique('position_title', 'name')->ignore($request->id, 'pk_school_position_id'),
             ],
         ], [
-            'name.unique' => 'The position is already in the list.'
+            'name.unique' => 'The position is already in the list.',
         ]);
 
         $positions = EmployeePosition::findOrFail($validated['id']);
@@ -58,6 +59,7 @@ class EmployeeController extends Controller
 
             if ($delete) {
                 $delete->delete();
+
                 return redirect()->back()->with('success', 'Employee position deleted successfully.');
             } else {
                 return redirect()->back()->with('error', 'Unable to delete this position.');
@@ -68,7 +70,7 @@ class EmployeeController extends Controller
                 return redirect()->back()->with('error', 'This employee position is assigned and cannot be deleted.');
             }
 
-            return redirect()->back()->with('error', 'Database error: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Database error: '.$e->getMessage());
         } catch (Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }

@@ -3,14 +3,10 @@
 namespace App\Http\Controllers\ISPQ;
 
 use App\Http\Controllers\Controller;
-
 use App\Models\ISPQ\ISPAnswer;
-use App\Models\ISPQ\ISPChoice;
 use App\Models\ISPQ\ISPQuestion;
-use App\Services\ISPQ\QuestionChoiceService;
-use App\Services\ISPQ\PostAnswer;
 use App\Services\ISPQ\PostAnswerService;
-use Exception;
+use App\Services\ISPQ\QuestionChoiceService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -41,7 +37,7 @@ class ISPAnswerController extends Controller
     public function store(PostAnswerService $postAnswer, Request $request)
     {
         $school_id = Auth::guard('school')->user()->pk_school_id;
-        $question_list  = ISPQuestion::all();
+        $question_list = ISPQuestion::all();
 
         $totalSuccess = 0;
         $totalQuestion = count($question_list);
@@ -95,6 +91,7 @@ class ISPAnswerController extends Controller
     public function destroy(int $school_id)
     {
         ISPAnswer::where('school_id', $school_id)->delete();
+
         return redirect()->back()->with('success', 'Answers deleted successfully.');
     }
 }

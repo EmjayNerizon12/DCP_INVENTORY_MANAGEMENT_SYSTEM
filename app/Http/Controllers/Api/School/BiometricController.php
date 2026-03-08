@@ -13,21 +13,22 @@ class BiometricController extends Controller
      */
     public function index(int $schoolId)
     {
-         $biometrics_data = EquipmentBiometricDetails::where('school_id', $schoolId)
-        ->with([
-            'equipment_details.equipmentType', 
-            'equipment_details.incharge',
-            'equipment_details.installer',
-            'equipment_details.location',
-            'equipment_details.powersource',
-            'equipment_details.brand_model',
-            'biometric_type',
-        ])
-        ->get();
+        $biometrics_data = EquipmentBiometricDetails::where('school_id', $schoolId)
+            ->with([
+                'equipment_details.equipmentType',
+                'equipment_details.incharge',
+                'equipment_details.installer',
+                'equipment_details.location',
+                'equipment_details.powersource',
+                'equipment_details.brand_model',
+                'biometric_type',
+            ])
+            ->get();
+
         return response()->json([
             'success' => true,
-            'data' => $biometrics_data
-        ],200);
+            'data' => $biometrics_data,
+        ], 200);
     }
 
     /**

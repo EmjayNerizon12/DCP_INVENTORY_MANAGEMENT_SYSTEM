@@ -8,24 +8,22 @@ use App\Models\ISP\ISPSpeedTest;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Validator as FacadesValidator;
 use Illuminate\Validation\ValidationException;
-use Illuminate\Validation\Validator;
 
 class SchoolISPController extends Controller
 {
-    function index()
+    public function index()
     {
 
         $schoolsISP = ISPDetails::where('school_id', Auth::guard('school')->user()->school->pk_school_id)->get();
         $isp_content = ISPDetails::with(['ispInfo', 'ispList', 'ispConnectionType', 'ispInternetQuality', 'ispPurpose', 'ispSpeedTest', 'ispAreaDetails.ispAreaAvailable'])
             ->where('school_id', Auth::guard('school')->user()->school->pk_school_id)
             ->get();
+
         return view('SchoolSide.ISP.index', compact('isp_content'));
     }
 
-    function updateArea(Request $request)
+    public function updateArea(Request $request)
     {
         try {
             $validated = $request->validate([
@@ -45,16 +43,16 @@ class SchoolISPController extends Controller
                     'message' => 'Area already exists.',
                     'errors' => [
                         'isp_area_available_id' => [
-                            'Area already exists.'
-                        ]
-                    ]
+                            'Area already exists.',
+                        ],
+                    ],
                 ], 422);
             }
 
             $isp_area = ISPAreaDetails::findOrFail($validated['pk_isp_area_details_id']);
 
             $isp_area->update([
-                'isp_area_available_id' => $validated['isp_area_available_id']
+                'isp_area_available_id' => $validated['isp_area_available_id'],
             ]);
 
             return response()->json([
@@ -75,7 +73,8 @@ class SchoolISPController extends Controller
             ], 500);
         }
     }
-    function insertNewArea(Request $request)
+
+    public function insertNewArea(Request $request)
     {
         try {
             $validated = $request->validate(
@@ -91,7 +90,7 @@ class SchoolISPController extends Controller
                 ]
             );
 
-            $isp_area = ISPAreaDetails::where('isp_details_id',  $validated['insert_isp_details_id'])
+            $isp_area = ISPAreaDetails::where('isp_details_id', $validated['insert_isp_details_id'])
                 ->where('isp_area_available_id', $validated['insert_isp_area_available_id'])->get();
             if (count($isp_area) > 0) {
                 return response()->json([
@@ -99,15 +98,16 @@ class SchoolISPController extends Controller
                     'message' => 'Area already exists.',
                     'errors' => [
                         'insert_isp_area_available_id' => [
-                            'Area already exists.'
-                        ]
-                    ]
+                            'Area already exists.',
+                        ],
+                    ],
                 ], 422);
             } else {
                 ISPAreaDetails::create([
                     'isp_details_id' => $validated['insert_isp_details_id'],
-                    'isp_area_available_id' => $validated['insert_isp_area_available_id']
+                    'isp_area_available_id' => $validated['insert_isp_area_available_id'],
                 ]);
+
                 return response()->json([
                     'success' => true,
                     'message' => 'New ISP Area has been added.',
@@ -128,14 +128,16 @@ class SchoolISPController extends Controller
         }
     }
 
-    function deleteArea(int $isp_details_id, int $isp_area_available_id)
+    public function deleteArea(int $isp_details_id, int $isp_area_available_id)
     {
-        $isp_area = ISPAreaDetails::where('isp_details_id',  $isp_details_id)
+        $isp_area = ISPAreaDetails::where('isp_details_id', $isp_details_id)
             ->where('isp_area_available_id', $isp_area_available_id);
         $isp_area->delete();
+
         return response()->json(['message' => 'The ISP Area has been deleted']);
     }
-    function storeData(Request $request)
+
+    public function storeData(Request $request)
     {
         try {
             $validated = $request->validate([
@@ -190,7 +192,8 @@ class SchoolISPController extends Controller
             ], 500);
         }
     }
-    function updateData(Request $request)
+
+    public function updateData(Request $request)
     {
         try {
             $validated = $request->validate([
@@ -239,10 +242,12 @@ class SchoolISPController extends Controller
             ], 500);
         }
     }
-    function deleteISP(int $id)
+
+    public function deleteISP(int $id)
     {
         $isp_details = ISPDetails::findOrFail($id);
         $isp_details->delete();
+
         return response()->json(['message' => 'The ISP has been deleted']);
     }
 }

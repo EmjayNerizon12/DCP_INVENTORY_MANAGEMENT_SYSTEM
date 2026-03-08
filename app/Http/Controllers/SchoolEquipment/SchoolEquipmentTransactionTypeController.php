@@ -14,6 +14,7 @@ class SchoolEquipmentTransactionTypeController extends Controller
     public function index()
     {
         $data = SchoolEquipmentTransactionType::all();
+
         return response()->json(['success' => true, 'data' => $data]);
     }
 

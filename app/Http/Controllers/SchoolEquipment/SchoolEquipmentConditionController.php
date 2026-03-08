@@ -17,12 +17,12 @@ class SchoolEquipmentConditionController extends Controller
         if ($data) {
             return response()->json([
                 'success' => true,
-                'data' => $data
+                'data' => $data,
             ]);
         } else {
             return response()->json([
                 'success' => false,
-                'message' => 'No data found'
+                'message' => 'No data found',
             ]);
         }
     }

@@ -31,7 +31,7 @@ class PostAnswerService
                     'choice_id' => null,
                     'other_value' => null,
                     'text_value' => null,
-                    'numeric_value' => (int)$request->answer[$question->id],
+                    'numeric_value' => (int) $request->answer[$question->id],
                 ]);
             }
             if ($question->question_type == 'multiple') {

@@ -14,6 +14,7 @@ class SchoolEquipmentReceiverTypeController extends Controller
     public function index()
     {
         $receiver_types = SchoolEquipmentReceiverType::all();
+
         return response()->json(['success' => true, 'data' => $receiver_types]);
     }
 

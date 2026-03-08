@@ -16,10 +16,12 @@ class DCPSchoolsInventoryController extends Controller
 
         return view('AdminSide.SchoolsInventory.inventory', compact('school_items'));
     }
+
     public function searchPage()
     {
-        return view('AdminSide.SchoolsInventory.find-item');
+        return view('AdminSide.SchoolsInventory.search');
     }
+
     public function findItem(Request $request)
     {
         $validated = $request->validate([
@@ -27,14 +29,17 @@ class DCPSchoolsInventoryController extends Controller
         ]);
         $searchInput = $validated['searchInput'];
 
-        $items = DCPBatchItem::where('generated_code', 'like', '%' . $searchInput . '%')->with(['dcpItemType'])->orderBy('generated_code', 'desc')
+        $items = DCPBatchItem::where('generated_code', 'like', '%'.$searchInput.'%')->with(['dcpItemType'])->orderBy('generated_code', 'desc')
             ->paginate(10);
+
         return response()->json($items);
     }
-    public function showItem(String $code)
+
+    public function showItem(string $code)
     {
 
         $items = DCPBatchItem::where('generated_code', $code)->first();
+
         return view('AdminSide.SchoolsInventory.show-item', compact('items'));
         // return response()->json($items);
     }
@@ -66,7 +71,6 @@ class DCPSchoolsInventoryController extends Controller
 
         $batches = $query->get();
 
-
         $school_items_count = $batches->map(function ($batch) {
             return [
                 'batch_label' => $batch->batch_label,
@@ -76,6 +80,7 @@ class DCPSchoolsInventoryController extends Controller
         });
         // dd($school_items);
         $school_items = $query->orderBy('budget_year', 'desc')->paginate(10);
+
         // dd($school_items);
         return view('AdminSide.SchoolsInventory.inventory', compact(
             'schools',
@@ -89,12 +94,13 @@ class DCPSchoolsInventoryController extends Controller
 
     public function showItems($code)
     {
-        $items =  DCPBatchItem::where('generated_code', $code)->get();
+        $items = DCPBatchItem::where('generated_code', $code)->get();
 
         $batch = DCPBatch::where('pk_dcp_batches_id', $items[0]->dcp_batch_id)->first();
         $schoolName = School::where('pk_school_id', $batch->school_id)->value('SchoolName');
         $batchName = $batch->batch_label;
         $school_pk = $batch->school_id;
+
         return view('AdminSide.SchoolsInventory.inventory-item', compact('school_pk', 'items', 'batchName', 'schoolName'));
     }
 }

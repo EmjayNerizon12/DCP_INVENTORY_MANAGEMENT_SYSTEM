@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\DCPPackageContent;
 use App\Models\DCPPackageTypes;
-use Illuminate\Http\Request;
 
 class PackagesInformationController extends Controller
 {

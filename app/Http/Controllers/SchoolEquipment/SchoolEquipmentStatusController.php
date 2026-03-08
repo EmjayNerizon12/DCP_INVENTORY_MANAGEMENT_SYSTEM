@@ -42,21 +42,22 @@ class SchoolEquipmentStatusController extends Controller
             ]);
 
             SchoolEquipmentStatus::create($validated);
+
             return response()->json([
                 'success' => true,
-                'message' => 'School equipment status saved successfully.'
+                'message' => 'School equipment status saved successfully.',
             ], 201);
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
                 'message' => 'An error occurred while saving the school equipment status.',
-                'error' => $e->getMessage()
+                'error' => $e->getMessage(),
             ], 500);
         } catch (ValidationException $e) {
             return response()->json([
                 'success' => false,
                 'message' => 'Validation failed.',
-                'errors' => $e->errors()
+                'errors' => $e->errors(),
             ], 422);
         }
     }
@@ -70,7 +71,7 @@ class SchoolEquipmentStatusController extends Controller
 
         return response()->json([
             'success' => true,
-            'data' => $data
+            'data' => $data,
         ]);
     }
 
@@ -100,21 +101,22 @@ class SchoolEquipmentStatusController extends Controller
 
             $schoolEquipmentStatus = SchoolEquipmentStatus::findOrFail($id);
             $schoolEquipmentStatus->update($validated);
+
             return response()->json([
                 'success' => true,
-                'message' => 'School equipment status updated successfully.'
+                'message' => 'School equipment status updated successfully.',
             ], 201);
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
                 'message' => 'An error occurred while updating the school equipment status.',
-                'error' => $e->getMessage()
+                'error' => $e->getMessage(),
             ], 500);
         } catch (ValidationException $e) {
             return response()->json([
                 'success' => false,
                 'message' => 'Validation failed.',
-                'errors' => $e->errors()
+                'errors' => $e->errors(),
             ], 422);
         }
     }

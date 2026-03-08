@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\DCPBatch;
 use App\Models\DCPBatchItem;
 use App\Models\DCPDeliveryCondintion;
-use App\Models\DCPItemType;
 use App\Models\DCPItemTypes;
 use App\Models\DCPPackageTypes;
 use App\Models\School;
+use Illuminate\Http\Request;
 
 class DCPBatchItemController extends Controller
 {
@@ -20,10 +19,8 @@ class DCPBatchItemController extends Controller
         $itemTypes = DCPItemTypes::all();
         $conditions = DCPDeliveryCondintion::all();
 
-
         return view('AdminSide.DCPBatch.Items', compact('batch', 'items', 'itemTypes', 'conditions'));
     }
-
 
     public function store(Request $request, $batchId)
     {
@@ -57,12 +54,12 @@ class DCPBatchItemController extends Controller
         $codePrefix = "{$batch->batch_label}-{$packageType->code}-{$itemType->code}-{$schoolLevel}-{$school->SchoolID}-{$deliveryDate}-";
 
         // Find the latest count for this prefix
-        $latestItem = DCPBatchItem::where('generated_code', 'like', $codePrefix . '%')
+        $latestItem = DCPBatchItem::where('generated_code', 'like', $codePrefix.'%')
             ->orderByDesc('generated_code')
             ->first();
 
         if ($latestItem) {
-            $lastCount = (int)substr($latestItem->generated_code, -5);
+            $lastCount = (int) substr($latestItem->generated_code, -5);
         } else {
             $lastCount = 0;
         }
@@ -70,7 +67,7 @@ class DCPBatchItemController extends Controller
         // Create the specified quantity of items
         for ($i = 1; $i <= $validated['quantity']; $i++) {
             $itemCountPadded = str_pad($lastCount + $i, 5, '0', STR_PAD_LEFT);
-            $generatedCode = $codePrefix . $itemCountPadded;
+            $generatedCode = $codePrefix.$itemCountPadded;
 
             $itemData = $validated;
             $itemData['generated_code'] = $generatedCode;
@@ -90,7 +87,7 @@ class DCPBatchItemController extends Controller
                 'quantity' => $validated['quantity'],
                 'unit' => $validated['unit'],
                 'condition_id' => $validated['condition_id'],
-            ]
+            ],
         ]);
     }
 
@@ -109,7 +106,7 @@ class DCPBatchItemController extends Controller
         return response()->json(['items' => $items]);
     }
 
-    public  function clear($batchId)
+    public function clear($batchId)
     {
         $batch = DCPBatch::findOrFail($batchId);
         $items = DCPBatchItem::where('dcp_batch_id', $batchId)->get();
@@ -124,7 +121,7 @@ class DCPBatchItemController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'Items cleared successfully'
+            'message' => 'Items cleared successfully',
         ]);
     }
 }

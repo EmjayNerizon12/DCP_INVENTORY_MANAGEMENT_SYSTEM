@@ -12,6 +12,7 @@ class InputError extends Component
      * Create a new component instance.
      */
     public string $name;
+
     public function __construct(string $name)
     {
         $this->name = $name;

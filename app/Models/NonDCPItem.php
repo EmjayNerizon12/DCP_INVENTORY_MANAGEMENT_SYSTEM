@@ -8,7 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class NonDCPItem extends Model
 {
     protected $table = 'non_dcp_item';
-    protected $primaryKey = "pk_non_dcp_item_id";
+
+    protected $primaryKey = 'pk_non_dcp_item_id';
+
     protected $fillable = [
         'school_id',
         'item_description',
@@ -20,17 +22,19 @@ class NonDCPItem extends Model
         'item_holder_and_location',
         'remarks',
         'created_at',
-        'updated_at'
+        'updated_at',
     ];
 
     public function fund_source()
     {
         return $this->belongsTo(FundSource::class, 'fund_source_id', 'pk_fund_source_id');
     }
+
     public function school()
     {
         return $this->belongsTo(School::class, 'school_id', 'pk_school_id');
     }
+
     public function schoolEquipment()
     {
         return $this->hasMany(SchoolEquipment::class, 'non_dcp_item_id', 'pk_non_dcp_item_id');

@@ -14,6 +14,7 @@ class ISPQuestionController extends Controller
     public function index()
     {
         $i_s_p_questions = ISPQuestion::all();
+
         return $i_s_p_questions;
     }
 

@@ -3,12 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\SchoolUser;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Tymon\JWTAuth\Facades\JWTAuth;
-use Laravel\Sanctum\PersonalAccessToken;
 
 class AuthController extends Controller
 {
@@ -18,20 +15,20 @@ class AuthController extends Controller
             'username' => 'required',
             'password' => 'required',
             'fromAdmin' => 'nullable', // optional for web login
-            'remember' => 'nullable|boolean' // optional remember me
+            'remember' => 'nullable|boolean', // optional remember me
         ]);
 
         // Find user by username
         $user = SchoolUser::where('username', $validated['username'])->first();
 
-        if (!$user || !Hash::check($validated['password'], $user->password)) {
+        if (! $user || ! Hash::check($validated['password'], $user->password)) {
             return response()->json(['success' => false, 'message' => 'Invalid credentials'], 200);
         }
 
         // -------------------------------
         // 1️⃣ Web login (session) if fromAdmin
         // -------------------------------
-        if (!empty($validated['fromAdmin'])) {
+        if (! empty($validated['fromAdmin'])) {
             session()->flush();
             session(['UserRole' => 'School']);
 
@@ -63,7 +60,7 @@ class AuthController extends Controller
 
         // Determine role and redirect URL
         $role = $user->username === 'admin' ? 'Admin' : 'School';
-        $url = $role === 'Admin' ? route('AdminSide-Dashboard') : url('School/dashboard');
+        $url = $role === 'Admin' ? route('admin.dashboard') : url('School/dashboard');
 
         // -------------------------------
         // 4️⃣ Return JSON response
@@ -74,7 +71,7 @@ class AuthController extends Controller
             'access_token' => $token,
             'token_type' => 'bearer',
             'role' => $role,
-            'redirect_url' => $url
+            'redirect_url' => $url,
         ]);
     }
 }

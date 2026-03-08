@@ -4,7 +4,6 @@ namespace App\Policies;
 
 use App\Models\DCPBatchItem;
 use App\Models\SchoolUser;
-use Illuminate\Auth\Access\Response;
 
 class DCPBatchItemPolicy
 {
@@ -15,6 +14,7 @@ class DCPBatchItemPolicy
     {
         return $schoolUser->pk_school_id !== null;
     }
+
     public function viewAny(SchoolUser $schoolUser): bool
     {
         return false;
@@ -59,7 +59,6 @@ class DCPBatchItemPolicy
     {
         return false;
     }
-
 
     /**
      * Determine whether the user can permanently delete the model.

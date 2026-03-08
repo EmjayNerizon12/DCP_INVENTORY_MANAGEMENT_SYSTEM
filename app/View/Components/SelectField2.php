@@ -13,14 +13,20 @@ class SelectField2 extends Component
      * Create a new component instance.
      */
     public string $name;
+
     public string $label;
+
     public Collection|array $options;
+
     public string $value;
+
     public bool $required;
+
     public bool $edit;
+
     public string $textField;
+
     public string $valueField;
- 
 
     /**
      * Get the view / contents that represent the component.

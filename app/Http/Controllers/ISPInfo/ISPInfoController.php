@@ -33,33 +33,32 @@ class ISPInfoController extends Controller
     {
         try {
 
-
             // dd($request->all());
             // 1️⃣ Validate required fields
             $validated = $request->validate([
-                'school_internet_id'      => 'required|integer|exists:isp_details,pk_isp_details_id',
-                'cost_per_month'          => 'required|numeric',
-                'account_number'          => 'required|string|max:255',
-                'description'             => 'nullable|string|max:500',
-                'subscription_type'       => 'required|string|in:Prepaid,Postpaid',
-                'contract_start'          => 'required|date',
-                'contract_end'            => 'required|date|after_or_equal:contract_start',
-                'inactive_contract'       => 'nullable|boolean',
-                'active_isp_counter'      => 'nullable|integer',
-                'mode_of_acq_id'          => 'nullable|integer|exists:i_s_p_mode_of_acqs,id',
-                'source_of_acq_id'        => 'nullable|integer|exists:i_s_p_source_of_acqs,id',
-                'donor'                   => 'nullable|string|max:255',
-                'source_of_fund_id'       => 'nullable|integer|exists:i_s_p_source_of_funds,id',
-                'total_no_access_points'  => 'nullable|integer',
-                'active_counter1'         => 'nullable|integer',
+                'school_internet_id' => 'required|integer|exists:isp_details,pk_isp_details_id',
+                'cost_per_month' => 'required|numeric',
+                'account_number' => 'required|string|max:255',
+                'description' => 'nullable|string|max:500',
+                'subscription_type' => 'required|string|in:Prepaid,Postpaid',
+                'contract_start' => 'required|date',
+                'contract_end' => 'required|date|after_or_equal:contract_start',
+                'inactive_contract' => 'nullable|boolean',
+                'active_isp_counter' => 'nullable|integer',
+                'mode_of_acq_id' => 'nullable|integer|exists:i_s_p_mode_of_acqs,id',
+                'source_of_acq_id' => 'nullable|integer|exists:i_s_p_source_of_acqs,id',
+                'donor' => 'nullable|string|max:255',
+                'source_of_fund_id' => 'nullable|integer|exists:i_s_p_source_of_funds,id',
+                'total_no_access_points' => 'nullable|integer',
+                'active_counter1' => 'nullable|integer',
                 'location_of_access_points' => 'nullable|string|max:500',
-                'total_admin_area_isps'   => 'nullable|integer',
-                'active_counter2'         => 'nullable|integer',
-                'admin_area_rate_id'      => 'nullable|integer|exists:i_s_p_ratings,id',
-                'total_classroom_isps'    => 'nullable|integer',
-                'active_counter3'         => 'nullable|integer',
-                'classroom_area_rate_id'  => 'nullable|integer|exists:i_s_p_ratings,id',
-                'rate'                    => 'nullable|numeric',
+                'total_admin_area_isps' => 'nullable|integer',
+                'active_counter2' => 'nullable|integer',
+                'admin_area_rate_id' => 'nullable|integer|exists:i_s_p_ratings,id',
+                'total_classroom_isps' => 'nullable|integer',
+                'active_counter3' => 'nullable|integer',
+                'classroom_area_rate_id' => 'nullable|integer|exists:i_s_p_ratings,id',
+                'rate' => 'nullable|numeric',
             ]);
 
             // 2️⃣ Create record using mass assignment
@@ -99,7 +98,7 @@ class ISPInfoController extends Controller
             'sourceOfAcq',
             'sourceOfFund',
             'adminAreaRate',
-            'classroomAreaRate'
+            'classroomAreaRate',
         ])->get();
 
         return response()->json(['success' => true, 'data' => $iSPInfo], 200);
@@ -122,29 +121,29 @@ class ISPInfoController extends Controller
             // dd($request->all());
             // 1️⃣ Validate required fields
             $validated = $request->validate([
-                'school_internet_id'      => 'required|integer|exists:isp_details,pk_isp_details_id',
-                'cost_per_month'          => 'required|numeric',
-                'account_number'          => 'required|string|max:255',
-                'description'             => 'nullable|string|max:500',
-                'subscription_type'       => 'required|string|in:Prepaid,Postpaid',
-                'contract_start'          => 'required|date',
-                'contract_end'            => 'required|date|after_or_equal:contract_start',
-                'inactive_contract'       => 'nullable|boolean',
-                'active_isp_counter'      => 'nullable|integer',
-                'mode_of_acq_id'          => 'nullable|integer|exists:i_s_p_mode_of_acqs,id',
-                'source_of_acq_id'        => 'nullable|integer|exists:i_s_p_source_of_acqs,id',
-                'donor'                   => 'nullable|string|max:255',
-                'source_of_fund_id'       => 'nullable|integer|exists:i_s_p_source_of_funds,id',
-                'total_no_access_points'  => 'nullable|integer',
-                'active_counter1'         => 'nullable|integer',
+                'school_internet_id' => 'required|integer|exists:isp_details,pk_isp_details_id',
+                'cost_per_month' => 'required|numeric',
+                'account_number' => 'required|string|max:255',
+                'description' => 'nullable|string|max:500',
+                'subscription_type' => 'required|string|in:Prepaid,Postpaid',
+                'contract_start' => 'required|date',
+                'contract_end' => 'required|date|after_or_equal:contract_start',
+                'inactive_contract' => 'nullable|boolean',
+                'active_isp_counter' => 'nullable|integer',
+                'mode_of_acq_id' => 'nullable|integer|exists:i_s_p_mode_of_acqs,id',
+                'source_of_acq_id' => 'nullable|integer|exists:i_s_p_source_of_acqs,id',
+                'donor' => 'nullable|string|max:255',
+                'source_of_fund_id' => 'nullable|integer|exists:i_s_p_source_of_funds,id',
+                'total_no_access_points' => 'nullable|integer',
+                'active_counter1' => 'nullable|integer',
                 'location_of_access_points' => 'nullable|string|max:500',
-                'total_admin_area_isps'   => 'nullable|integer',
-                'active_counter2'         => 'nullable|integer',
-                'admin_area_rate_id'      => 'nullable|integer|exists:i_s_p_ratings,id',
-                'total_classroom_isps'    => 'nullable|integer',
-                'active_counter3'         => 'nullable|integer',
-                'classroom_area_rate_id'  => 'nullable|integer|exists:i_s_p_ratings,id',
-                'rate'                    => 'nullable|numeric',
+                'total_admin_area_isps' => 'nullable|integer',
+                'active_counter2' => 'nullable|integer',
+                'admin_area_rate_id' => 'nullable|integer|exists:i_s_p_ratings,id',
+                'total_classroom_isps' => 'nullable|integer',
+                'active_counter3' => 'nullable|integer',
+                'classroom_area_rate_id' => 'nullable|integer|exists:i_s_p_ratings,id',
+                'rate' => 'nullable|numeric',
             ]);
 
             // 2️⃣ Create record using mass assignment

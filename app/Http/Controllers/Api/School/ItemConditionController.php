@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\DCPBatch;
 use App\Models\DCPBatchItem;
 use App\Models\DCPItemCondition;
-use App\Models\SchoolUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -33,7 +32,7 @@ class ItemConditionController extends Controller
                 'dcpBatchItem',
                 'dcpBatchItem.dcpItemType',
                 'dcpBatchItem.dcpBatch',
-                'dcpCurrentCondition'
+                'dcpCurrentCondition',
             ])->where('current_condition_id', $condition_id);
         }
 
@@ -42,7 +41,7 @@ class ItemConditionController extends Controller
             'dcpBatchItem',
             'dcpBatchItem.dcpItemType',
             'dcpBatchItem.dcpBatch',
-            'dcpCurrentCondition'
+            'dcpCurrentCondition',
         ])->get();
         // 🔹 Get totals per condition (for summary)
         $totals = DCPItemCondition::whereIn('dcp_batch_item_id', $batchItems)
@@ -53,8 +52,9 @@ class ItemConditionController extends Controller
         $data = [
             'condition_id' => $condition_id,
             'items' => $items_result,
-            'totals' => $totals
+            'totals' => $totals,
         ];
+
         return response()->json(['success' => true, 'data' => $data], 200);
     }
 

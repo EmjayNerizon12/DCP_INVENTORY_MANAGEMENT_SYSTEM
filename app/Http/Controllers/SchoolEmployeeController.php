@@ -27,8 +27,10 @@ class SchoolEmployeeController extends Controller
         $employee = SchoolEmployee::where('school_id', Auth::guard('school')->user()->pk_school_id)
             ->with(['position', 'positionTitle', 'sdoOffice', 'roOffice', 'causeOfSeparation'])
             ->get();
+
         return response()->json(['success' => true, 'data' => $employee]);
     }
+
     public function searchEmployee($searchTerm = null)
     {
         if (empty($searchTerm)) {
@@ -43,57 +45,57 @@ class SchoolEmployeeController extends Controller
                 })
                 ->with(['position', 'positionTitle', 'sdoOffice', 'roOffice', 'causeOfSeparation'])
                 ->get();
+
             return response()->json(['success' => true, 'data' => $employee]);
         }
     }
+
     public function store(Request $request)
     {
-        try{
+        try {
             $validated = $request->validate([
-            'fname' => 'required|string|max:255', //REQUIRED TO CHECK
-            'mname' => 'nullable|string|max:255',
-            'lname' => 'required|string|max:255', //REQUIRED TO CHECK
-            'suffix_name' => 'nullable|string|max:50',
-            'birthdate' => 'required|date', //REQUIRED TO CHECK
-            'employee_number' => 'required|string|max:50|unique:schools_employee,employee_number', //REQUIRED TO CHECK
-            'position_title_id' => 'required|integer', //REQUIRED TO CHECK
-            'position_id' => 'nullable|integer',
-            'salary_grade' => 'required|integer', //REQUIRED TO CHECK
-            'school_id' => 'nullable|integer',
-            'sex' => 'required|string', //REQUIRED TO CHECK
-            'deped_email' => 'required|email|unique:schools_employee,deped_email', //REQUIRED TO CHECK
-            'deped_email_status' => 'required|string', //REQUIRED TO CHECK
-            'm365_email_status' => 'required|string', //REQUIRED TO CHECK
-            'canva_login_status' => 'required|string', //REQUIRED TO CHECK
-            'lr_portal_status' => 'required|string', //REQUIRED TO CHECK
-            'l4t_recipient' => 'required|string', //REQUIRED TO CHECK
-            'smart_tv_recipient' => 'required|string', //REQUIRED TO CHECK
-            'l4nt_recipient' => 'required|string', //REQUIRED TO CHECK
-            'ro_office_id' => 'nullable|integer',
-            'sdo_office_id' => 'nullable|integer',
-            'sources_of_fund_id' => 'nullable|integer',
-            'position_id' => 'nullable|integer',
-            'officer_in_charge' => 'nullable|boolean',
-            'mobile_no_1' => 'nullable|string|max:20',
-            'mobile_no_2' => 'nullable|string|max:20',
-            'personal_email_address' => 'nullable|email',
-            'date_hired' => 'nullable|date',
-            'inactive' => 'required|boolean', //REQUIRED TO CHECK
-            'date_of_separation' => 'nullable|date',
-            'cause_of_separation_id' => 'nullable|string|max:255',
-            'non_deped_fund' => 'nullable|string|max:255',
-            'detailed_transfer_from' => 'nullable|string|max:255',
-            'detailed_transfer_to' => 'nullable|string|max:255',
+                'fname' => 'required|string|max:255', // REQUIRED TO CHECK
+                'mname' => 'nullable|string|max:255',
+                'lname' => 'required|string|max:255', // REQUIRED TO CHECK
+                'suffix_name' => 'nullable|string|max:50',
+                'birthdate' => 'required|date', // REQUIRED TO CHECK
+                'employee_number' => 'required|string|max:50|unique:schools_employee,employee_number', // REQUIRED TO CHECK
+                'position_title_id' => 'required|integer', // REQUIRED TO CHECK
+                'salary_grade' => 'required|integer', // REQUIRED TO CHECK
+                'school_id' => 'nullable|integer',
+                'sex' => 'required|string', // REQUIRED TO CHECK
+                'deped_email' => 'required|email|unique:schools_employee,deped_email', // REQUIRED TO CHECK
+                'deped_email_status' => 'required|string', // REQUIRED TO CHECK
+                'm365_email_status' => 'required|string', // REQUIRED TO CHECK
+                'canva_login_status' => 'required|string', // REQUIRED TO CHECK
+                'lr_portal_status' => 'required|string', // REQUIRED TO CHECK
+                'l4t_recipient' => 'required|string', // REQUIRED TO CHECK
+                'smart_tv_recipient' => 'required|string', // REQUIRED TO CHECK
+                'l4nt_recipient' => 'required|string', // REQUIRED TO CHECK
+                'ro_office_id' => 'nullable|integer',
+                'sdo_office_id' => 'nullable|integer',
+                'sources_of_fund_id' => 'nullable|integer',
+                'officer_in_charge' => 'nullable|boolean',
+                'mobile_no_1' => 'nullable|string|max:20',
+                'mobile_no_2' => 'nullable|string|max:20',
+                'personal_email_address' => 'nullable|email',
+                'date_hired' => 'nullable|date',
+                'inactive' => 'required|boolean', // REQUIRED TO CHECK
+                'date_of_separation' => 'nullable|date',
+                'cause_of_separation_id' => 'nullable|string|max:255',
+                'non_deped_fund' => 'nullable|string|max:255',
+                'detailed_transfer_from' => 'nullable|string|max:255',
+                'detailed_transfer_to' => 'nullable|string|max:255',
             ]);
             $validated['school_id'] = Auth::guard('school')->user()->pk_school_id;
 
             if ($request->hasFile('image_path')) {
                 $image = $request->file('image_path');
-                $imageName = uniqid('employee_') . '.' . $image->getClientOriginalExtension();
+                $imageName = uniqid('employee_').'.'.$image->getClientOriginalExtension();
                 $school = School::findOrFail($validated['school_id']);
                 $schoolName = Str::slug($school->SchoolName, '_');
-                $path = base_path('school-employee/' . $validated['school_id'] . '-' . $schoolName);
-                if (!file_exists($path)) {
+                $path = base_path('school-employee/'.$validated['school_id'].'-'.$schoolName);
+                if (! file_exists($path)) {
                     mkdir($path, 0755, true); // recursive = true
                 }
                 $image->move($path, $imageName);
@@ -104,29 +106,30 @@ class SchoolEmployeeController extends Controller
             // Assign school_id from authenticated user
 
             $employee = SchoolEmployee::create($validated);
-            return response()->json([
-                'success'=>true,
-                'message'=>'Employee added successfully.'
-            ],200);
 
-        }catch(ValidationException $e){
             return response()->json([
-                'success'=>false,
-                'message'=>'Validation failed',
-                'errors'=>$e->errors()
-            ]);
-        }catch(Exception $e){
+                'success' => true,
+                'message' => 'Employee added successfully.',
+            ], 200);
+
+        } catch (ValidationException $e) {
             return response()->json([
-                'success'=>false,
-                'message'=>'An error occurred while adding the employee.',
-                'error'=>$e->getMessage()
-            ]);
+                'success' => false,
+                'message' => 'Validation failed',
+                'errors' => $e->errors(),
+            ], 422);
+        } catch (Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'An error occurred while adding the employee.',
+                'error' => $e->getMessage(),
+            ], 500);
         }
     }
 
     public function update(Request $request)
     {
-        try{
+        try {
             $validated = $request->validate([
                 'primary_key' => 'required|integer',
                 'fname' => 'required|string|max:255',
@@ -134,13 +137,12 @@ class SchoolEmployeeController extends Controller
                 'lname' => 'required|string|max:255',
                 'suffix_name' => 'nullable|string|max:50',
                 'birthdate' => 'required|date',
-                'employee_number' => 'required|string|max:50|unique:schools_employee,employee_number,' . $request->primary_key . ',pk_schools_employee_id',
+                'employee_number' => 'required|string|max:50|unique:schools_employee,employee_number,'.$request->primary_key.',pk_schools_employee_id',
                 'position_title_id' => 'required|integer',
-                'position_id' => 'nullable|integer',
                 'salary_grade' => 'required|integer',
                 'school_id' => 'nullable|integer',
                 'sex' => 'required|string',
-                'deped_email' => 'required|email|unique:schools_employee,deped_email,' . $request->primary_key . ',pk_schools_employee_id',
+                'deped_email' => 'required|email|unique:schools_employee,deped_email,'.$request->primary_key.',pk_schools_employee_id',
                 'deped_email_status' => 'required|string',
                 'm365_email_status' => 'required|string',
                 'canva_login_status' => 'required|string',
@@ -175,7 +177,7 @@ class SchoolEmployeeController extends Controller
                 if ($employee->image_path) {
 
                     $oldPath = base_path(
-                        'school-employee/' . $school_id . '-' . $schoolName . '/' . $employee->image_path
+                        'school-employee/'.$school_id.'-'.$schoolName.'/'.$employee->image_path
                     );
 
                     if (File::exists($oldPath)) {
@@ -185,13 +187,13 @@ class SchoolEmployeeController extends Controller
 
                 // ✅ UPLOAD NEW IMAGE
                 $image = $request->file('image_path');
-                $imageName = uniqid('employee_') . '.' . $image->getClientOriginalExtension();
+                $imageName = uniqid('employee_').'.'.$image->getClientOriginalExtension();
 
                 $path = base_path(
-                    'school-employee/' . $school_id . '-' . $schoolName
+                    'school-employee/'.$school_id.'-'.$schoolName
                 );
 
-                if (!file_exists($path)) {
+                if (! file_exists($path)) {
                     mkdir($path, 0755, true);
                 }
 
@@ -199,28 +201,28 @@ class SchoolEmployeeController extends Controller
 
                 $validated['image_path'] = $imageName;
             }
-        
+
             // Remove primary_key before updating
             unset($validated['primary_key']);
             $employee->update($validated);
-        
-            return response()->json([
-                'success'=>true,
-                'message'=>'Employee updated successfully.'
-            ],200);
 
-        }catch(ValidationException $e){
             return response()->json([
-                'success'=>false,
-                'message'=>'Validation failed',
-                'errors'=>$e->errors()
-            ]);
-        }catch(Exception $e){
+                'success' => true,
+                'message' => 'Employee updated successfully.',
+            ], 200);
+
+        } catch (ValidationException $e) {
             return response()->json([
-                'success'=>false,
-                'message'=>'An error occurred while adding the employee.',
-                'error'=>$e->getMessage()
-            ]);
+                'success' => false,
+                'message' => 'Validation failed',
+                'errors' => $e->errors(),
+            ], 422);
+        } catch (Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'An error occurred while adding the employee.',
+                'error' => $e->getMessage(),
+            ], 500);
         }
     }
 
@@ -250,6 +252,7 @@ class SchoolEmployeeController extends Controller
         $l4nt_recipient = SchoolEmployee::where('school_id', $school_id)
             ->where('l4nt_recipient', 'Yes')->count();
         $employees = SchoolEmployee::where('school_id', $school_id)->count();
+
         return response()->json([
             'active_deped_email' => $active_deped_email,
             'inactive_deped_email' => $inactive_deped_email,
@@ -265,10 +268,12 @@ class SchoolEmployeeController extends Controller
             'employees' => $employees,
         ]);
     }
+
     public function destroy($id)
     {
         $employee = SchoolEmployee::findOrFail($id);
         $employee->delete();
+
         return response()->json([
             'success' => true,
             'message' => 'Employee Information removed successfully!',

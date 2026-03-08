@@ -6,13 +6,14 @@ use App\Models\DCPBatch;
 use App\Models\DCPBatchItem;
 use App\Models\NonDCPItem;
 use App\Models\School;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class SchoolEquipment extends Model
 {
     protected $table = 'school_equipment';
+
     protected $primaryKey = 'id';
+
     public $timestamps = true; // Set false if table doesn't have created_at/updated_at
 
     protected $fillable = [
@@ -58,6 +59,7 @@ class SchoolEquipment extends Model
     {
         return $this->belongsTo(School::class, 'school_id', 'pk_school_id');
     }
+
     public function equipmentItem()
     {
         return $this->belongsTo(EquipmentItems::class, 'equipment_item_id', 'id');
@@ -107,22 +109,29 @@ class SchoolEquipment extends Model
     {
         return $this->belongsTo(SchoolEquipmentAllotmentClass::class, 'allotment_class_id', 'id');
     }
+
     public function equipmentStatuses()
     {
         return $this->hasMany(SchoolEquipmentStatus::class, 'school_equipment_id', 'id');
     }
+
     public function equipmentAccountability()
     {
         return $this->hasMany(SchoolEquipmentAccountabilty::class, 'school_equipment_id', 'id');
     }
+
     public function equipmentDocument()
     {
         return $this->hasMany(SchoolEquipmentDocument::class, 'school_equipment_id', 'id');
     }
-    public function dcpBatchItem(){
+
+    public function dcpBatchItem()
+    {
         return $this->belongsTo(DCPBatchItem::class, 'dcp_batch_item_id', 'pk_dcp_batch_items_id');
     }
-    public function nonDCPItem(){
+
+    public function nonDCPItem()
+    {
         return $this->belongsTo(NonDCPItem::class, 'non_dcp_item_id', 'pk_non_dcp_item_id');
     }
 }

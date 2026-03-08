@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api\School;
 use App\Http\Controllers\Controller;
 use App\Models\SchoolEquipment\SchoolEquipment;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class SchoolEquipmentController extends Controller
 {
@@ -37,15 +36,16 @@ class SchoolEquipmentController extends Controller
 
             ])
                 ->where('school_id', $school_id)->get();
+
             return response()->json([
                 'success' => true,
-                'data' => $school_equipments
+                'data' => $school_equipments,
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
                 'message' => 'Failed to retrieve school equipment data',
-                'error' => $e->getMessage()
+                'error' => $e->getMessage(),
             ], 500);
         }
     }

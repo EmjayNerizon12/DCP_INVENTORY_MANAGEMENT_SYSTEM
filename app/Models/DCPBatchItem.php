@@ -8,7 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class DCPBatchItem extends Model
 {
     protected $table = 'dcp_batch_items';
+
     protected $primaryKey = 'pk_dcp_batch_items_id';
+
     protected $fillable = [
         'dcp_batch_id',
         'item_type_id',
@@ -39,14 +41,17 @@ class DCPBatchItem extends Model
         'dcp_assigned_users',
 
     ];
+
     protected $casts = [
         'unit_price' => 'decimal:2',
-        'quantity'   => 'integer',
+        'quantity' => 'integer',
     ];
+
     public function brand_details()
     {
         return $this->belongsTo(DCPBatchItemBrand::class, 'brand', 'pk_dcp_batch_item_brands_id');
     }
+
     public function dcpBatch()
     {
         return $this->belongsTo(DCPBatch::class, 'dcp_batch_id', 'pk_dcp_batches_id');
@@ -67,20 +72,23 @@ class DCPBatchItem extends Model
         return $this->hasOne(DCPItemAssignedUser::class, 'dcp_batch_item_id', 'pk_dcp_batch_items_id');
     }
 
-
     public function dcpBatchItemLocation()
     {
         return $this->hasOne(DCPItemAssignedLocation::class, 'dcp_batch_item_id', 'pk_dcp_batch_items_id');
     }
+
     public function dcpItemWarranties()
     {
         return $this->hasOne(DCPItemWarrantyStatus::class, 'dcp_batch_item_id', 'pk_dcp_batch_items_id');
     }
+
     public function dcpItemCurrentCondition()
     {
         return $this->hasOne(DCPItemCondition::class, 'dcp_batch_item_id', 'pk_dcp_batch_items_id');
     }
-    public function schoolEquipment(){
+
+    public function schoolEquipment()
+    {
         return $this->hasMany(SchoolEquipment::class, 'dcp_batch_item_id', 'pk_dcp_batch_items_id');
     }
 }

@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api\School;
 use App\Http\Controllers\Controller;
 use App\Models\ISPQ\ISPAnswer;
 use App\Models\ISPQ\ISPQuestion;
-use App\Services\ISPQ\QuestionChoiceService;
 use Illuminate\Http\Request;
 
 class ISPReportController extends Controller
@@ -16,11 +15,13 @@ class ISPReportController extends Controller
     public function ispQuestions()
     {
         $questions = ISPQuestion::with('choices')->get();
+
         return response()->json([
             'success' => true,
-            'data' => $questions
+            'data' => $questions,
         ]);
     }
+
     public function index(int $schoolId)
     {
         $isp_question = ISPQuestion::with('choices', 'choices.answers', 'answers')->get();
@@ -29,11 +30,12 @@ class ISPReportController extends Controller
 
         $data = [
             'questions' => $isp_question,
-            'isAnswered' => $isAnswered
+            'isAnswered' => $isAnswered,
         ];
+
         return response()->json([
             'success' => true,
-            'data' => $data
+            'data' => $data,
         ], 200);
     }
 
@@ -64,9 +66,10 @@ class ISPReportController extends Controller
     public function destroy(string $schoolId)
     {
         ISPAnswer::where('school_id', $schoolId)->delete();
+
         return response()->json([
             'success' => true,
-            'message' => 'Answers cleared successfully'
+            'message' => 'Answers cleared successfully',
         ]);
     }
 }

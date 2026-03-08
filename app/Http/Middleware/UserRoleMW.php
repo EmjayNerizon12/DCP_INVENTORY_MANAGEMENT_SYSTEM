@@ -21,6 +21,7 @@ class UserRoleMW
                 return redirect()->route('school.profile');
             }
         }
+
         return $next($request);
     }
 }

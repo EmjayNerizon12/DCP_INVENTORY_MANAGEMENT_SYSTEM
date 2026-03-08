@@ -9,7 +9,6 @@ use App\Models\Equipment\EquipmentCCTVDetails;
 use App\Models\ISP\ISPDetails;
 use App\Models\NonDCPItem;
 use App\Models\SchoolData;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class SchoolReportController extends Controller
@@ -25,9 +24,11 @@ class SchoolReportController extends Controller
         $batches = DCPBatch::where('school_id', $school_id)->orderBy('delivery_date', 'asc')->get();
         $total_batches = DCPBatch::where('school_id', $school_id)->count();
         $non_dcp = NonDCPItem::with('fund_source')->where('school_id', Auth::guard('school')->user()->school->pk_school_id)->get();
+
         // $total_classrooms = SchoolData::where('pk_school_id', $school_id)->value('total_classrooms')->count;
-        return view("SchoolSide.Report.index", compact("batch", "ISP", "CCTVDetails", "BiometricDetails", "batches", "total_batches", "non_dcp"));
+        return view('SchoolSide.Report.index', compact('batch', 'ISP', 'CCTVDetails', 'BiometricDetails', 'batches', 'total_batches', 'non_dcp'));
     }
+
     public function condition_report(int $condition_id)
     {
         $school_id = Auth::guard('school')->user()->school->pk_school_id;
@@ -46,8 +47,7 @@ class SchoolReportController extends Controller
             ->get();
         $condition_name = DCPCurrentCondition::where('pk_dcp_current_conditions_id', $condition_id)->first()->name;
 
-
-        return  response()->json([
+        return response()->json([
             'status' => 'success',
             'current_condition' => $condition_name,
             'data' => $batch_items,
@@ -56,6 +56,6 @@ class SchoolReportController extends Controller
 
     public function condition()
     {
-        return view("SchoolSide.Report.condition");
+        return view('SchoolSide.Report.condition');
     }
 }

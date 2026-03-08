@@ -17,7 +17,7 @@ class AdminController extends Controller
     {
         $user = auth()->guard('school')->user();
 
-        if (!$user || !$user->pk_school_id) {
+        if (! $user || ! $user->pk_school_id) {
             return redirect()->back()->with('error', 'No school found for this account.');
         }
 
@@ -39,20 +39,23 @@ class AdminController extends Controller
         try {
 
             $school = School::where('pk_school_id', $user->pk_school_id)->first();
-            if (!$school) {
+            if (! $school) {
                 return redirect()->back()->with('error', 'No school found for this account.');
             }
             $school->update($validated);
+
             return redirect()->back()->with('success', 'School details updated successfully.');
         } catch (Exception $e) {
-            Log::error('School update error: ' . $e->getMessage());
-            return redirect()->back()->with('error', 'Update failed: ' . $e->getMessage());
+            Log::error('School update error: '.$e->getMessage());
+
+            return redirect()->back()->with('error', 'Update failed: '.$e->getMessage());
         }
     }
+
     public function updateAdminDetails(Request $request)
     {
         $user = auth()->guard('school')->user();
-        if (!$user || !$user->school) {
+        if (! $user || ! $user->school) {
             return redirect()->back()->with('error', 'No school found for this account.');
         }
         $validated = $request->validate([
@@ -65,17 +68,20 @@ class AdminController extends Controller
         ]);
         try {
             $user->school->update($validated);
+
             return redirect()->back()->with('success', 'Admin details updated successfully.');
         } catch (Exception $e) {
-            Log::error('Admin details update error: ' . $e->getMessage());
-            return redirect()->back()->with('error', 'Update failed: ' . $e->getMessage());
+            Log::error('Admin details update error: '.$e->getMessage());
+
+            return redirect()->back()->with('error', 'Update failed: '.$e->getMessage());
         }
     }
+
     public function updateSchoolCoordinates(Request $request)
     {
         $user = Auth::guard('school')->user();
 
-        if (!$user || !$user->pk_school_id) {
+        if (! $user || ! $user->pk_school_id) {
             return redirect()->back()->with('error', 'No school found for this account.');
         }
 
@@ -91,16 +97,18 @@ class AdminController extends Controller
             if ($schoolCoordinates) {
                 $schoolCoordinates->update($validated);
             }
+
             return redirect()->back()->with('success', 'School coordinates updated successfully.');
         } catch (Exception $e) {
-            Log::error('School coordinates update error: ' . $e->getMessage());
-            return redirect()->back()->with('error', 'Update failed: ' . $e->getMessage());
+            Log::error('School coordinates update error: '.$e->getMessage());
+
+            return redirect()->back()->with('error', 'Update failed: '.$e->getMessage());
         }
     }
+
     public function upload_school_logo(Request $request)
     {
         $user = Auth::guard('school')->user();
-
 
         $validated = $request->validate([
             'image_path' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
@@ -108,26 +116,28 @@ class AdminController extends Controller
         try {
             if ($request->hasFile('image_path')) {
                 $image = $request->file('image_path');
-                $imageName = uniqid('logo_') . '.' . $image->getClientOriginalExtension();
+                $imageName = uniqid('logo_').'.'.$image->getClientOriginalExtension();
                 $image->move(base_path('school-logo'), $imageName);
                 $validated['image_path'] = $imageName;
             }
             $school = School::where('pk_school_id', $user->pk_school_id)->first();
-            if (!$school) {
+            if (! $school) {
                 return redirect()->back()->with('error', 'No school found for this account.');
             }
             $school->update($validated);
+
             return redirect()->back()->with('success', 'Logo has been updated successfully.');
         } catch (Exception $e) {
-            Log::error('School update error: ' . $e->getMessage());
-            return redirect()->back()->with('error', 'Update failed: ' . $e->getMessage());
+            Log::error('School update error: '.$e->getMessage());
+
+            return redirect()->back()->with('error', 'Update failed: '.$e->getMessage());
         }
     }
 
     public function updateSchoolOfficials(Request $request)
     {
         $user = auth()->guard('school')->user();
-        if (!$user || !$user->school) {
+        if (! $user || ! $user->school) {
             return redirect()->back()->with('error', 'No school found for this account.');
         }
         $validated = $request->validate([
@@ -142,12 +152,15 @@ class AdminController extends Controller
             'CustodianEmail' => 'nullable|email|max:255',
         ]);
         $user->school->update($validated);
+
         return redirect()->back()->with('success', 'School officials updated successfully.');
     }
+
     public function account()
     {
         return view('AdminSide.Account.index');
     }
+
     public function change_password(Request $request)
     {
         $request->validate([
@@ -156,12 +169,11 @@ class AdminController extends Controller
             'new_password' => 'required|min:8|confirmed',
         ]);
 
-
         $user = SchoolUser::where('default_password', 'admin')->first();
 
-        if (!Hash::check($request->current_password, $user->password)) {
+        if (! Hash::check($request->current_password, $user->password)) {
             return back()->withErrors(['current_password' => 'Current password is incorrect.']);
-        } else if ($request->current_password === $request->new_password) {
+        } elseif ($request->current_password === $request->new_password) {
             return back()->withErrors(['new_password' => 'New password cannot be the same as the current password.']);
         }
 

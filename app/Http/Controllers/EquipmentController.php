@@ -14,10 +14,32 @@ use App\Models\Equipment\EquipmentPowerSource;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
 
 class EquipmentController extends Controller
 {
-    function showBiometrics()
+    private function modelMap(): array
+    {
+        return [
+            'camera_type' => EquipmentCCTVType::class,
+            'biometric_type' => EquipmentBiometricType::class,
+            'powersource' => EquipmentPowerSource::class,
+            'installer' => EquipmentInstaller::class,
+            'brand' => EquipmentBrand::class,
+            'location' => EquipmentLocation::class,
+            'incharge' => EquipmentIncharge::class,
+        ];
+    }
+
+    private function resolveModelClass(string $type): string
+    {
+        $models = $this->modelMap();
+        abort_unless(isset($models[$type]), 404);
+
+        return $models[$type];
+    }
+
+    public function showBiometrics()
     {
         $totals = EquipmentBiometricDetails::select('school_id', DB::raw('SUM(no_of_units) as total_amount'))
 
@@ -68,175 +90,74 @@ class EquipmentController extends Controller
                 ];
             })
             ->values();
+
         // dd($biometrics_model);
         return view('AdminSide.Equipment.Biometrics.show', compact('totals', 'biometrics_model', 'biometrics_power_source'));
     }
-    function index()
+
+    public function index()
     {
-        $cameraType = EquipmentCCTVType::all();
-        $biometric = EquipmentBiometricType::all();
-        $installer = EquipmentInstaller::all();
-        $incharge = EquipmentIncharge::all();
-        $location = EquipmentLocation::all();
-        $powersource = EquipmentPowerSource::all();
-        $brand = EquipmentBrand::all();
-        return view("AdminSide.Equipment.index", compact("powersource", "cameraType", "biometric", "installer", "incharge", "location", "brand"));
+        $itemsByType = [];
+        foreach ($this->modelMap() as $type => $modelClass) {
+            $itemsByType[$type] = $modelClass::listForAdmin();
+        }
+
+        return view('AdminSide.Equipment.index', compact('itemsByType'));
     }
-    function store(Request $request)
+
+    public function store(Request $request)
     {
+        $type = $request->input('type', $request->input('target'));
+        $modelClass = $this->resolveModelClass($type);
+        $table = (new $modelClass)->getTable();
+
         $validated = $request->validate([
-            "name" => "required",
-            "target" => "required",
+            'name' => ['required', 'string', 'max:255', Rule::unique($table, 'name')],
         ]);
-        $status = false;
-        if ($request->target == "biometric_type") {
-            EquipmentBiometricType::create([
-                "name" => $validated["name"],
-            ]);
-            $status = true;
-        } else if ($request->target == "incharge") {
-            EquipmentIncharge::create([
-                "name" => $validated["name"],
-            ]);
-            $status = true;
-        } else if ($request->target == "installer") {
-            EquipmentInstaller::create([
-                "name" => $validated["name"],
-            ]);
-            $status = true;
-        } else if ($request->target == "location") {
-            EquipmentLocation::create([
-                "name" => $validated["name"],
-            ]);
-            $status = true;
-        } else if ($request->target == "powersource") {
-            EquipmentPowerSource::create([
-                "name" => $validated["name"],
-            ]);
-            $status = true;
-        } else if ($request->target == "brand") {
-            EquipmentBrand::create([
-                "name" => $validated["name"],
-            ]);
-            $status = true;
-        } else if ($request->target == "camera_type") {
-            EquipmentCCTVType::create([
-                "name" => $validated["name"],
-            ]);
-            $status = true;
-        }
+        $modelClass::createFromName($validated['name']);
 
-        if ($status) {
-            return redirect()->back()->with('success', 'New Equipment has been added.');
-        }
+        return redirect()->route('equipment.index.list')->with('success', 'New equipment item has been added.');
     }
-    function update(Request $request)
+
+    public function update(Request $request)
     {
+        $type = $request->input('type', $request->input('target'));
+        $modelClass = $this->resolveModelClass($type);
+        $model = new $modelClass;
+        $table = $model->getTable();
+        $keyName = $model->getKeyName();
+
         $validated = $request->validate([
-            "name" => "required",
-            "target" => "required",
+            'id' => ['required', 'integer'],
+            'name' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique($table, 'name')->ignore($request->id, $keyName),
+            ],
         ]);
-        $status = false;
-        if ($request->target == "biometric_type") {
-            $biometric_type = EquipmentBiometricType::findOrFail($request->id)
-                ->update([
-                    "name" => $validated["name"],
-                ]);
+        $modelClass::updateNameById((int) $validated['id'], $validated['name']);
 
-            $status = true;
-        } else if ($request->target == "incharge") {
-            $incharge = EquipmentIncharge::findOrFail($request->id)
-                ->update([
-                    "name" => $validated["name"],
-                ]);
-            if ($incharge) {
-                $status = true;
-            }
-        } else if ($request->target == "installer") {
-            $installer = EquipmentInstaller::findOrFail($request->id)
-                ->update([
-                    "name" => $validated["name"],
-                ]);
-            if ($installer) {
-                $status = true;
-            }
-        } else if ($request->target == "location") {
-            $location = EquipmentLocation::findOrFail($request->id)->update([
-                "name" => $validated["name"],
-            ]);
-
-            if ($location) {
-                $status = true;
-            }
-        } else if ($request->target == "powersource") {
-            $powersource = EquipmentPowerSource::findOrFail($request->id)->update([
-                "name" => $validated["name"],
-            ]);
-            if ($powersource) {
-                $status = true;
-            }
-        } else if ($request->target == "brand") {
-            $brand = EquipmentBrand::findOrFail($request->id)
-                ->update([
-                    "name" => $validated["name"],
-                ]);
-            if ($brand) {
-                $status = true;
-            }
-        } else if ($request->target == "camera_type") {
-            $cameraType = EquipmentCCTVType::findOrFail($request->id)->update([
-                "name" => $validated["name"],
-            ]);
-            if ($cameraType) {
-                $status = true;
-            }
-        }
-
-        if ($status) {
-            return redirect()->back()->with('success', ' Equipment has been update.');
-        }
+        return redirect()->route('equipment.index.list')->with('success', 'Equipment item has been updated.');
     }
-    function destroy(int $id, String $target)
+
+    public function destroy(int $id, string $type)
     {
         try {
-            $status = false;
+            $modelClass = $this->resolveModelClass($type);
+            $modelClass::deleteById($id);
 
-            if ($target == "biometric_type") {
-                EquipmentBiometricType::findOrFail($id)->delete();
-                $status = true;
-            } else if ($target == "incharge") {
-                EquipmentIncharge::findOrFail($id)->delete();
-                $status = true;
-            } else if ($target == "installer") {
-                EquipmentInstaller::findOrFail($id)->delete();
-                $status = true;
-            } else if ($target == "location") {
-                EquipmentLocation::findOrFail($id)->delete();
-                $status = true;
-            } else if ($target == "powersource") {
-                EquipmentPowerSource::findOrFail($id)->delete();
-                $status = true;
-            } else if ($target == "brand") {
-                EquipmentBrand::findOrFail($id)->delete();
-                $status = true;
-            } else if ($target == "camera_type") {
-                EquipmentCCTVType::findOrFail($id)->delete();
-                $status = true;
-            }
-
-            if ($status) {
-                return redirect()->back()->with('success', ucfirst($target) . ' has been deleted.');
-            }
+            return redirect()->route('equipment.index.list')->with('success', ucfirst($type).' has been deleted.');
         } catch (QueryException $e) {
             // Check for foreign key constraint violation (1451 in MySQL)
             if ($e->errorInfo[1] == 1451) {
-                return redirect()->back()
-                    ->with('error', 'This ' . $target . ' cannot be deleted because it is still assigned to other records.');
+                return redirect()->route('equipment.index.list')
+                    ->with('error', 'This '.$type.' cannot be deleted because it is still assigned to other records.');
             }
 
             // Any other DB error
-            return redirect()->back()
-                ->with('error', 'An error occurred while trying to delete the ' . $target . '.');
+            return redirect()->route('equipment.index.list')
+                ->with('error', 'An error occurred while trying to delete the '.$type.'.');
         }
     }
 }

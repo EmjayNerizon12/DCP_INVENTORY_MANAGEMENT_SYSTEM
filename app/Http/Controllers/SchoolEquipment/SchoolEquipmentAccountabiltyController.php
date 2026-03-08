@@ -37,7 +37,7 @@ class SchoolEquipmentAccountabiltyController extends Controller
                 'school_equipment_id' => 'required|integer',
                 'accountable_employee_id' => 'required|integer',
                 'date_assigned_to_accountable_employee' => 'required|date',
-                'custodian'  => 'required|integer',
+                'custodian' => 'required|integer',
                 'custodian_received_date' => 'required|date',
                 'end_user' => 'required|integer',
                 'end_user_received_date' => 'required|date',
@@ -98,9 +98,9 @@ class SchoolEquipmentAccountabiltyController extends Controller
             // Find the main record by ID
             $schoolEquipmentAccountability = SchoolEquipmentAccountabilty::findOrFail($id);
 
-
             // Update associated end user
             $schoolEquipmentAccountability->update($validated);
+
             return response()->json(['success' => true, 'message' => 'School Equipment Accountability updated successfully.', 'data' => $schoolEquipmentAccountability]);
         } catch (ValidationException $e) {
             return response()->json(['success' => false, 'message' => 'Validation failed', 'errors' => $e->errors()], 422);
@@ -108,7 +108,6 @@ class SchoolEquipmentAccountabiltyController extends Controller
             return response()->json(['success' => false, 'message' => 'An error occurred', 'error' => $e->getMessage()], 500);
         }
     }
-
 
     /**
      * Remove the specified resource from storage.

@@ -14,13 +14,13 @@ class CameraScanController extends Controller
             'code' => 'required|string',
         ]);
         $item = DCPBatchItem::where('generated_code', $validated['code'])->first();
-        if (!$item) {
+        if (! $item) {
             return response()->json(['message' => 'Item not found.'], 500);
         }
         $item_update = $item->update([
             'monitored' => 1,
         ]);
-        if (!$item_update) {
+        if (! $item_update) {
             return response()->json(['message' => 'Failed to update item status.'], 500);
         }
         // Here you would typically update the item's status in the database.

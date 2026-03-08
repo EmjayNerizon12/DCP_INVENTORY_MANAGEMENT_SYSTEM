@@ -10,7 +10,6 @@ class DCPItemWarrantyStatus extends Model
 
     protected $primaryKey = 'pk_dcp_item_warranty_id';
 
-
     protected $fillable = [
         'dcp_batch_item_id',
         'warranty_start_date',

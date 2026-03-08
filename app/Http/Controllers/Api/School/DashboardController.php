@@ -15,14 +15,12 @@ use App\Models\ISP\ISPDetails;
 use App\Models\SchoolData;
 use App\Models\SchoolEmployee;
 use App\Models\SchoolEquipment\SchoolEquipment;
-use Illuminate\Container\Attributes\Auth;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
     public function getDashboardDCPInformation(Request $request, $school_id)
     {
-
 
         $batches = DCPBatch::where('school_id', $school_id)->get();
 
@@ -66,7 +64,7 @@ class DashboardController extends Controller
         $totalForDisposal = 0;
         $totalForMissing = 0;
         foreach ($items as $batch_items) {
-            $current_condition =  DCPItemCondition::where(
+            $current_condition = DCPItemCondition::where(
                 'dcp_batch_item_id',
                 $batch_items->pk_dcp_batch_items_id,
             )->value('current_condition_id');
@@ -85,17 +83,14 @@ class DashboardController extends Controller
             }
         }
 
-
         $totalBatches = $batches->count();
         $totalItems = $items->count();
-
 
         $schoolData = SchoolData::where('pk_school_id', $school_id)->get();
         $totalLearners = 0;
         $totalClassrooms = 0;
         $totalTeachers = 0;
         $totalSections = 0;
-
 
         foreach ($schoolData as $data) {
             $totalLearners = $totalLearners + $data->RegisteredLearners;
@@ -110,11 +105,11 @@ class DashboardController extends Controller
             foreach ($item_types as $types) {
                 $item_names = DCPItemTypes::where('pk_dcp_item_types_id', $types)->value('name');
                 $item_names_collect->push([
-                    'items' => $item_names
+                    'items' => $item_names,
                 ]);
             }
         }
-        $item_sorted =   $item_names_collect->groupBy('items')->map->count()->sortDesc();
+        $item_sorted = $item_names_collect->groupBy('items')->map->count()->sortDesc();
         $total_under_warranty = 0;
         $total_out_of_warranty = 0;
         foreach ($batches as $batch) {
@@ -149,50 +144,47 @@ class DashboardController extends Controller
             'totalBatches' => $totalBatches,
             'totalItems' => $items->count(),
             'total_out_of_warranty' => $total_out_of_warranty,
-            'total_under_warranty' => $total_under_warranty
+            'total_under_warranty' => $total_under_warranty,
         ];
+
         return response()->json(['success' => true, 'data' => $data], 200);
     }
+
     public function getItemConditionCounts(Request $request, int $school_id)
     {
 
-        // Get all DCP batches for this school
-        $batches = DCPBatch::where('school_id', $school_id)->get();
+        $batchIds = DCPBatch::where('school_id', $school_id)->pluck('pk_dcp_batches_id');
 
-        // Collect all batch items
-        $items = collect();
-        foreach ($batches as $batch) {
-            $batch_items = DCPBatchItem::where('dcp_batch_id', $batch->pk_dcp_batches_id)->get();
-            $items = $items->merge($batch_items);
+        $itemIds = DCPBatchItem::whereIn('dcp_batch_id', $batchIds)->pluck('pk_dcp_batch_items_id');
+
+        $allConditions = DCPCurrentCondition::pluck('name', 'pk_dcp_current_conditions_id');
+        $conditionCounts = [];
+        foreach ($allConditions as $conditionName) {
+            $conditionCounts[$conditionName] = 0;
         }
 
-        // Initialize counter
-        $conditionCounts = [];
+        $countsById = DCPItemCondition::whereIn('dcp_batch_item_id', $itemIds)
+            ->whereNotNull('current_condition_id')
+            ->selectRaw('current_condition_id, COUNT(*) as total')
+            ->groupBy('current_condition_id')
+            ->pluck('total', 'current_condition_id');
 
-        // Loop through items and get their condition names
-        foreach ($items as $item) {
-            $condition_id = DCPItemCondition::where('dcp_batch_item_id', $item->pk_dcp_batch_items_id)
-                ->value('current_condition_id');
-
-            if ($condition_id) {
-                $condition_name = DCPCurrentCondition::where('pk_dcp_current_conditions_id', $condition_id)
-                    ->value('name');
-
-                if ($condition_name) {
-                    if (!isset($conditionCounts[$condition_name])) {
-                        $conditionCounts[$condition_name] = 0;
-                    }
-                    $conditionCounts[$condition_name]++;
-                }
+        foreach ($countsById as $conditionId => $total) {
+            if (isset($allConditions[$conditionId])) {
+                $conditionName = $allConditions[$conditionId];
+                $conditionCounts[$conditionName] = (int) $total;
             }
         }
 
+        arsort($conditionCounts);
+
         return response()->json($conditionCounts);
     }
+
     public function getDashboardInfomation(Request $request, int $school_id)
     {
 
-        //SCHOOL EMPLOYEE COUNT
+        // SCHOOL EMPLOYEE COUNT
         $school_employee_count = SchoolEmployee::where('school_id', $school_id)->count();
         $internet_count = ISPDetails::where('school_id', $school_id)->count();
         $biometric_count = EquipmentBiometricDetails::where('school_id', $school_id)->count();
@@ -206,8 +198,10 @@ class DashboardController extends Controller
             'cctv_count' => $cctv_count,
             'other_equipment' => $other_equipment,
         ];
+
         return response()->json(['success' => true, 'data' => $data], 200);
     }
+
     /**
      * Display a listing of the resource.
      */
