@@ -4,7 +4,8 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
+return new class extends Migration
+{
     /**
      * Run the migrations.
      */
@@ -26,16 +27,13 @@ return new class extends Migration {
                 ->references('pk_equipment_details_id')
                 ->on('equipment_details')
                 ->onDelete('cascade')
-                ->onUpdate('cascade')
-                ;
+                ->onUpdate('cascade');
             $table->foreign('e_biometric_type_id', 'fk_e_biometric_type')
                 ->references('pk_e_biometric_type_id')
-                ->on('e_biometric_type')
-                ;
+                ->on('e_biometric_type');
             $table->foreign('school_id', 'fk_school_id_biometric')
                 ->references('pk_school_id')
-                ->on('schools')
-                ;
+                ->on('schools');
         });
     }
 

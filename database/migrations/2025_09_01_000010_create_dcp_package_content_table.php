@@ -4,7 +4,8 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
+return new class extends Migration
+{
     /**
      * Run the migrations.
      */
@@ -26,20 +27,17 @@ return new class extends Migration {
                 ->references('pk_dcp_item_types_id')
                 ->on('dcp_item_types')
                 ->onDelete('cascade')
-                ->onUpdate('cascade')
-                ;
+                ->onUpdate('cascade');
             $table->foreign('dcp_package_types_id', 'dcp_package_content_ibfk_2')
                 ->references('pk_dcp_package_types_id')
                 ->on('dcp_package_types')
                 ->onDelete('cascade')
-                ->onUpdate('cascade')
-                ;
+                ->onUpdate('cascade');
             $table->foreign('dcp_batch_item_brands_id', 'fk_dcp_batch_item_brands_id')
                 ->references('pk_dcp_batch_item_brands_id')
                 ->on('dcp_batch_item_brands')
                 ->onDelete('set null')
-                ->onUpdate('cascade')
-                ;
+                ->onUpdate('cascade');
         });
     }
 

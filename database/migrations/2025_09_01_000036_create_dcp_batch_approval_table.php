@@ -4,7 +4,8 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
+return new class extends Migration
+{
     /**
      * Run the migrations.
      */
@@ -21,8 +22,7 @@ return new class extends Migration {
             $table->foreign('dcp_batches_id', 'fk_dcp_batches_id')
                 ->references('pk_dcp_batches_id')
                 ->on('dcp_batches')
-                ->onDelete('no action')
-                ;
+                ->onDelete('no action');
         });
     }
 

@@ -4,7 +4,8 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
+return new class extends Migration
+{
     /**
      * Run the migrations.
      */
@@ -29,12 +30,10 @@ return new class extends Migration {
             $table->index('school_id', 'school_id');
             $table->foreign('dcp_package_type_id', 'dcp_batches_ibfk_1')
                 ->references('pk_dcp_package_types_id')
-                ->on('dcp_package_types')
-                ;
+                ->on('dcp_package_types');
             $table->foreign('school_id', 'dcp_batches_ibfk_2')
                 ->references('pk_school_id')
-                ->on('schools')
-                ;
+                ->on('schools');
         });
     }
 

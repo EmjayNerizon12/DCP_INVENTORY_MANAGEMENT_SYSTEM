@@ -15,6 +15,12 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        \App\Models\SchoolEquipment\SchoolEquipmentAllotmentClass::factory()->count(10)->create();
+        $this->call([
+            SchoolGradeLevelSeeder::class,
+            SchoolAndSchoolUserSeeder::class,
+            DCPItemTypeSeeder::class,
+            DCPPackageTypeSeeder::class,
+            DCPBatchSeeder::class,
+        ]);
     }
 }

@@ -4,7 +4,8 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
+return new class extends Migration
+{
     /**
      * Run the migrations.
      */
@@ -27,12 +28,10 @@ return new class extends Migration {
             $table->index('school_id', 'fk_school_id_for_non_dcp');
             $table->foreign('fund_source_id', 'fk_fund_source_id')
                 ->references('pk_fund_source_id')
-                ->on('fund_source')
-                ;
+                ->on('fund_source');
             $table->foreign('school_id', 'fk_school_id_for_non_dcp')
                 ->references('pk_school_id')
-                ->on('schools')
-                ;
+                ->on('schools');
         });
     }
 

@@ -4,7 +4,8 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
+return new class extends Migration
+{
     /**
      * Run the migrations.
      */
@@ -20,12 +21,10 @@ return new class extends Migration {
             $table->index('current_condition_id', 'fk_current_condition_id');
             $table->foreign('dcp_batch_item_id', 'fk_batch_item_id')
                 ->references('pk_dcp_batch_items_id')
-                ->on('dcp_batch_items')
-                ;
+                ->on('dcp_batch_items');
             $table->foreign('current_condition_id', 'fk_current_condition_id')
                 ->references('pk_dcp_current_conditions_id')
-                ->on('dcp_current_conditions')
-                ;
+                ->on('dcp_current_conditions');
         });
     }
 

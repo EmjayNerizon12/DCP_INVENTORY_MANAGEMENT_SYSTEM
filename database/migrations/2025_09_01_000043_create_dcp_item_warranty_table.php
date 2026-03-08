@@ -4,7 +4,8 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
+return new class extends Migration
+{
     /**
      * Run the migrations.
      */
@@ -25,12 +26,10 @@ return new class extends Migration {
             $table->foreign('dcp_batch_item_id', 'dcp_item_warranty_ibfk_1')
                 ->references('pk_dcp_batch_items_id')
                 ->on('dcp_batch_items')
-                ->onDelete('cascade')
-                ;
+                ->onDelete('cascade');
             $table->foreign('warranty_status_id', 'dcp_item_warranty_ibfk_2')
                 ->references('pk_dcp_warranty_statuses_id')
-                ->on('dcp_warranty_statuses')
-                ;
+                ->on('dcp_warranty_statuses');
         });
     }
 

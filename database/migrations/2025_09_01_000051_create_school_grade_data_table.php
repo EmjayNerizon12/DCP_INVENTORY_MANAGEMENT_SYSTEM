@@ -4,7 +4,8 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
+return new class extends Migration
+{
     /**
      * Run the migrations.
      */
@@ -26,13 +27,11 @@ return new class extends Migration {
             $table->foreign('GradeLevelID', 'fk_grade_level')
                 ->references('GradeLevelID')
                 ->on('school_grade_levels')
-                ->onDelete('cascade')
-                ;
+                ->onDelete('cascade');
             $table->foreign('pk_school_id', 'school_grade_data_ibfk_1')
                 ->references('pk_school_id')
                 ->on('schools')
-                ->onDelete('cascade')
-                ;
+                ->onDelete('cascade');
         });
     }
 

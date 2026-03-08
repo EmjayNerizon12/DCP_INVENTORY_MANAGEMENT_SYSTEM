@@ -4,7 +4,8 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
+return new class extends Migration
+{
     /**
      * Run the migrations.
      */
@@ -59,37 +60,30 @@ return new class extends Migration {
             $table->index('sources_of_fund_id', 'school_employee_source_of_fund_id');
             $table->foreign('position_title_id', 'fk_position_title_id_employee')
                 ->references('pk_school_position_id')
-                ->on('position_title')
-                ;
+                ->on('position_title');
             $table->foreign('school_id', 'fk_school_employee_id')
                 ->references('pk_school_id')
-                ->on('schools')
-                ;
+                ->on('schools');
             $table->foreign('sources_of_fund_id', 'school_employee_source_of_fund_id')
                 ->references('id')
                 ->on('school_employee_source_of_funds')
-                ->onDelete('set null')
-                ;
+                ->onDelete('set null');
             $table->foreign('cause_of_separation_id', 'schools_employee_cause_of_separation')
                 ->references('id')
                 ->on('school_employee_cause_of_separations')
-                ->onDelete('set null')
-                ;
+                ->onDelete('set null');
             $table->foreign('position_id', 'schools_employee_position_id_foreign')
                 ->references('id')
                 ->on('school_employee_position')
-                ->onDelete('set null')
-                ;
+                ->onDelete('set null');
             $table->foreign('ro_office_id', 'schools_employee_ro_office_id_foreign')
                 ->references('id')
                 ->on('school_employee_ro_office')
-                ->onDelete('set null')
-                ;
+                ->onDelete('set null');
             $table->foreign('sdo_office_id', 'schools_employee_sdo_office_id_foreign')
                 ->references('id')
                 ->on('school_employee_sdo_office')
-                ->onDelete('set null')
-                ;
+                ->onDelete('set null');
         });
     }
 
