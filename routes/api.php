@@ -5,13 +5,15 @@ use App\Http\Controllers\Api\School\BiometricController;
 use App\Http\Controllers\Api\School\CCTVController;
 use App\Http\Controllers\Api\School\DashboardController;
 use App\Http\Controllers\Api\School\DCPBatchItemController;
+use App\Http\Controllers\Api\School\EmployeeController;
 use App\Http\Controllers\Api\School\ISPController;
 use App\Http\Controllers\Api\School\ISPReportController;
 use App\Http\Controllers\Api\School\ItemConditionController;
 use App\Http\Controllers\Api\School\SchoolEquipmentController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\School\SchoolInformationController;
 use App\Http\Controllers\Api\School\SchoolInventoryController;
 use App\Models\SchoolEmployee;
+use Illuminate\Support\Facades\Route;
 
 Route::prefix('School')->group(function () {
     Route::apiResource('school-inventory', SchoolInventoryController::class);
@@ -27,6 +29,7 @@ Route::prefix('School')->group(function () {
     Route::delete('ispQuestionWithAnswer/delete/{schoolId}', [ISPReportController::class, 'destroy']);
     Route::get('fetchEmployeeList', function () {
         $employees = SchoolEmployee::all();
+
         return response()->json(['success' => true, 'data' => $employees], 200);
     });
     Route::get('schoolInternet/{schoolId}', [ISPController::class, 'index']);
@@ -35,5 +38,7 @@ Route::prefix('School')->group(function () {
     Route::get('dcpBatchItem/show-item/{dcpBatchItemId}', [DCPBatchItemController::class, 'showItems']);
     Route::get('CCTVEquipment/{schoolId}', [CCTVController::class, 'index']);
     Route::get('biometricEquipment/{schoolId}', [BiometricController::class, 'index']);
+    Route::get('schoolInformation/{schoolId}', [SchoolInformationController::class, 'index']);
+    Route::get('schoolEmployees/{schoolId}', [EmployeeController::class, 'index']);
 });
 Route::post('login', [AuthController::class, 'login']);

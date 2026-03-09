@@ -1,55 +1,73 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
 
-  <script>
-      document.addEventListener('DOMContentLoaded', function() {
-          schoolChartLoaded();
-          packageChartLoaded();
-          itemTypeChartLoaded();
-          const tabs = {
-              "btn-item": "tab-item",
-              "btn-package": "tab-package",
-              "btn-school": "tab-school"
-          };
+	  <script>
+	      document.addEventListener('DOMContentLoaded', function() {
+	          schoolChartLoaded();
+	          packageChartLoaded();
+	          itemTypeChartLoaded();
+	          const tabs = {
+	              "btn-item": "tab-item",
+	              "btn-package": "tab-package",
+	              "btn-school": "tab-school"
+	          };
 
-          Object.keys(tabs).forEach(btnId => {
-              document.getElementById(btnId).addEventListener("click", () => {
+	          const setActiveTab = (btnId, { focusButton = false } = {}) => {
+	              // Hide all contents (use both Tailwind class + native hidden attribute)
+	              document.querySelectorAll(".tab-content").forEach(div => {
+	                  div.classList.add("hidden");
+	                  div.setAttribute("hidden", "");
+	              });
 
-                  // Hide all contents
-                  document.querySelectorAll(".tab-content").forEach(div => {
-                      div.classList.add("hidden");
-                  });
+	              // Reset button styles
+	              document.querySelectorAll(".tab-btn").forEach(btn => {
+	                  btn.classList.remove("theme-button");
+	                  btn.classList.add("btn-cancel");
+	                  btn.setAttribute("aria-selected", "false");
+	                  btn.setAttribute("tabindex", "-1");
+	              });
 
-                  // Reset button styles
-                  document.querySelectorAll(".tab-btn").forEach(btn => {
-                      btn.classList.remove("tab-active");
-                      btn.classList.add("tab-inactive");
-                  });
+	              // Show selected content
+	              const panelId = tabs[btnId];
+	              const panel = panelId ? document.getElementById(panelId) : null;
+	              if (panel) {
+	                  panel.classList.remove("hidden");
+	                  panel.removeAttribute("hidden");
+	              }
 
-                  // Show selected content
-                  document.getElementById(tabs[btnId]).classList.remove("hidden");
+	              // Highlight clicked button
+	              const button = document.getElementById(btnId);
+	              if (button) {
+	                  button.classList.add("theme-button");
+	                  button.classList.remove("btn-cancel");
+	                  button.setAttribute("aria-selected", "true");
+	                  button.setAttribute("tabindex", "0");
+	                  if (focusButton) button.focus({ preventScroll: true });
+	              }
+	          };
 
-                  // Highlight clicked button
-                  const button = document.getElementById(btnId);
-                  button.classList.add("tab-active");
-                  button.classList.remove("tab-inactive");
-              });
-          });
-      });
-      let totals = [];
-      let labels = [];
-      const bgColors = [
+	          Object.keys(tabs).forEach(btnId => {
+	              const button = document.getElementById(btnId);
+	              if (!button) return;
+
+	              button.addEventListener("click", (e) => {
+	                  e.preventDefault();
+	                  setActiveTab(btnId, { focusButton: true });
+	              });
+	          });
+
+	          const initiallySelected = document.querySelector('.tab-btn[aria-selected="true"]');
+	          setActiveTab(initiallySelected?.id || "btn-item");
+	      });
+	      let totals = [];
+	      let labels = [];
+	      const bgColors = [
           "#16A34A", // green
           "#DC2626", // red
           "#3B82F6", // blue fair
           "#FACC15", // yellow
           "#4F46E5", // indigo
           "#4B5563", // light gray - missing
-          "#9CA3AF ", // light gray
-          "#9CA3AF ", // light gray
-          "#9CA3AF ", // light gray
-
-
       ];
 
       fetch("api/item-conditions")
@@ -59,16 +77,13 @@
               const cardContainer = document.getElementById("card-condition-container");
               const tableBody = document.getElementById("condition-table");
 
-              // Compute maxCount for progress bar percentages
               const maxCount = Math.max(...results.map(d => d.count));
 
               results.forEach((data, index) => {
 
-                  // Collect totals and labels
                   totals.push(data.count);
                   labels.push(data.condition);
 
-                  // --- Create colored card ---
                   const wrapper = document.createElement("div");
                   wrapper.className = "bg-white p-1 rounded-md shadow-sm border border-gray-300";
 
@@ -83,7 +98,7 @@
                     </div>
                     <div>
                         <div onclick="toggleCard(${data.id})" class="bg-white transform scale-100 hover:scale-110 transition duration-300 ease-in-out p-1 rounded-full shadow-md inline-flex border border-gray-300 items-center justify-center">
-                            <div style="background-color:${bgColors[data.id - 1]};" 
+                            <div style="background-color:${bgColors[index] ?? '#01378E'};" 
                                 class="w-12 h-12 md:w-16 md:h-16 text-white font-semibold flex items-center justify-center rounded-full">
                                 <span class="md:text-lg text-lg">${data.count}</span>
                             </div>
@@ -94,15 +109,14 @@
                   wrapper.appendChild(newCard);
                   cardContainer.appendChild(wrapper);
 
-                  // --- Create table row with progress bar ---
                   const percent = (data.count / maxCount) * 100;
                   const color = bgColors[data.id - 1];
 
                   const row = document.createElement("tr");
                   row.innerHTML = `
-                    <td class="border border-gray-300 px-4 py-2">${data.condition}</td>
-                    <td class="border border-gray-300 px-4 py-2 font-semibold text-center">${data.count}</td>
-                    <td class="border border-gray-300 px-4 py-2">
+                    <td class="td-cell">${data.condition}</td>
+                    <td class="td-cell text-center">${data.count}</td>
+                    <td class="td-cell">
                         <div class="progress-container">
                             <div class="progress-bar" style="width: ${percent}%; background-color: ${color};"></div>
                         </div>
@@ -140,15 +154,12 @@
               const arrow = btn.querySelector('.arrow');
               const isHidden = target.classList.contains('hidden');
 
-              // Close others
               document.querySelectorAll('.folder-content').forEach(c => c.classList.add('hidden'));
               document.querySelectorAll('.arrow').forEach(a => a.textContent = '▶');
 
-              // Open selected
               if (isHidden) {
                   target.classList.remove('hidden');
                   arrow.textContent = '';
-                  // Initialize charts once
                   setTimeout(() => {
                       if (targetId === 'folder-item-type' && !window.itemTypeChartLoadedOnce) {}
                       if (targetId === 'folder-package' && !window.packageChartLoadedOnce) {}

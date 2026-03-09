@@ -31,7 +31,7 @@
 							</svg>
 						</div>
 					</div>
-					<div class="w-full" style="letter-spacing: 0.05rem flex flex-col items-center">
+					<div class="w-full">
 						<h2 class="page-title">Product List</h2>
 						<p class="page-subtitle">Create, Edit, and Delete Item Types</p>
 					</div>

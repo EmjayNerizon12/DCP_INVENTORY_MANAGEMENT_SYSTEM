@@ -3,7 +3,7 @@
 	const batchListUrl = @json(route('batch.list.json'));
 	const batchDestroyUrlTemplate = @json(route('destroy.batch', ['batchId' => '___ID___']));
 	const batchApproveUrlTemplate = @json(route('approve.batch', ['id' => '___ID___']));
-	const batchItemsUrlTemplate = @json(route('index.items', ['batch' => '___ID___']));
+	const batchItemsUrlTemplate = @json(route('dcpbatch.items.show', ['batch' => '___ID___']));
 
 	const packageItemsUrlTemplate = @json(url('/api/package-items/___ID___'));
 
@@ -302,7 +302,7 @@
 
 		if (btn) {
 			const label = btn.querySelector('span');
-			if (label) label.textContent = details.classList.contains('hidden') ? 'Show' : 'Hide';
+			if (label) label.textContent = details.classList.contains('hidden') ? 'View' : 'Hide';
 		}
 	}
 
@@ -337,7 +337,7 @@
 			const delivery = batch.delivery_date_formatted || '';
 
 			const approveBtn = batch.approval_status === 'Pending' ?
-				`<button type="button" class="btn-submit px-3 py-1 rounded" data-action="approve" data-batch-id="${batch.id}">Approve</button>` :
+				`<button type="button" class="btn-green px-3 py-1 rounded" data-action="approve" data-batch-id="${batch.id}">Approve</button>` :
 				'';
 
 			return `
@@ -358,7 +358,7 @@
 							</div>
 						</div>
 						<button id="toggle-batch-details-${batch.id}" type="button" class="btn-cancel px-3 py-1 rounded" data-action="toggle" data-batch-id="${batch.id}">
-							<span> Show </span>
+							<span>View</span>
 						</button>
 					</div>
 
@@ -372,8 +372,8 @@
 						<div class="flex flex-wrap gap-2">
 							<button type="button" class="btn-submit px-3 py-1 rounded"><a href="${escapeHtml(buildUrl(batchItemsUrlTemplate, batch.id))}">Product</a></button>
 							<button type="button" class="btn-update px-3 py-1 rounded" data-action="edit" data-batch="${encodeBatchData(batch)}">Edit</button>
-							${approveBtn}
 							<button type="button" class="btn-delete px-3 py-1 rounded" data-action="delete" data-batch-id="${batch.id}">Delete</button>
+							${approveBtn}
 						</div>
 					</div>
 				</div>

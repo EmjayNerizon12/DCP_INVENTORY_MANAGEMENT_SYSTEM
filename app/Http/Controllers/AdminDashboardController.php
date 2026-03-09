@@ -14,18 +14,21 @@ class AdminDashboardController extends Controller
 {
     public function get_current_condition_of_item()
     {
+        $allConditions = \App\Models\DCPCurrentCondition::all();
 
-        $conditions = DCPItemCondition::all()->groupBy('current_condition_id');
+        $conditionCounts = DCPItemCondition::selectRaw('current_condition_id, COUNT(*) as count')
+            ->groupBy('current_condition_id')
+            ->pluck('count', 'current_condition_id');
 
-        $conditions = $conditions->map(function ($group) {
+        $result = $allConditions->map(function ($condition) use ($conditionCounts) {
             return [
-                'id' => $group->first()->current_condition_id,
-                'condition' => $group->first()->dcpCurrentCondition?->name,
-                'count' => $group->count(),
+                'id' => $condition->pk_dcp_current_conditions_id,
+                'condition' => $condition->name,
+                'count' => $conditionCounts->get($condition->pk_dcp_current_conditions_id, 0),
             ];
         })->values()->toArray();
 
-        return response()->json($conditions);
+        return response()->json($result);
     }
 
     public function showItemCondition($id)

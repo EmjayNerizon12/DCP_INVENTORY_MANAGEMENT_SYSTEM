@@ -29,11 +29,11 @@
 		<table class="table border-collapse bg-white w-full ">
 			<thead>
 				<tr class="top-header">
-					<th class="p-1" colspan="2">Product Search</th>
+					<td class="p-1" colspan="2">Product Information</td>
 				</tr>
 				<tr class="sub-header">
-					<th class="p-1 ">Product Description</th>
-					<th class="p-1"> </th>
+					<td class="p-1 ">Description</td>
+					<td class="p-1"> </td>
 				</tr>
 			</thead>
 			<tbody>

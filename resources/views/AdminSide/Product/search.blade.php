@@ -49,7 +49,7 @@
                     </thead>
                     <tbody id="results-table">
                         <tr>
-                            <td class="text-center py-2 td-cell" colspan="3"></td>
+                            <td class="text-center py-2 td-cell" colspan="3">Search Product Code</td>
                         </tr>
                     </tbody>
                 </table>
@@ -64,7 +64,7 @@
             const paginationDiv = document.getElementById('pagination-buttons');
             const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
-            let currentPage = 1; // current page
+            let currentPage = 1;
 
             function fetchResults(page = 1) {
                 const searchInput = document.getElementById('searchInput').value;
@@ -103,11 +103,12 @@
                         });
                         if(result.data.length === 0 ){
                             tableBody.innerHTML= `
+                            <tr>
                                 <td class="text-center py-2 td-cell" colspan="3">No Product Found</td>
+                            </tr>
                             `;
                         }
                         
-                        // Build pagination buttons
                         buildPagination(result.current_page, result.last_page);
                     })
                     .catch(err => console.error(err));
@@ -160,7 +161,7 @@
                 currentPage = 1;
                 fetchResults(currentPage);
             });
-            fetchResults(1);
+        
 
         </script>
     </div>

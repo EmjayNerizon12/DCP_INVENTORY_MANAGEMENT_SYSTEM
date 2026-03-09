@@ -45,7 +45,7 @@ class DCPPackageTypeController extends Controller
         foreach ($rows as $row) {
             $packageId = (int) $row->package_id;
 
-            if (!isset($packagesById[$packageId])) {
+            if (! isset($packagesById[$packageId])) {
                 $packagesById[$packageId] = [
                     'id' => $packageId,
                     'code' => $row->package_code,

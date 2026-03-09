@@ -22,7 +22,7 @@
          <div class=" flex justify-start gap-2 items-center mb-2">
 
              <div
-                 class="h-16 w-16 bg-white p-3 border border-gzray-300 shadow-lg rounded-full flex items-center justify-center">
+                 class="h-16 w-16 bg-white p-3 border border-gray-300 shadow-lg rounded-full flex items-center justify-center">
                  <div class="text-white bg-blue-600 p-2 rounded-full">
                      <svg fill="currentColor" class="h-10 w-10" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
                          xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 507.901 507.901" xml:space="preserve"
@@ -56,147 +56,27 @@
              </div>
          </div>
          <div class="grid md:grid-cols-2 grid-cols-1 md:gap-4 gap-2  mb-10">
+             @php
+                 $lookupCards = [
+                     ['type' => 'camera_type', 'title' => 'CCTV Camera Type'],
+                     ['type' => 'biometric_type', 'title' => 'Biometric Authentication Type'],
+                     ['type' => 'powersource', 'title' => 'Equipment Power Source'],
+                     ['type' => 'installer', 'title' => 'Equipment Installer/Contractor'],
+                     ['type' => 'brand', 'title' => 'Equipment Brand / Model'],
+                     ['type' => 'location', 'title' => 'Equipment Location'],
+                     ['type' => 'incharge', 'title' => 'Person In-Charge to the Equipment'],
+                 ];
+             @endphp
 
-             {{-- CCTV CAMERA TYPE   --}}
-             @include('AdminSide.Equipment.Crud.cctv')
-
-             {{-- BIOMETRIC TYPE --}}
-             @include('AdminSide.Equipment.Crud.biometric')
-
-             {{-- POWERSOURCE  --}}
-             @include('AdminSide.Equipment.Crud.powersource')
-
-             {{-- INSTALLER --}}
-             @include('AdminSide.Equipment.Crud.installer')
-
-             {{-- BRAND MODEL --}}
-             @include('AdminSide.Equipment.Crud.brandmodel')
-
-             {{-- LOCATION  --}}
-             @include('AdminSide.Equipment.Crud.location')
-
-             {{-- INCHARGE  --}}
-             @include('AdminSide.Equipment.Crud.incharge')
+             @foreach ($lookupCards as $card)
+                 @include('AdminSide.Equipment.Crud._lookupCrud', [
+                     'type' => $card['type'],
+                     'title' => $card['title'],
+                     'items' => $itemsByType[$card['type']] ?? collect(),
+                 ])
+             @endforeach
 
          </div>
      </div>
      <br><br>
-     @include('AdminSide.Equipment.Crud.modal')
-
-     <script>
-         function deleteFunction(id, type) {
-             if (confirm("Are you sure you want to delete this " + type + "?")) {
-                 let actionUrl = "{{ route('equipment.delete', [':id', ':type']) }}";
-                 actionUrl = actionUrl.replace(':id', id).replace(':type', type);
-
-                 document.getElementById('delete-form').action = actionUrl;
-                 document.getElementById('delete-form').submit();
-             }
-         }
-
-         function openModal(type) {
-             document.getElementById('modal-form').action = "{{ route('equipment.store') }}";
-             if (type == "camera_type") {
-                 document.getElementById('overall-modal').classList.remove('hidden')
-                 document.getElementById('modal-title').textContent = "Create and Save ";
-                 document.getElementById('modal-subtitle').textContent = " CCTV Camera type";
-                 document.getElementById('target').value = type;
-             } else if (type == "biometric_type") {
-                 document.getElementById('overall-modal').classList.remove('hidden')
-                 document.getElementById('modal-title').textContent = "Create and Save ";
-                 document.getElementById('modal-subtitle').textContent = "Biometric Authentication type";
-                 document.getElementById('target').value = type;
-             } else if (type == "powersource") {
-                 document.getElementById('overall-modal').classList.remove('hidden')
-                 document.getElementById('modal-title').textContent = "Create and Save ";
-                 document.getElementById('modal-subtitle').textContent = "Equipment Power Source  ";
-                 document.getElementById('target').value = type;
-             } else if (type == "incharge") {
-                 document.getElementById('overall-modal').classList.remove('hidden')
-
-                 document.getElementById('modal-title').textContent = "Create and Save ";
-                 document.getElementById('modal-subtitle').textContent = "Person Incharge to the Equipment ";
-                 document.getElementById('target').value = type;
-             } else if (type == "location") {
-                 document.getElementById('overall-modal').classList.remove('hidden')
-                 document.getElementById('modal-title').textContent = "Create and Save ";
-                 document.getElementById('modal-subtitle').textContent = "Equipment Location";
-                 document.getElementById('target').value = type;
-             } else if (type == "brand") {
-                 document.getElementById('overall-modal').classList.remove('hidden')
-                 document.getElementById('modal-title').textContent = "Create and Save ";
-                 document.getElementById('modal-subtitle').textContent = "Equipment Brand/Model";
-                 document.getElementById('target').value = type;
-             } else if (type == "installer") {
-                 document.getElementById('overall-modal').classList.remove('hidden')
-                 document.getElementById('modal-title').textContent = "Create and Save ";
-                 document.getElementById('modal-subtitle').textContent = "Equipment Installer/Contractor";
-                 document.getElementById('target').value = type;
-             }
-         }
-
-         function openEditModal(id, name, type) {
-             console.log(id + " " + name + " " + type);
-             document.getElementById('edit-modal-form').action = "{{ route('equipment.update') }}";
-             document.getElementById('edit-overall-modal').classList.remove('hidden');
-             if (type === "powersource") {
-                 document.getElementById('edit-overall-modal').classList.remove('hidden')
-                 document.getElementById('edit-modal-title').textContent = "Edit and Save ";
-                 document.getElementById('edit-modal-subtitle').textContent = "Equipment Power Source";
-                 document.getElementById('edit_target').value = type;
-                 document.getElementById('edit_id').value = id;
-                 document.getElementById('edit_name').value = name;
-             } else if (type === "camera_type") {
-                 document.getElementById('edit-overall-modal').classList.remove('hidden')
-                 document.getElementById('edit-modal-title').textContent = "Edit and Save ";
-                 document.getElementById('edit-modal-subtitle').textContent = " CCTV Camera type";
-                 document.getElementById('edit_target').value = type;
-                 document.getElementById('edit_id').value = id;
-                 document.getElementById('edit_name').value = name;
-             } else if (type === "biometric_type") {
-                 document.getElementById('edit-overall-modal').classList.remove('hidden')
-                 document.getElementById('edit-modal-title').textContent = "Edit and Save ";
-                 document.getElementById('edit-modal-subtitle').textContent = "Biometric Authentication type";
-                 document.getElementById('edit_target').value = type;
-                 document.getElementById('edit_id').value = id;
-                 document.getElementById('edit_name').value = name;
-             } else if (type === "incharge") {
-                 document.getElementById('edit-overall-modal').classList.remove('hidden')
-                 document.getElementById('edit-modal-title').textContent = "Edit and Save ";
-                 document.getElementById('edit-modal-subtitle').textContent = "Person Incharge to the Equipment ";
-                 document.getElementById('edit_target').value = type;
-                 document.getElementById('edit_id').value = id;
-                 document.getElementById('edit_name').value = name;
-             } else if (type === "location") {
-                 document.getElementById('edit-overall-modal').classList.remove('hidden')
-                 document.getElementById('edit-modal-title').textContent = "Edit and Save ";
-                 document.getElementById('edit-modal-subtitle').textContent = "Equipment Location";
-                 document.getElementById('edit_target').value = type;
-                 document.getElementById('edit_id').value = id;
-                 document.getElementById('edit_name').value = name;
-             } else if (type === "brand") {
-                 document.getElementById('edit-overall-modal').classList.remove('hidden')
-                 document.getElementById('edit-modal-title').textContent = "Edit and Save ";
-                 document.getElementById('edit-modal-subtitle').textContent = "Equipment Brand/Model";
-                 document.getElementById('edit_target').value = type;
-                 document.getElementById('edit_id').value = id;
-                 document.getElementById('edit_name').value = name;
-             } else if (type === "installer") {
-                 document.getElementById('edit-overall-modal').classList.remove('hidden')
-                 document.getElementById('edit-modal-title').textContent = "Edit and Save ";
-                 document.getElementById('edit-modal-subtitle').textContent = "Equipment Installer/Contractor";
-                 document.getElementById('edit_target').value = type;
-                 document.getElementById('edit_id').value = id;
-                 document.getElementById('edit_name').value = name;
-             }
-         }
-
-         function closeModal() {
-             document.getElementById('overall-modal').classList.add('hidden')
-         }
-
-         function closeEditModal() {
-             document.getElementById('edit-overall-modal').classList.add('hidden')
-         }
-     </script>
  @endsection

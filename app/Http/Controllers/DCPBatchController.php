@@ -21,8 +21,12 @@ class DCPBatchController extends Controller
     public function listJson(Request $request)
     {
         $perPage = (int) $request->query('per_page', 20);
-        if ($perPage <= 0) $perPage = 20;
-        if ($perPage > 100) $perPage = 100;
+        if ($perPage <= 0) {
+            $perPage = 20;
+        }
+        if ($perPage > 100) {
+            $perPage = 100;
+        }
 
         $queryText = trim((string) $request->query('q', ''));
 
@@ -181,16 +185,16 @@ class DCPBatchController extends Controller
 
     public function store(Request $request)
     {
-	        $validator = Validator::make($request->all(), [
-	            'dcp_package_type_id' => 'required|integer|exists:dcp_package_types,pk_dcp_package_types_id',
-	            'school_id' => 'nullable|integer|exists:schools,pk_school_id',
-	            'batch_label' => 'required|string|max:255',
-	            'description' => 'nullable|string',
-	            'budget_year' => 'required|integer',
-	            'delivery_date' => 'required|date',
-	            'supplier_name' => 'required|string|max:255',
-	            'mode_of_delivery' => 'required|string|max:255',
-	        ]);
+        $validator = Validator::make($request->all(), [
+            'dcp_package_type_id' => 'required|integer|exists:dcp_package_types,pk_dcp_package_types_id',
+            'school_id' => 'nullable|integer|exists:schools,pk_school_id',
+            'batch_label' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'budget_year' => 'required|integer',
+            'delivery_date' => 'required|date',
+            'supplier_name' => 'required|string|max:255',
+            'mode_of_delivery' => 'required|string|max:255',
+        ]);
         if ($validator->fails()) {
             if ($request->expectsJson()) {
                 return response()->json([
@@ -226,17 +230,17 @@ class DCPBatchController extends Controller
 
     public function update(Request $request)
     {
-	        $validator = Validator::make($request->all(), [
-	            'id' => 'required|integer|exists:dcp_batches,pk_dcp_batches_id',
-	            'dcp_package_type_id' => 'required|integer|exists:dcp_package_types,pk_dcp_package_types_id',
-	            'school_id' => 'nullable|integer|exists:schools,pk_school_id',
-	            'batch_label' => 'required|string|max:255',
-	            'description' => 'nullable|string',
-	            'budget_year' => 'required|integer',
-	            'delivery_date' => 'required|date',
-	            'supplier_name' => 'required|string|max:255',
-	            'mode_of_delivery' => 'required|string|max:255',
-	        ]);
+        $validator = Validator::make($request->all(), [
+            'id' => 'required|integer|exists:dcp_batches,pk_dcp_batches_id',
+            'dcp_package_type_id' => 'required|integer|exists:dcp_package_types,pk_dcp_package_types_id',
+            'school_id' => 'nullable|integer|exists:schools,pk_school_id',
+            'batch_label' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'budget_year' => 'required|integer',
+            'delivery_date' => 'required|date',
+            'supplier_name' => 'required|string|max:255',
+            'mode_of_delivery' => 'required|string|max:255',
+        ]);
 
         if ($validator->fails()) {
             return response()->json([

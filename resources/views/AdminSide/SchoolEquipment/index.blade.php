@@ -1,0 +1,83 @@
+@extends('layout.Admin-Side')
+<title>@yield('title', 'DCP Dashboard')</title>
+
+@section('content')
+	<style>
+		th {
+			text-transform: uppercase;
+			letter-spacing: 0.05rem;
+		}
+
+		td {
+			letter-spacing: 0.05rem
+		}
+
+		button {
+			letter-spacing: 0.05rem;
+			font-weight: 500 !important;
+			border-radius: 5px !important;
+		}
+	</style>
+	<div class="my-5 flex justify-start gap-2 items-center ">
+
+		<div class="h-16 w-16 bg-white p-3 border border-gray-300 shadow-lg rounded-full flex items-center justify-center">
+			<div class="text-white bg-blue-600 p-2 rounded-full">
+				<svg class="w-10 h-10" version="1.1" id="_x32_" xmlns="http://www.w3.org/2000/svg"
+					xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve" fill="currentColor">
+					<g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+					<g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+					<g id="SVGRepo_iconCarrier">
+
+						<g>
+							<path class="st0"
+								d="M256.008,411.524c54.5,0,91.968-7.079,92.54-13.881c2.373-28.421-34.508-43.262-49.381-48.834 c-7.976-2.984-19.588-11.69-19.588-17.103c0-3.587,0-8.071,0-14.214c4.611-5.119,8.095-15.532,10.183-27.317 c4.857-1.738,7.627-4.524,11.095-16.65c3.69-12.93-5.548-12.5-5.548-12.5c7.468-24.715-2.357-47.944-18.825-46.246 c-11.358-19.857-49.397,4.54-61.31,2.841c0,6.818,2.834,11.92,2.834,11.92c-4.143,7.882-2.548,23.564-1.389,31.485 c-0.667,0-9.016,0.079-5.468,12.5c3.452,12.126,6.23,14.912,11.088,16.65c2.079,11.786,5.571,22.198,10.198,27.317 c0,6.143,0,10.627,0,14.214c0,5.413-12.35,14.548-19.611,17.103c-14.953,5.262-51.746,20.413-49.373,48.834 C164.024,404.444,201.491,411.524,256.008,411.524z">
+							</path>
+							<path class="st0"
+								d="M404.976,56.889h-75.833v16.254c0,31.365-25.524,56.889-56.889,56.889h-32.508 c-31.366,0-56.889-25.524-56.889-56.889V56.889h-75.834c-25.444,0-46.071,20.627-46.071,46.071v362.969 c0,25.444,20.627,46.071,46.071,46.071h297.952c25.445,0,46.072-20.627,46.072-46.071V102.96 C451.048,77.516,430.421,56.889,404.976,56.889z M402.286,463.238H109.714V150.349h292.572V463.238z">
+							</path>
+							<path class="st0"
+								d="M239.746,113.778h32.508c22.405,0,40.635-18.23,40.635-40.635V40.635C312.889,18.23,294.659,0,272.254,0 h-32.508c-22.406,0-40.635,18.23-40.635,40.635v32.508C199.111,95.547,217.341,113.778,239.746,113.778z M231.619,40.635 c0-4.492,3.634-8.127,8.127-8.127h32.508c4.492,0,8.127,3.635,8.127,8.127v16.254c0,4.492-3.635,8.127-8.127,8.127h-32.508 c-4.493,0-8.127-3.635-8.127-8.127V40.635z">
+							</path>
+						</g>
+					</g>
+				</svg>
+			</div>
+		</div>
+
+		<div style="letter-spacing: 0.05rem">
+			<h2 class="text-2xl font-bold text-gray-800 uppercase">School Equipment Information</h2>
+			<div class="text-lg text-gray-600 ">Create, View, Edit and Remove Details</div>
+
+		</div>
+
+	</div>
+	<div class="grid md:grid-cols-2 grid-cols-1 gap-2">
+		@php
+			$lookupCards = [
+			    ['type' => 'unit_of_measure', 'title' => 'Unit Of Measure'],
+			    ['type' => 'manufacturer', 'title' => 'Manufacturer'],
+			    ['type' => 'category', 'title' => 'Category'],
+			    ['type' => 'classification', 'title' => 'Classification'],
+			    ['type' => 'mode_of_acquisition', 'title' => 'Mode Of Acquisition'],
+			    ['type' => 'source_of_acquisition', 'title' => 'Source Of Acquisition'],
+			    ['type' => 'source_of_fund', 'title' => 'Source Of Fund'],
+			    ['type' => 'allotment_class', 'title' => 'Allotment Class'],
+
+			    ['type' => 'disposition_status', 'title' => 'School Equipment Disposition Status'],
+			    ['type' => 'transaction_type', 'title' => 'School Equipment Transaction Type'],
+			    ['type' => 'document_type', 'title' => 'School Equipment Document Type'],
+			    ['type' => 'condition', 'title' => 'School Equipment Condition'],
+			];
+		@endphp
+
+		@foreach ($lookupCards as $card)
+			@include('AdminSide.SchoolEquipment.Crud._lookupCrud', [
+				'type' => $card['type'],
+				'title' => $card['title'],
+				'items' => $itemsByType[$card['type']] ?? collect(),
+			])
+		@endforeach
+	</div>
+	<br>
+	<br>
+@endsection

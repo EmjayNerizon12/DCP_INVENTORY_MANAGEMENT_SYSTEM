@@ -17,33 +17,6 @@ class DCPSchoolsInventoryController extends Controller
         return view('AdminSide.SchoolsInventory.inventory', compact('school_items'));
     }
 
-    public function searchPage()
-    {
-        return view('AdminSide.SchoolsInventory.search');
-    }
-
-    public function findItem(Request $request)
-    {
-        $validated = $request->validate([
-            'searchInput' => 'required|string',
-        ]);
-        $searchInput = $validated['searchInput'];
-
-        $items = DCPBatchItem::where('generated_code', 'like', '%'.$searchInput.'%')->with(['dcpItemType'])->orderBy('generated_code', 'desc')
-            ->paginate(10);
-
-        return response()->json($items);
-    }
-
-    public function showItem(string $code)
-    {
-
-        $items = DCPBatchItem::where('generated_code', $code)->first();
-
-        return view('AdminSide.SchoolsInventory.show-item', compact('items'));
-        // return response()->json($items);
-    }
-
     public function inventory(Request $request)
     {
         $schools = School::all();

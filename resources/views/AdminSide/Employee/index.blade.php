@@ -57,25 +57,24 @@
 
         </div>
         <div class="grid md:grid-cols-2 grid-cols-1 gap-2">
+            @php
+                $lookupCards = [
+                    ['type' => 'employee_title', 'title' => 'Employee Title'],
+                    ['type' => 'employee_position', 'title' => 'Position of Employee'],
+                    ['type' => 'ro_office', 'title' => 'RO Office Division/Unit'],
+                    ['type' => 'sdo_office', 'title' => 'SDO Office Division/Unit'],
+                    ['type' => 'source_of_fund', 'title' => 'Source of Fund'],
+                    ['type' => 'cause_of_separation', 'title' => 'Cause of Separation'],
+                ];
+            @endphp
 
-            @if (View::exists('AdminSide.Employee.Crud.EmpTitle'))
-                @include('AdminSide.Employee.Crud.EmpTitle')
-            @endif
-            @if (View::exists('AdminSide.Employee.Crud.EmpROOffice'))
-                @include('AdminSide.Employee.Crud.EmpROOffice')
-            @endif
-            @if (View::exists('AdminSide.Employee.Crud.EmpSDOOffice'))
-                @include('AdminSide.Employee.Crud.EmpSDOOffice')
-            @endif
-            @if (View::exists('AdminSide.Employee.Crud.EmpPosition'))
-                @include('AdminSide.Employee.Crud.EmpPosition')
-            @endif
-            @if (View::exists('AdminSide.Employee.Crud.EmpSourceOfFunds'))
-                @include('AdminSide.Employee.Crud.EmpSourceOfFunds')
-            @endif
-            @if (View::exists('AdminSide.Employee.Crud.EmpCauseOfSeparation'))
-                @include('AdminSide.Employee.Crud.EmpCauseOfSeparation')
-            @endif
+            @foreach ($lookupCards as $card)
+                @include('AdminSide.Employee.Crud._lookupCrud', [
+                    'type' => $card['type'],
+                    'title' => $card['title'],
+                    'items' => $itemsByType[$card['type']] ?? collect(),
+                ])
+            @endforeach
         </div>
         <br>
         <br>

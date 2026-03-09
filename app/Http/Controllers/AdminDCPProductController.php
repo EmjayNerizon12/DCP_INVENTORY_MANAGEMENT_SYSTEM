@@ -21,12 +21,10 @@ class AdminDCPProductController extends Controller
         ]);
         $searchInput = $validated['searchInput'];
         if (!$searchInput) {
-            $items = DCPBatchItem::with(['dcpItemType'])->orderBy('generated_code', 'desc')
-                ->paginate(10);
-        } else {
-            $items = DCPBatchItem::where('generated_code', 'like', '%' . $searchInput . '%')->with(['dcpItemType'])->orderBy('generated_code', 'desc')
-                ->paginate(10);
+            return response()->json([]);
         }
+        $items = DCPBatchItem::where('generated_code', 'like', '%' . $searchInput . '%')->with(['dcpItemType'])->orderBy('generated_code', 'desc')
+            ->paginate(10);
 
         return response()->json($items);
     }
