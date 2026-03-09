@@ -9,6 +9,61 @@
     const token = localStorage.getItem('token');
     const school_id = document.getElementById('school_id').value;
     console.log(token);
+
+    function createToggleButton(id, label) {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.id = id;
+        button.className =
+            'w-full text-left bg-gray-600 text-white rounded-md px-4 py-2 font-semibold tracking-wide hover:bg-gray-700 transition';
+        button.textContent = label;
+        return button;
+    }
+
+    function setToggleLabel(button, title, isHidden) {
+        button.textContent = `${isHidden ? 'Show' : 'Hide'} ${title}`;
+    }
+
+    function setupCollapsibleSection(button, container, title) {
+        if (!button || !container) return;
+
+        container.classList.add('hidden');
+        setToggleLabel(button, title, true);
+
+        button.addEventListener('click', function() {
+            container.classList.toggle('hidden');
+            const isHidden = container.classList.contains('hidden');
+            setToggleLabel(button, title, isHidden);
+        });
+    }
+
+    function initDashboardToggles() {
+        if (!productsListContainer || !packageTypeContainer || !productsListContainer.parentElement) return;
+        if (document.getElementById('toggle-dcp-products') || document.getElementById('toggle-dcp-package-type')) return;
+
+        const togglesWrapper = document.createElement('div');
+        togglesWrapper.className = 'grid md:grid-cols-2 grid-cols-1 gap-2 mt-4';
+
+        const productToggleBtn = createToggleButton(
+            'toggle-dcp-products',
+            'Show Product Name Received from DCP Batches'
+        );
+        const packageToggleBtn = createToggleButton(
+            'toggle-dcp-package-type',
+            'Show Packages Received from DCP Batches'
+        );
+
+        togglesWrapper.appendChild(productToggleBtn);
+        togglesWrapper.appendChild(packageToggleBtn);
+
+        productsListContainer.parentElement.insertBefore(togglesWrapper, productsListContainer);
+
+        setupCollapsibleSection(productToggleBtn, productsListContainer, 'Product Name Received from DCP Batches');
+        setupCollapsibleSection(packageToggleBtn, packageTypeContainer, 'Packages Received from DCP Batches');
+    }
+
+    initDashboardToggles();
+
     async function getDashboardData() {
         try {
             const token = localStorage.getItem('token');
@@ -559,8 +614,9 @@
         bgColor.reverse();
         Object.entries(products).map(([key, value], index) => {
             const card = document.createElement('div');
+            card.classList.add('h-full');
             card.innerHTML = `
-            <div class="card-macaron ${bgColor[index % bgColor.length]}">
+            <div class="card-macaron h-full flex items-center ${bgColor[index % bgColor.length]}">
                 <div class="w-full">
                     <p class="card-macaron-title">${key}</p>
                     <h3 class="card-macaron-value">${value}</h3>
@@ -579,11 +635,12 @@
         const packageInfoUrl = "{{ route('schools.packages.info', ':id') }}";
         packages.forEach((package, index) => {
             const card = document.createElement('div');
+            card.classList.add('h-full');
             const url = packageInfoUrl.replace(':id', package.id);
 
             card.innerHTML = `
-            <a href="${url}">
-            <div class="card-macaron h-full text-center flex items-center ${bgColor[index % bgColor.length]}">
+            <a href="${url}" class="block h-full">
+            <div class="card-macaron h-full w-full text-center flex items-center ${bgColor[index % bgColor.length]}">
                 <div class="w-full">
                     <p class="card-macaron-title">${package.name}</p>
                     <h3 class="card-macaron-value">${package.count}</h3>
@@ -623,13 +680,13 @@
             <div class="dashboard-title">
                 Current Conditions of the DCP Products
                 </div>
-            <table class="min-w-full border border-gray-300 text-base tracking-wider ">
-                <thead class="bg-gray-100">
+            <table class="min-w-full bg-white text-base tracking-wider ">
+                <thead>
                     <tr>
-                        <th class="table-header text-left">Condition</th>
-                        <th class="table-header  text-center">Count</th>
-                        <th class="table-header  text-center">Percentage</th>
-                        <th class="table-header  text-left">Progress</th>
+                        <th class="border border-gray-300 px-4 py-2 bg-white text-left uppercase">Condition</th>
+                        <th class="border border-gray-300 px-4 py-2 bg-white text-center uppercase">Count</th>
+                        <th class=" border border-gray-300 px-4 py-2 bg-white text-center uppercase">Percentage</th>
+                        <th class=" border border-gray-300 px-4 py-2 bg-white text-left uppercase">Progress</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -641,13 +698,13 @@
 
                         return `
                             <tr class="hover:bg-gray-50">
-                                <td class="td-cell">${key}</td>
-                                <td class="td-cell text-center font-semibold">${value}</td>
-                                <td class="td-cell text-center">${percent}%</td>
-                                <td class="td-cell">
-                                    <div class="w-full bg-gray-200 rounded-full h-4">
-                                        <div class="${color} h-4 rounded-full transition-all duration-300"
-                                             style="width: ${percent}%"></div>
+                                <td class="border border-gray-300 px-4 py-2">${key}</td>
+                                <td class="border border-gray-300 px-4 py-2 text-xl text-center font-bold">${value}</td>
+                                <td class="border border-gray-300 px-4 py-2 text-lg text-center font-medium">${percent}%</td>
+                                <td class="border border-gray-300 px-4 py-2">
+                                    <div class="w-full bg-gray-200 rounded-md h-5">
+                                        <div class="${color} h-5 rounded-md transition-all duration-300"
+                                            style="width: ${percent}%"></div>
                                     </div>
                                 </td>
                             </tr>
@@ -674,8 +731,6 @@
         dcpCardContainer.classList.remove('hidden');
         conditionContainer.classList.remove('hidden');
         learnersDataContainer.classList.remove('hidden');
-        productsListContainer.classList.remove('hidden');
-        packageTypeContainer.classList.remove('hidden');
     }
     loadData();
 </script>

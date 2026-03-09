@@ -18,9 +18,9 @@
         if (confirm("Are you sure you want to delete this area?")) {
             $.ajax({
                 url: '{{ url('School/ISP/delete-area') }}/' + isp_details_id + '/' + area_id,
-                type: 'DELETE', // 👈 use DELETE
+                type: 'DELETE',  
                 data: {
-                    _token: '{{ csrf_token() }}' // 👈 CSRF token is required
+                    _token: '{{ csrf_token() }}'
                 },
                 success: function(response) {
                     console.log(response.message);
@@ -157,10 +157,13 @@
             const response = await fetch(`/api/School/schoolInternet/${school_id}`);
             const res = await response.json();
             const container = document.getElementById('internetCardContainer');
-            container.innerHTML = '';
+            container.innerHTML = `
+            <div class="spinner-container my-4 hidden">
+            <div class="dashboard-loading-component"></div>
+            </div>`;
             const data = res.data;
             totalInternet = data.length;
-            console.log('THis is the data' + totalInternet);
+             
             data.forEach((internet, index) => {
 
                 const card = document.createElement('div');
@@ -211,11 +214,9 @@
                                      <div
                                          class="action-button">
     
-                                         <button type="button" title="Remove ISP" onclick="deleteISP(${internet?.id})"
+                                         <button type="button" title="Remove ISP" onclick="deleteISP(${internet?.pk_isp_details_id})"
                                              class="btn-delete p-1 rounded-full">
                                              @include('SchoolSide.components.svg.delete-sm')
-    
-    
                                          </button>
                                      </div>
                                       <div
@@ -327,6 +328,20 @@
                 container.appendChild(card);
 
             });
+             if(!data.length > 0){
+			container.innerHTML = `
+				<div class=" flex items-center py-5 justify-center">
+					<div class="bg-gray-50/80 w-full backdrop-blur-md border border-gray-300 rounded-xl shadow-md px-8 py-6 text-center">
+						<h2 class="text-gray-700 font-semibold sm:text-lg text-base">
+							No Record Found
+						</h2>
+						<p class="text-gray-500 sm:text-sm text-xs mt-1">
+							There is currently nothing to display.
+						</p>
+					</div>
+				</div>
+			`;
+		}
         } catch (error) {
             console.error(error);
         }

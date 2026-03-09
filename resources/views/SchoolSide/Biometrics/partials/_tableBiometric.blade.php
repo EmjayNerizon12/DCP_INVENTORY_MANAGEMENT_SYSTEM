@@ -85,7 +85,7 @@
 					<div class="action-button">
 
 						<button class="text-white bg-red-600 hover:bg-red-700 p-1 rounded-full"
-							onclick="deleteFunction(${ biometric?.pk_e_biometric_details_id }, 'biometric')">
+							onclick="deleteFunction(${ biometric?.pk_e_biometric_details_id }, 'biometrics')">
 							@include('SchoolSide.components.svg.delete-sm')
 
 						</button>

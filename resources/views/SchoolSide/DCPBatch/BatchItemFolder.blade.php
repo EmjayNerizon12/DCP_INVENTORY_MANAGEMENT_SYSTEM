@@ -1,5 +1,4 @@
 @extends('layout.SchoolSideLayout')
-<title>@yield('title', 'DCP Batch')</title>
 
 @section('content')
     <style>

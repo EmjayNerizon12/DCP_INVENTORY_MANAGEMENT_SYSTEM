@@ -1,7 +1,4 @@
  @extends('layout.SchoolSideLayout')
- <title>
-     @yield('title', 'DCP Dashboard')</title>
-
  @section('content')
      <div class="p-6">
          <input type="hidden" id="school_id" value="{{Auth::guard('school')->user()->school->pk_school_id}}">

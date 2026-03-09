@@ -1,7 +1,5 @@
 @extends('layout.SchoolSideLayout')
 
-@section('title', 'DCPMS Dashboard')
-
 @section('content')
 
     <div class="p-6">

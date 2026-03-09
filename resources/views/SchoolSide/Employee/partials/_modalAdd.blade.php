@@ -116,11 +116,9 @@
              </div>
              <x-input-field type="text" name="employee_number" label="Employee Number" :required="true"
                  :edit="false" />
-             <x-select-field name="position_title_id" label="Employee Title" :options="App\Models\EmployeePosition::all()" :edit="false" :required="false"
+             <x-select-field name="position_title_id" label="Employee Title" :options="App\Models\EmployeePosition::all()" :edit="false" :required="true"
                  valueField="pk_school_position_id" textField="name" />
-             <x-select-field name="position_id" label="Position" :options="App\Models\EmpPosition::all()" :edit="false" :required="false" valueField="id" 
-                 textField="name" />
-             <x-input-field type="date" name="date_hired" label="Date Hired" :required="false" :edit="false" />
+             <x-input-field type="date" name="date_hired" label="Date Hired" :required="true" :edit="false" />
              <x-input-field type="text" name="salary_grade" label="Salary Grade" :required="true"
                  :edit="false" />
              <x-input-field type="email" name="deped_email" label="Deped Email" :required="true"

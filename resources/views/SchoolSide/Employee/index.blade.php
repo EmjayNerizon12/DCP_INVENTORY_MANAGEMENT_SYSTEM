@@ -1,6 +1,4 @@
 @extends('layout.SchoolSideLayout')
-<title>
-    @yield('title', 'DCP Dashboard')</title>
 
 @section('content')
     {{-- ===== Add Employee Modal ===== --}}
@@ -47,7 +45,7 @@
              </div>
          </div>
         <div class="spinner-container my-4 hidden" id="card-spinner">
-            <div class="spinner-md"></div>
+            <div class="dashboard-loading-component"></div>
         </div>
         <div id="divContainer2">
             <div id="card-container" class="grid grid-cols-2 md:grid-cols-6 gap-3 my-2 hidden"></div>
@@ -81,7 +79,7 @@
             </div>
         </div>
         <div class="spinner-container my-4" id="spinner-container">
-            <div class="spinner-md"></div>
+            <div class="dashboard-loading-component"></div>
         </div>
     </div>
 </div>

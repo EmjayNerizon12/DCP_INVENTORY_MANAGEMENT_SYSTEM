@@ -1,6 +1,5 @@
 @extends('layout.SchoolSideLayout')
 
-<title>@yield('title', 'DCP Dashboard')</title>
 @vite(['resources/js/app.js'])
 @section('content')
 	<style>
@@ -58,7 +57,7 @@
 	@include('SchoolSide.SchoolEquipment.partials._modalDocument')
 	@include('SchoolSide.SchoolEquipment.partials._addModalDocument')
 	@include('SchoolSide.SchoolEquipment.partials._editModalDocument')
-	<div class="flex flex-col gap-5 overflow-hidden bg-white p-2 md:p-6">
+	<div class="md:p-6 p-2">
 		<div class="flex justify-start space-x-4">
 			<div
 				class="flex hidden h-16 w-16 items-center justify-center rounded-full border border-gray-300 bg-white p-3 shadow-lg">
@@ -93,7 +92,8 @@
 				class="btn-submit rounded px-4 py-1">
 				Add Equipment
 			</button>
-			<div class="flex h-12 w-12 hidden items-center justify-center rounded-full border border-gray-300 bg-white p-1 shadow-md">
+			<div
+				class="flex h-12 w-12 hidden items-center justify-center rounded-full border border-gray-300 bg-white p-1 shadow-md">
 
 				<button class="btn-cancel rounded-full p-1" onclick="window.print()">
 					<svg class="h-8 w-8" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

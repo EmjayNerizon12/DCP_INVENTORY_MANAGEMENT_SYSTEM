@@ -1,9 +1,4 @@
-{{-- filepath: resources/views/SchoolSide/dashboard.blade.php --}}
-
 @extends('layout.SchoolSideLayout')
-
-@section('title', 'DCPMS Dashboard')
-
 @section('content')
     <input type="hidden" id="school_id" value="{{ Auth::guard('school')->user()->school->pk_school_id }}">
     <div class="md:p-6 p-2">
@@ -63,9 +58,9 @@
         </div>
 
         <div>
-            <div class="dashboard-title tracking-wider font-medium">School Information Preview</div>
+            <div class="dashboard-title font-bold">DCP Dashboard</div>
             <div class="spinner-container my-10" id="spinner-container">
-                <div class="spinner-md"></div>
+                <div class="dashboard-loading-component"></div>
             </div>
 
 

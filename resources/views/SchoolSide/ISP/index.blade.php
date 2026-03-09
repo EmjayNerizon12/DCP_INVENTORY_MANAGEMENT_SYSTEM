@@ -1,6 +1,4 @@
  @extends('layout.SchoolSideLayout')
- <title>
-     @yield('title', 'DCP Dashboard')</title>
 
  @section('content')
      <div class="md:p-6 p-2">
@@ -54,8 +52,8 @@
          </div>
          <div id="divContainer1">
              <div class="flex justify-start my-2">
-                 <button title="Show Info Modal" type="button" onclick="openISPDetailsModal()" class="theme-button">
-                     Add New ISP
+                 <button title="Show Info Modal" type="button" onclick="openISPDetailsModal()" class="btn-submit px-4 py-1 rounded">
+                     Add Provider
                  </button>
              </div>
              <div id="internetCardContainer">

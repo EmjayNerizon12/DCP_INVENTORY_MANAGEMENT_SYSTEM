@@ -1,7 +1,5 @@
 @extends('layout.SchoolSideLayout')
 
-<title>@yield('title', 'Warranty Status of Items')</title>
-
 @section('content')
     <div class="p-6">
 

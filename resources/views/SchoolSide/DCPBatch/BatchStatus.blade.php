@@ -1,8 +1,5 @@
-{{-- filepath: c:\Users\Em-jay\dcp_inventory_system\resources\views\SchoolSide\DCPBatch\Items.blade.php --}}
-
+ 
 @extends('layout.SchoolSideLayout')
-
-@section('title', 'Batch Items')
 
 @section('content')
 

@@ -1,5 +1,5 @@
 @extends('layout.SchoolSideLayout')
-<title>@yield('title', 'DCP Dashboard')</title>
+
 
 @section('content')
     <div class="my-5 mx-5 p-5 bg-white border rounded-md border border-gray-300 shadow-sm">

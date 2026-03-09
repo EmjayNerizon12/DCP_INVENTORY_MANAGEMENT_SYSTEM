@@ -30,6 +30,7 @@
     }
 
     function deleteFunction(id, type) {
+        
         if (confirm("Are you sure you want to delete this record?")) {
             fetch('/School/Equipment/delete/' + id + '/' + type, {
                     method: 'DELETE',

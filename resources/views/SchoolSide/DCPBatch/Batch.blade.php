@@ -1,9 +1,4 @@
-{{-- filepath: c:\Users\Em-jay\dcp_inventory_system\resources\views\SchoolSide\DCPBatch\Batch.blade.php --}}
-
 @extends('layout.SchoolSideLayout')
-
-@section('title', 'My DCP Batches')
-
 @section('content')
     <div class=" overflow-hidden md:p-6 p-2  ">
         <div class="flex justify-start  mb-4  space-x-2">

@@ -471,6 +471,20 @@ export async function loadEquipment(school_id) {
      </div>
             `;
         });
+        if(!data.length > 0){
+			equipmentContainer.innerHTML = `
+				<div class=" flex items-center py-5 justify-center">
+					<div class="bg-gray-50/80 w-full backdrop-blur-md border border-gray-300 rounded-xl shadow-md px-8 py-6 text-center">
+						<h2 class="text-gray-700 font-semibold sm:text-lg text-base">
+							No Record Found
+						</h2>
+						<p class="text-gray-500 sm:text-sm text-xs mt-1">
+							There is currently nothing to display.
+						</p>
+					</div>
+				</div>
+			`;
+		}
         renderIcons();
     }
 window.loadEquipment = loadEquipment; // to call into blade pages

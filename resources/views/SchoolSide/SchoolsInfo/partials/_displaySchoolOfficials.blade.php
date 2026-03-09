@@ -1,97 +1,110 @@
-  <div id="school_officials" class="max-w-full mb-10 sm:px-0 lg:px-0 pt-0">
+<div id="school_officials" class="sm:mx-5 mx-0">
 
+	<form method="POST" id="schoolOfficialForm" action="{{ route('schoolOfficials.store') }}">
+	</form>
+	<input type="hidden" name="school_id" id="school_id" value="{{ Auth::guard('school')->user()->school->pk_school_id }}">
+</div>
 
+<script>
+	const schoolOfficialForm = document.getElementById('schoolOfficialForm');
+	const schoolId = document.getElementById('school_id').value;
 
-      <form method="POST" action="{{ route('school.update.officials') }}">
-          @csrf
-          <div class="md:mx-auto   max-w-xl ">
-              <div class="page-title">School Officials Form </div>
-              <div class="page-subtitle">Please fill out and submit the guided form</div>
+	async function fetchEmployees(schoolId) {
+		const response = await fetch(`/api/School/schoolEmployees/${schoolId}`);
+		const res = await response.json();
+		if (!response.ok) {
+			alert('Failed to fetch data');
+		}
+		const data = res.data;
+		return data;
+	}
+	async function fetchSchoolInformation(schoolId) {
+		const response = await fetch(`/api/School/schoolInformation/${schoolId}`);
+		const res = await response.json();
+		if (!response.ok) {
+			alert('Failed to fetch data');
+		}
+		const data = res.data;
 
-          </div>
-          <div class="grid grid-cols-1 md:mx-auto   max-w-xl gap-6 text-gray-700">
-              <!-- Principal -->
+		const employees = await fetchEmployees(schoolId);
+		renderOfficialForm(data[0].school_officials[0], employees);
 
-              <div class="p-4 shadow-md border border-gray-300">
-                  <div class="bg-blue-200 text-gray- 800 border border-gray-800 mb-2  text-center p-2">
+	}
 
-                      <h4 class="font-semibold text-gray-800 text-lg">SCHOOL HEAD</h4>
-                  </div>
-                  <div class="mb-2">
-                      <label class="font-semibold">Name:</label>
-                      <input type="text" name="PrincipalName"
-                          value="{{ Auth::guard('school')->user()->school->PrincipalName }}"
-                          class="w-full border rounded px-2 py-1" />
-                  </div>
-                  <div class="mb-2">
-                      <label class="font-semibold">Contact:</label>
-                      <input type="text" name="PrincipalContact"
-                          value="{{ Auth::guard('school')->user()->school->PrincipalContact }}"
-                          class="w-full border rounded px-2 py-1" />
-                  </div>
-                  <div class="mb-2">
-                      <label class="font-semibold">Email:</label>
-                      <input type="email" name="PrincipalEmail"
-                          value="{{ Auth::guard('school')->user()->school->PrincipalEmail }}"
-                          class="w-full border rounded px-2 py-1" />
-                  </div>
-              </div>
-              <!-- ICT Coordinator -->
-              <div class="p-4 shadow-md border border-gray-300">
-                  <div class="bg-green-200 text-gray-800 border border-gray-800 mb-2  text-center p-2">
+	function renderOfficialForm(officials, employees) {
+		schoolOfficialForm.innerHTML = `
+        <div>
+            <div class="page-title">School Officials Form </div>
+            <div class="page-subtitle">Please fill out and submit the guided form</div>
+            <div class="flex flex-col gap-4">
+                <div>
+                    <label class="form-label">1. School Head</label>
+                    <select name="school_head" id="" class="form-input" required>
+                        <option value="">Select</option>
+                        ${employees.map(emp => `
+                            <option value="${emp.pk_schools_employee_id}" ${officials?.school_head?.pk_schools_employee_id == emp.pk_schools_employee_id ? 'selected' : ' ' }>
+                                ${emp.employee_number} - ${emp.fname} ${emp.mname ?? ''} ${emp.lname} ${emp.suffix_name ?? ''}
+                            </option>
+                        `).join('')}
+                    </select>
+                </div>
+                <div>
+                    <label class="form-label">2. School's ICT Coordinator</label>
+                    <select name="ict_coordinator" id="" class="form-input" required>
+                        <option value="">Select</option>
+                        ${employees.map(emp => `
+                            <option value="${emp.pk_schools_employee_id}" ${officials?.ict_coordinator?.pk_schools_employee_id == emp.pk_schools_employee_id ? 'selected' : ' ' }>
+                                ${emp.employee_number} - ${emp.fname} ${emp.mname ?? ''} ${emp.lname} ${emp.suffix_name ?? ''}
+                            </option>
+                        `).join('')}
+                    </select>
+                </div>
+                <div>
+                    <label class="form-label">3. School's Property Custodian</label>
+                    <select name="property_custodian" id="" class="form-input mb-2" required>
+                        <option value="">Select</option>
+                        ${employees.map(emp => `
+                            <option value="${emp.pk_schools_employee_id}" ${officials?.property_custodian?.pk_schools_employee_id == emp.pk_schools_employee_id ? 'selected' : ' ' }>
+                                ${emp.employee_number} - ${emp.fname} ${emp.mname ?? ''} ${emp.lname} ${emp.suffix_name ?? ''}
+                            </option>
+                        `).join('')}
+                    </select>
+                </div>
+            </div>
+            <div class="flex justify-end my-2">
+                <button type="submit" id="officialFormButton" class="btn-submit py-1 px-4 rounded">
+                    Save
+                </button>
+            </div>
+            
+        </div>
+        `;
+	}
+	schoolOfficialForm.addEventListener('submit', async (e) => {
+		const officialFormButton = document.getElementById('officialFormButton');
+		e.preventDefault();
+		buttonLoading(officialFormButton);
+		const formData = new FormData(schoolOfficialForm);
+		formData.append('school_id', schoolId);
+		const response = await fetch(schoolOfficialForm.action, {
+			method: 'POST',
+			headers: {
+				'X-CSRF-TOKEN': '{{ csrf_token() }}',
+				'Accept': 'application/json',
+			},
+			body: formData
+		});
+		const data = await response.json();
+		if (!response.ok) {
+			handleErrors(data.errors);
+			resetButton(officialFormButton, 'Save')
+			return;
+		}
+		renderStatusModal(data);
+		schoolOfficialForm.reset();
+		resetButton(officialFormButton, 'Save')
+		fetchSchoolInformation(schoolId);
+	});
 
-                      <h4 class="font-semibold text-gray-800 text-lg">SCHOOL ICT COORDINATOR</h4>
-                  </div>
-                  <div class="mb-2">
-                      <label class="font-semibold">Name:</label>
-                      <input type="text" name="ICTName" value="{{ Auth::guard('school')->user()->school->ICTName }}"
-                          class="w-full border rounded px-2 py-1" />
-                  </div>
-                  <div class="mb-2">
-                      <label class="font-semibold">Contact:</label>
-                      <input type="text" name="ICTContact"
-                          value="{{ Auth::guard('school')->user()->school->ICTContact }}"
-                          class="w-full border rounded px-2 py-1" />
-                  </div>
-                  <div class="mb-2">
-                      <label class="font-semibold">Email:</label>
-                      <input type="email" name="ICTEmail"
-                          value="{{ Auth::guard('school')->user()->school->ICTEmail }}"
-                          class="w-full border rounded px-2 py-1" />
-                  </div>
-              </div>
-              <!-- Property Custodian -->
-              <div class="p-4 shadow-md border border-gray-300">
-                  <div class="bg-yellow-200 text-gray-800 border border-gray-800 mb-2  text-center p-2">
-
-                      <h4 class="font-semibold text-gray-800 text-lg">SCHOOL PROPERTY CUSTODIAN</h4>
-                  </div>
-                  <div class="mb-2">
-                      <label class="font-semibold">Name:</label>
-                      <input type="text" name="CustodianName"
-                          value="{{ Auth::guard('school')->user()->school->CustodianName }}"
-                          class="w-full border rounded px-2 py-1" />
-                  </div>
-                  <div class="mb-2">
-                      <label class="font-semibold">Contact:</label>
-                      <input type="text" name="CustodianContact"
-                          value="{{ Auth::guard('school')->user()->school->CustodianContact }}"
-                          class="w-full border rounded px-2 py-1" />
-                  </div>
-                  <div class="mb-2">
-                      <label class="font-semibold">Email:</label>
-                      <input type="email" name="CustodianEmail"
-                          value="{{ Auth::guard('school')->user()->school->CustodianEmail }}"
-                          class="w-full border rounded px-2 py-1" />
-                  </div>
-              </div>
-          </div>
-          <div class="md:mx-auto  max-w-xl flex justify-start my-2">
-
-
-              <button type="submit" class="theme-button h-8 py-1 px-4 rounded">
-                  Save Official Information
-              </button>
-          </div>
-      </form>
-  </div>
+	fetchSchoolInformation(schoolId);
+</script>

@@ -1,6 +1,4 @@
  @extends('layout.SchoolSideLayout')
- <title>
-     @yield('title', 'DCP Dashboard')</title>
 
  @section('content')
      <div class="p-6 space-y-4">
