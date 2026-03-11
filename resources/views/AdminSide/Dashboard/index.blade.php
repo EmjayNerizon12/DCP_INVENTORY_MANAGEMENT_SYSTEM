@@ -214,55 +214,61 @@
 				</button>
 			</div>
 			<div id="tab-item" class="tab-content" role="tabpanel" aria-labelledby="btn-item">
-				<div class="bg-white border border-gray-300 rounded-lg shadow-md p-6">
-					<div class="flex md:flex-row flex-col gap-4">
-						<div class="w-full">
-							<div class="h-[400px]"><canvas id="myPieChart"></canvas></div>
-						</div>
-						<div class="w-full">
-							<table class="border-collapse w-full table-auto" style="letter-spacing:0.05rem">
-								<thead class="bg-white sticky top-0">
-									<tr>
-										<th class="px-4 py-2 border border-gray-300 uppercase">Item Type</th>
-										<th class="px-4 py-2 border border-gray-300 uppercase">Count</th>
-									</tr>
-								</thead>
-								<tbody id="item-type-table"></tbody>
-							</table>
-						</div>
-					</div>
+				<div class="overflow-x-auto thin-scroll">
+					<table class="border-collapse bg-collapse w-full table-auto">
+						<thead class="bg-white sticky top-0">
+							<tr class="top-header">
+								<td colspan="4" class="td-cell text-white">DCP Product Type</td>
+							</tr>
+							<tr class="sub-header">
+								<td class="td-cell">Product Code</td>
+								<td class="td-cell">Product Name</td>
+								<td class="td-cell">Count</td>
+								<td class="td-cell">Visual</th>
+							</tr>
+						</thead>
+						<tbody id="item-type-table"></tbody>
+					</table>
 				</div>
 			</div>
 
-			<!-- TAB CONTENT 2 -->
 			<div id="tab-package" class="tab-content hidden" hidden role="tabpanel" aria-labelledby="btn-package">
-				<div class="bg-white border border-gray-300 rounded-lg shadow-md p-6 max-w-full overflow-x-auto thin-scroll">
-					<div class="flex md:flex-row flex-col gap-4">
-						<div class="w-full">
-							<div class="h-[400px]"><canvas id="pie_package"></canvas></div>
-						</div>
-						<div class="overflow-y-auto shadow-md w-full">
-							<table class="border-collapse w-full" style="letter-spacing:0.05rem">
-								<thead class="bg-white sticky top-0">
-									<tr>
-										<th class="px-4 py-2 border border-gray-300 uppercase">Package Code</th>
-										<th class="px-4 py-2 border border-gray-300 uppercase">Package Name</th>
-										<th class="px-4 py-2 border border-gray-300 uppercase">Total Package Acquired</th>
-									</tr>
-								</thead>
-								<tbody id="package-type-table"></tbody>
-							</table>
-						</div>
-					</div>
+				<div class="overflow-y-auto w-full thin-scroll">
+					<table class="border-collapse w-full table-auto" >
+						<thead class="bg-white sticky top-0">
+							<tr class="top-header">
+								<th colspan="4" class="td-cell text-white">DCP Package Type</th>
+							</tr>
+							<tr class="sub-header">
+								<th class="td-cell">Package Code</th>
+								<th class="td-cell">Package Name</th>
+								<th class="td-cell">Package Distributed</th>
+								<th class="td-cell">Visual</th>
+							</tr>
+						</thead>
+						<tbody id="package-type-table"></tbody>
+					</table>
 				</div>
+
 			</div>
 
-			<!-- TAB CONTENT 3 -->
 			<div id="tab-school" class="tab-content hidden" hidden role="tabpanel" aria-labelledby="btn-school">
-				<div class="bg-white border border-gray-300 rounded-lg shadow-md p-6">
-					<div class="h-[400px] overflow-y-auto">
-						<canvas id="school_pie"></canvas>
-					</div>
+				<div class="overflow-y-auto w-full thin-scroll">
+					<table class="border-collapse w-full table-auto" >
+						<thead class="bg-white sticky top-0">
+							<tr class="top-header">
+								<th colspan="5" class="td-cell text-white">DCP Batch Received by School</th>
+							</tr>
+							<tr class="sub-header">
+								<th class="td-cell text-center">No.</th>
+								<th class="td-cell">School Name</th>
+								<th class="td-cell">School Level</th>
+								<th class="td-cell">Total Batch Received</th>
+								<th class="td-cell">Visual</th>
+							</tr>
+						</thead>
+						<tbody id="batch-distributed-table"></tbody>
+					</table>
 				</div>
 			</div>
 
