@@ -1,12 +1,9 @@
   <header class="fixed top-0 left-0 right-0 z-99 shadow-md" style="background-color: #0B3C8A;">
       <div class="flex items-center justify-between space-x-4 px-4 py-3">
 
-          <!-- Left: Hamburger + Logo + Title -->
           <div class="flex items-center space-x-2">
 
-              <!-- Hamburger / Close button (Mobile only) -->
               <button id="sidebarToggle" class="lg:hidden text-white shadow-none focus:outline-none">
-                  <!-- Hamburger icon -->
                   <svg id="hamburgerIcon" xmlns="http://www.w3.org/2000/svg" width="22" height="22"
                       viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                       stroke-linejoin="round">
@@ -14,7 +11,6 @@
                       <line x1="3" y1="6" x2="21" y2="6"></line>
                       <line x1="3" y1="18" x2="21" y2="18"></line>
                   </svg>
-                  <!-- Close icon (hidden by default) -->
                   <svg id="closeIcon" xmlns="http://www.w3.org/2000/svg" width="22" height="22"
                       viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                       stroke-linejoin="round" class="hidden">
@@ -23,11 +19,9 @@
                   </svg>
               </button>
 
-              <!-- Logo -->
               <img src="{{ asset('icon/sdo-logo.png') }}"
                   class="h-10 w-10 md:w-18 md:h-18 rounded-full object-cover shadow-lg">
 
-              <!-- Title & Info -->
               <div class="truncate overflow-hidden whitespace-nowrap max-w-full md:max-w-xs">
                   <div class="text-sm font-semibold tracking-wider text-white truncate">
                       DCP Management System
@@ -43,10 +37,9 @@
 
           </div>
 
-          <!-- Right: User Profile Dropdown -->
           <div class="relative">
               <button id="userProfileBtn"
-                  class="flex items-center md:h-auto md:w-auto h-10 w-10 user-profile-btn dropdown-toggle text-white space-x-2">
+                  class="flex items-center shadow md:h-auto md:w-auto h-10 w-10 user-profile-btn dropdown-toggle text-white space-x-2">
                   <img style="object-fit: cover;" src="{{ asset('icon/logo.png') }}" alt="User Icon"
                       class="h-8 w-8 rounded-full">
                   <span class="user-name">NORMAN A. FLORES</span>
@@ -56,7 +49,6 @@
                   </svg>
               </button>
 
-              <!-- Dropdown menu -->
               <div id="userDropdownMenu"
                   class="absolute right-0 mt-2 w-48 bg-white border border-gray-300 rounded-md shadow-lg py-1 hidden z-50 transition-all duration-200">
                   <a href="{{ route('admin.account.index') }}"
