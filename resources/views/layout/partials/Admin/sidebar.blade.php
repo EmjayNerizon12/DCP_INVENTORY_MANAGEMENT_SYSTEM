@@ -1,9 +1,10 @@
 <div id="sidebar" class="sidebar py-10 ">
 	@php
 		$navCategories = [
-		    'DCP List' => [
+		    'DCP Item' => [
 		        [
 		            'label' => 'Product',
+                    'new' => true,
 		            'url' => route('index.dcp.items'),
 		            'active' => request()->routeIs('index.dcp.items'),
 		            'icon' => '<svg viewBox="0 0 24 24" class="w-10 h-10" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -21,6 +22,7 @@
 		        ],
 		        [
 		            'label' => 'Package',
+                    'new' => true,
 		            'url' => route('index.dcp.package'),
 		            'active' => request()->routeIs('index.dcp.package'),
 		            'icon' => '<svg viewBox="0 0 24 24" class="w-10 h-10" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -38,6 +40,7 @@
 		        ],
 		        [
 		            'label' => 'Batch',
+                    'new' => true,
 		            'url' => route('index.batch'),
 		            'active' => Request::is('Admin/DCPBatch/index'),
 		            'icon' => '<svg viewBox="0 0 24 24" class="w-10 h-10" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -55,6 +58,7 @@
 		        ],
 		        [
 		            'label' => 'Inventory',
+                    'new' => true,
 		            'url' => route('index.SchoolsInventory'),
 		            'active' => request()->routeIs('index.SchoolsInventory'),
 		            'icon' => '<svg viewBox="0 0 24 24" class="w-10 h-10" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -88,7 +92,7 @@
 						</svg>',
 		        ],
 		    ],
-		    'Data Operations' => [
+		    'Dropdowns' => [
 		        [
 		            'label' => 'Products',
 		            'url' => route('index.crud'),
@@ -122,7 +126,7 @@
 		            'url' => route('equipment.index.list'),
 		            'active' => request()->routeIs('equipment.index.list'),
 		            'icon' =>
-		                '<svg viewBox="0 0 24 24" class="w-6 h-6 mr-2" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>fingerprint_line</title> <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g id="System" transform="translate(-48.000000, -288.000000)"> <g id="fingerprint_line" transform="translate(48.000000, 288.000000)"> <path d="M24,0 L24,24 L0,24 L0,0 L24,0 Z M12.5934901,23.257841 L12.5819402,23.2595131 L12.5108777,23.2950439 L12.4918791,23.2987469 L12.4918791,23.2987469 L12.4767152,23.2950439 L12.4056548,23.2595131 C12.3958229,23.2563662 12.3870493,23.2590235 12.3821421,23.2649074 L12.3780323,23.275831 L12.360941,23.7031097 L12.3658947,23.7234994 L12.3769048,23.7357139 L12.4804777,23.8096931 L12.4953491,23.8136134 L12.4953491,23.8136134 L12.5071152,23.8096931 L12.6106902,23.7357139 L12.6232938,23.7196733 L12.6232938,23.7196733 L12.6266527,23.7031097 L12.609561,23.275831 C12.6075724,23.2657013 12.6010112,23.2592993 12.5934901,23.257841 L12.5934901,23.257841 Z M12.8583906,23.1452862 L12.8445485,23.1473072 L12.6598443,23.2396597 L12.6498822,23.2499052 L12.6498822,23.2499052 L12.6471943,23.2611114 L12.6650943,23.6906389 L12.6699349,23.7034178 L12.6699349,23.7034178 L12.678386,23.7104931 L12.8793402,23.8032389 C12.8914285,23.8068999 12.9022333,23.8029875 12.9078286,23.7952264 L12.9118235,23.7811639 L12.8776777,23.1665331 C12.8752882,23.1545897 12.8674102,23.1470016 12.8583906,23.1452862 L12.8583906,23.1452862 Z M12.1430473,23.1473072 C12.1332178,23.1423925 12.1221763,23.1452606 12.1156365,23.1525954 L12.1099173,23.1665331 L12.0757714,23.7811639 C12.0751323,23.7926639 12.0828099,23.8018602 12.0926481,23.8045676 L12.108256,23.8032389 L12.3092106,23.7104931 L12.3186497,23.7024347 L12.3186497,23.7024347 L12.3225043,23.6906389 L12.340401,23.2611114 L12.337245,23.2485176 L12.337245,23.2485176 L12.3277531,23.2396597 L12.1430473,23.1473072 Z" id="MingCute" fill-rule="nonzero"> </path> <path d="M12,4 C8.13401,4 5,7.13401 5,11 L5,13 C5,13.5523 4.55228,14 4,14 C3.44772,14 3,13.5523 3,13 L3,11 C3,6.02944 7.02944,2 12,2 C16.9706,2 21,6.02944 21,11 L21,14 C20.9998,14.2621 20.9888,14.5244 20.9752,14.786 C20.9508,15.2591 20.9018,15.913 20.8033,16.6351 C20.6145,18.0199 20.2178,19.8763 19.3,21.1 C18.9686,21.5418 18.3418,21.6314 17.9,21.3 C17.4582,20.9686 17.3686,20.3418 17.7,19.9 C18.2822,19.1237 18.6355,17.7301 18.8217,16.3649 C18.9107,15.712 18.9555,15.1159 18.9779,14.6827 C18.9897,14.4553 18.9996,14.2273 19,13.9996 L19,11 C19,7.13401 15.866,4 12,4 Z M12,8 C10.3431,8 9,9.34315 9,11 L9,12 C9,12.9403 8.69626,14.1008 8.13235,15.1581 C7.56532,16.2213 6.68336,17.2764 5.44721,17.8944 C4.95324,18.1414 4.35256,17.9412 4.10557,17.4472 C3.85858,16.9532 4.05881,16.3526 4.55279,16.1056 C5.31664,15.7236 5.93468,15.0287 6.36765,14.2169 C6.80374,13.3992 7,12.5597 7,12 L7,11 C7,8.23858 9.23858,6 12,6 C14.7614,6 17.0000161,8.23858 17.0000161,11 L17.0000161,12 L17.0000161,12.1166 C17.0006,15.0415 17.0014,18.9672 13.6402,21.7682 C13.2159,22.1218 12.5853,22.0645 12.2318,21.6402 C11.8782,21.2159 11.9355,20.5853 12.3598,20.2318 C14.9537,18.0702 15,15.0635 15,12 L15,11 C15,9.34315 13.6569,8 12,8 Z M13,11.5 C13,10.9477 12.5523,10.5 12,10.5 C11.4477,10.5 11,10.9477 11,11.5 C11,12.6974 10.8785,14.2023 10.4263,15.5588 C9.97506,16.9125 9.2319,18.016 8.05279,18.6056 C7.55881,18.8526 7.35858,19.4532 7.60557,19.9472 C7.85256,20.4412 8.45324,20.6414 8.94721,20.3944 C10.7681,19.484 11.7749,17.8375 12.3237,16.1912 C12.8715,14.5477 13,12.8026 13,11.5 Z" id="形状" fill="currentColor"> </path> </g> </g> </g> </g></svg>',
+		                '<svg viewBox="0 0 24 24" class="w-6 h-6 mr-2" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="currentColor"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>fingerprint_line</title> <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g id="System" transform="translate(-48.000000, -288.000000)"> <g id="fingerprint_line" transform="translate(48.000000, 288.000000)"> <path d="M24,0 L24,24 L0,24 L0,0 L24,0 Z M12.5934901,23.257841 L12.5819402,23.2595131 L12.5108777,23.2950439 L12.4918791,23.2987469 L12.4918791,23.2987469 L12.4767152,23.2950439 L12.4056548,23.2595131 C12.3958229,23.2563662 12.3870493,23.2590235 12.3821421,23.2649074 L12.3780323,23.275831 L12.360941,23.7031097 L12.3658947,23.7234994 L12.3769048,23.7357139 L12.4804777,23.8096931 L12.4953491,23.8136134 L12.4953491,23.8136134 L12.5071152,23.8096931 L12.6106902,23.7357139 L12.6232938,23.7196733 L12.6232938,23.7196733 L12.6266527,23.7031097 L12.609561,23.275831 C12.6075724,23.2657013 12.6010112,23.2592993 12.5934901,23.257841 L12.5934901,23.257841 Z M12.8583906,23.1452862 L12.8445485,23.1473072 L12.6598443,23.2396597 L12.6498822,23.2499052 L12.6498822,23.2499052 L12.6471943,23.2611114 L12.6650943,23.6906389 L12.6699349,23.7034178 L12.6699349,23.7034178 L12.678386,23.7104931 L12.8793402,23.8032389 C12.8914285,23.8068999 12.9022333,23.8029875 12.9078286,23.7952264 L12.9118235,23.7811639 L12.8776777,23.1665331 C12.8752882,23.1545897 12.8674102,23.1470016 12.8583906,23.1452862 L12.8583906,23.1452862 Z M12.1430473,23.1473072 C12.1332178,23.1423925 12.1221763,23.1452606 12.1156365,23.1525954 L12.1099173,23.1665331 L12.0757714,23.7811639 C12.0751323,23.7926639 12.0828099,23.8018602 12.0926481,23.8045676 L12.108256,23.8032389 L12.3092106,23.7104931 L12.3186497,23.7024347 L12.3186497,23.7024347 L12.3225043,23.6906389 L12.340401,23.2611114 L12.337245,23.2485176 L12.337245,23.2485176 L12.3277531,23.2396597 L12.1430473,23.1473072 Z" id="MingCute" fill-rule="nonzero"> </path> <path d="M12,4 C8.13401,4 5,7.13401 5,11 L5,13 C5,13.5523 4.55228,14 4,14 C3.44772,14 3,13.5523 3,13 L3,11 C3,6.02944 7.02944,2 12,2 C16.9706,2 21,6.02944 21,11 L21,14 C20.9998,14.2621 20.9888,14.5244 20.9752,14.786 C20.9508,15.2591 20.9018,15.913 20.8033,16.6351 C20.6145,18.0199 20.2178,19.8763 19.3,21.1 C18.9686,21.5418 18.3418,21.6314 17.9,21.3 C17.4582,20.9686 17.3686,20.3418 17.7,19.9 C18.2822,19.1237 18.6355,17.7301 18.8217,16.3649 C18.9107,15.712 18.9555,15.1159 18.9779,14.6827 C18.9897,14.4553 18.9996,14.2273 19,13.9996 L19,11 C19,7.13401 15.866,4 12,4 Z M12,8 C10.3431,8 9,9.34315 9,11 L9,12 C9,12.9403 8.69626,14.1008 8.13235,15.1581 C7.56532,16.2213 6.68336,17.2764 5.44721,17.8944 C4.95324,18.1414 4.35256,17.9412 4.10557,17.4472 C3.85858,16.9532 4.05881,16.3526 4.55279,16.1056 C5.31664,15.7236 5.93468,15.0287 6.36765,14.2169 C6.80374,13.3992 7,12.5597 7,12 L7,11 C7,8.23858 9.23858,6 12,6 C14.7614,6 17.0000161,8.23858 17.0000161,11 L17.0000161,12 L17.0000161,12.1166 C17.0006,15.0415 17.0014,18.9672 13.6402,21.7682 C13.2159,22.1218 12.5853,22.0645 12.2318,21.6402 C11.8782,21.2159 11.9355,20.5853 12.3598,20.2318 C14.9537,18.0702 15,15.0635 15,12 L15,11 C15,9.34315 13.6569,8 12,8 Z M13,11.5 C13,10.9477 12.5523,10.5 12,10.5 C11.4477,10.5 11,10.9477 11,11.5 C11,12.6974 10.8785,14.2023 10.4263,15.5588 C9.97506,16.9125 9.2319,18.016 8.05279,18.6056 C7.55881,18.8526 7.35858,19.4532 7.60557,19.9472 C7.85256,20.4412 8.45324,20.6414 8.94721,20.3944 C10.7681,19.484 11.7749,17.8375 12.3237,16.1912 C12.8715,14.5477 13,12.8026 13,11.5 Z" id="形状" fill="currentColor"> </path> </g> </g> </g> </g></svg>',
 		        ],
 		    ],
 		];
@@ -133,62 +137,45 @@
 		        'url' => route('admin.dashboard'),
 		        'active' => request()->routeIs('admin.dashboard'),
 		        'icon' =>
-		            '<svg  class="w-6 h-6 mr-2" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path fill-rule="evenodd" clip-rule="evenodd" d="M7 1H1V7H7V1ZM7 9H1V15H7V9ZM9 1H15V7H9V1ZM15 9H9V15H15V9Z" fill="currentColor"></path> </g></svg>',
+		            '<svg  class="w-6 h-6 mr-2" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path fill-rule="evenodd" clip-rule="evenodd" d="M8 0L0 6V8H1V15H4V10H7V15H15V8H16V6L14 4.5V1H11V2.25L8 0ZM9 10H12V13H9V10Z" fill="currentColor"></path> </g></svg>',
 		    ],
 		    [
 		        'label' => 'Product Search',
 		        'url' => route('index.page.search'),
 		        'active' => request()->routeIs('index.page.search'),
 		        'icon' =>
-		            '<svg fill="currentColor"  class="w-6 h-6 mr-2" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M12.027 9.92L16 13.95 14 16l-4.075-3.976A6.465 6.465 0 0 1 6.5 13C2.91 13 0 10.083 0 6.5 0 2.91 2.917 0 6.5 0 10.09 0 13 2.917 13 6.5a6.463 6.463 0 0 1-.973 3.42zM1.997 6.452c0 2.48 2.014 4.5 4.5 4.5 2.48 0 4.5-2.015 4.5-4.5 0-2.48-2.015-4.5-4.5-4.5-2.48 0-4.5 2.014-4.5 4.5z" fill-rule="evenodd"></path> </g></svg>',
+		            '<svg  class="w-6 h-6 mr-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M15.7955 15.8111L21 21M18 10.5C18 14.6421 14.6421 18 10.5 18C6.35786 18 3 14.6421 3 10.5C3 6.35786 6.35786 3 10.5 3C14.6421 3 18 6.35786 18 10.5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>',
 		    ],
 		    [
-		        'label' => 'Scan & Monitor',
+		        'label' => 'Product Disposal',
 		        'url' => route('admin.scan.monitor'),
 		        'active' => request()->routeIs('admin.scan.monitor'),
 		        'icon' =>
-		            '<svg viewBox="0 0 24 24" class="w-6 h-6 mr-2" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M12 16C13.6569 16 15 14.6569 15 13C15 11.3431 13.6569 10 12 10C10.3431 10 9 11.3431 9 13C9 14.6569 10.3431 16 12 16Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M3 16.8V9.2C3 8.0799 3 7.51984 3.21799 7.09202C3.40973 6.71569 3.71569 6.40973 4.09202 6.21799C4.51984 6 5.0799 6 6.2 6H7.25464C7.37758 6 7.43905 6 7.49576 5.9935C7.79166 5.95961 8.05705 5.79559 8.21969 5.54609C8.25086 5.49827 8.27836 5.44328 8.33333 5.33333C8.44329 5.11342 8.49827 5.00346 8.56062 4.90782C8.8859 4.40882 9.41668 4.08078 10.0085 4.01299C10.1219 4 10.2448 4 10.4907 4H13.5093C13.7552 4 13.8781 4 13.9915 4.01299C14.5833 4.08078 15.1141 4.40882 15.4394 4.90782C15.5017 5.00345 15.5567 5.11345 15.6667 5.33333C15.7216 5.44329 15.7491 5.49827 15.7803 5.54609C15.943 5.79559 16.2083 5.95961 16.5042 5.9935C16.561 6 16.6224 6 16.7454 6H17.8C18.9201 6 19.4802 6 19.908 6.21799C20.2843 6.40973 20.5903 6.71569 20.782 7.09202C21 7.51984 21 8.0799 21 9.2V16.8C21 17.9201 21 18.4802 20.782 18.908C20.5903 19.2843 20.2843 19.5903 19.908 19.782C19.4802 20 18.9201 20 17.8 20H6.2C5.0799 20 4.51984 20 4.09202 19.782C3.71569 19.5903 3.40973 19.2843 3.21799 18.908C3 18.4802 3 17.9201 3 16.8Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>',
+		            '<svg  class="w-6 h-6 mr-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M6 6L6.80086 18.0129C6.871 19.065 6.90607 19.5911 7.13332 19.99C7.33339 20.3412 7.63517 20.6235 7.99889 20.7998C8.41202 21 8.94135 21 10 21M18 6L17.8 9M4 6H20M16 6L15.7294 5.18807C15.4671 4.40125 15.3359 4.00784 15.0927 3.71698C14.8779 3.46013 14.6021 3.26132 14.2905 3.13878C13.9376 3 13.523 3 12.6936 3H11.3064C10.477 3 10.0624 3 9.70951 3.13878C9.39792 3.26132 9.12208 3.46013 8.90729 3.71698C8.66405 4.00784 8.53292 4.40125 8.27064 5.18807L8 6M17 15.5V17H18.5M21 17C21 19.2091 19.2091 21 17 21C14.7909 21 13 19.2091 13 17C13 14.7909 14.7909 13 17 13C19.2091 13 21 14.7909 21 17Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>',
 		    ],
 		    [
 		        'label' => 'School',
 		        'url' => route('index.schools'),
 		        'active' => request()->routeIs('index.schools'),
 		        'icon' =>
-		            '<svg viewBox="0 0 24 24" fill="none" class="h-6 w-6 mr-2" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M21 10L12 5L3 10L6 11.6667M21 10L18 11.6667M21 10V10C21.6129 10.3064 22 10.9328 22 11.618V16.9998M6 11.6667L12 15L18 11.6667M6 11.6667V17.6667L12 21L18 17.6667L18 11.6667" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>',
+		            '<svg class="w-6 h-6 mr-2" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><title>ionicons-v5-q</title><polygon points="32 192 256 64 480 192 256 320 32 192" style="fill:none;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"></polygon><polyline points="112 240 112 368 256 448 400 368 400 240" style="fill:none;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"></polyline><line x1="480" y1="368" x2="480" y2="192" style="fill:none;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"></line><line x1="256" y1="320" x2="256" y2="448" style="fill:none;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"></line></g></svg>',
 		    ],
 		    [
 		        'label' => 'School Accounts',
 		        'url' => route('user.schools'),
 		        'active' => request()->routeIs('user.schools'),
 		        'icon' =>
-		            '<svg viewBox="0 0 24 24" fill="none" class="h-6 w-6 mr-2" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M16 7C16 9.20914 14.2091 11 12 11C9.79086 11 8 9.20914 8 7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M12 14C8.13401 14 5 17.134 5 21H19C19 17.134 15.866 14 12 14Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>',
+		            '<svg class="w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M 33.7033 50.6023 C 45.8956 50.6023 56 40.4980 56 28.3056 C 56 16.1355 45.8735 6.0088 33.6809 6.0088 C 22.4539 6.0088 12.9559 14.6536 11.6086 25.5437 C 18.5918 25.6560 24.4523 30.7755 25.6648 37.4668 C 28.0449 36.4563 30.8068 35.8725 33.7033 35.8725 C 39.2269 35.8725 44.0994 37.9383 47.0632 41.1267 C 43.6952 44.6071 38.9575 46.8076 33.6809 46.8076 C 30.5822 46.8076 27.6632 46.0217 25.1034 44.6969 C 24.6993 45.8870 24.1604 47.0096 23.4194 48.0650 C 26.5405 49.6817 30.0209 50.6023 33.7033 50.6023 Z M 33.6809 32.1002 C 29.3921 32.1002 26.1363 28.3505 26.1363 23.6800 C 26.1363 19.2566 29.4595 15.4170 33.6809 15.4170 C 37.9246 15.4170 41.2703 19.2566 41.2478 23.6800 C 41.2478 28.3505 37.9920 32.1002 33.6809 32.1002 Z M 11.4066 51.4555 C 17.6712 51.4555 22.8132 46.3360 22.8132 40.0489 C 22.8132 33.8068 17.6712 28.6424 11.4066 28.6424 C 5.1644 28.6424 0 33.8068 0 40.0489 C 0 46.3360 5.1644 51.4555 11.4066 51.4555 Z M 11.4066 41.8453 C 10.6656 41.8453 10.1267 41.3513 10.1043 40.6103 L 9.9246 34.4130 C 9.9022 33.5373 10.5084 32.9311 11.4066 32.9311 C 12.3272 32.9311 12.9110 33.5373 12.8885 34.4130 L 12.7089 40.6103 C 12.6865 41.3513 12.1700 41.8453 11.4066 41.8453 Z M 11.4066 47.2117 C 10.3961 47.2117 9.5654 46.3809 9.5654 45.3705 C 9.5654 44.3601 10.3961 43.5293 11.4066 43.5293 C 12.4395 43.5293 13.2478 44.3601 13.2478 45.3705 C 13.2478 46.3809 12.4395 47.2117 11.4066 47.2117 Z"></path></g></svg>',
 		    ],
 		];
 	@endphp
-
-	<div
-		class="sidebar-title relative flex items-center gap-3 text-sm md:text-base px-4 py-3 mt-10 mx-2 rounded-xl font-semibold">
-
-		<span class="title-icon">
-			<svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-					d="M9.75 17L4.5 12l5.25-5M14.25 17l5.25-5-5.25-5" />
-			</svg>
-		</span>
-		DCP Admin Portal
-	</div>
-	<div id="current-time-date" class="w-full text-center font-medium tracking-wide mt-2"></div>
-
-	<hr class="my-5 border-gray-200">
-
 	<nav class="mt-4 space-y-1 sidebar-nav">
 		@foreach ($topLinks as $link)
 			<div class=" tracking-wider mt-3">
 				<a href="{{ $link['url'] }}"
-					class="nav-link relative font-medium flex justify-start text-sm md:text-base  mx-2 rounded-md transition-all
+					class="nav-link relative flex  justify-start text-sm md:text-lg  mx-2 rounded-md transition-all
 					{{ $link['active'] ? 'active' : '' }}">
 					{!! $link['icon'] !!}
-
 					{{ $link['label'] }}
 				</a>
 			</div>
@@ -196,20 +183,22 @@
 		@foreach ($navCategories as $category => $links)
 			<div class="tracking-wider mt-3">
 
-				<div class="category-label flex items-center gap-2 px-4 py-2 mx-2 mt-4 rounded-lg"> <span class="category-icon">
-						<!-- example icon -->
-						<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
-							<path d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V7l-6-4H4z" />
-						</svg>
-					</span>
-					{{ $category }}
+				<div class="flex items-center gap-2 text-sm md:text-lg px-4 py-2 mx-2 mt-4">
+					{{ $category }} <x-badge color="blue">Feature</x-badge>
 				</div>
 				@foreach ($links as $link)
 					<a href="{{ $link['url'] }}" style="letter-spacing:0.05rem;"
-						class="flex flex justify-start font-medium text-sm nav-link rounded-md md:text-base px-4 py-2   
+						class="flex flex justify-start text-sm md:text-lg nav-link rounded-md md:text-base px-4 py-2
 						{{ $link['active'] ? 'active' : '' }}">
 						{!! $link['icon'] !!}
 						{{ $link['label'] }}
+                        @if (isset($link['new']) && $link['new'])
+                                @if ($link['active'])
+                                <div class="ml-auto"> <x-badge color="white">Core</x-badge></div>
+                                @else
+                                <div class="ml-auto"> <x-badge color="green">Core</x-badge></div>
+                                @endif
+                        @endif
 
 					</a>
 				@endforeach

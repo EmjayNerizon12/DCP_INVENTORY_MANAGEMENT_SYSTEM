@@ -103,26 +103,25 @@
 
     /* --- SIDEBAR BASE --- */
     .sidebar {
-
         position: fixed;
         top: 50;
         left: 0;
         height: 100vh;
         width: 280px;
-        box-shadow: 0px 0 5px rgba(0, 0, 0, 0.4);
+        box-shadow: 0 0 10px rgba(15, 23, 42, 0.08);
         overflow-y: auto;
         transition: left 0.5s eas e;
         /* ONLY LEFT! */
         z-index: 50;
-        background-color: #1E2A5A;
-        color: white;
+        background-color: #ffffff;
+        color: #1f2937;
         overflow-y: scroll;
         /* keeps scroll functionality */
         scrollbar-width: none;
         /* Firefox */
         -ms-overflow-style: none;
         /* IE/Edge */
-        border-right: 1px solid rgba(255, 255, 255, 0.1);
+        border-right: 1px solid #e5e7eb;
     }
 
     .sidebar::-webkit-scrollbar {
@@ -149,36 +148,23 @@
     }
 
     .sidebar-title {
-        background: rgba(47, 111, 228, 0.22);
-        color: #0f172a;
-
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-
-        border: 1px solid rgba(47, 111, 228, 0.35);
-        color: white;
-        box-shadow: 0 0 20px rgba(47, 111, 228, 0.35),
-            inset 0 0 0 1px rgba(255, 255, 255, 0.25);
-
+        background: #f8fafc;
+        color: #1e3a8a;
+        border: 1px solid #dbeafe;
+        box-shadow: none;
         letter-spacing: 0.05rem;
     }
 
     .title-icon {
         width: 35px;
         height: 35px;
-
         display: flex;
         align-items: center;
         justify-content: center;
-
-        background: rgba(47, 111, 228, 0.62);
+        background: #2563eb;
         color: #ffffff;
-
         border-radius: 8px;
-
-        box-shadow:
-            0 0 10px rgba(47, 111, 228, 0.6);
-
+        box-shadow: none;
         flex-shrink: 0;
     }
 
@@ -189,84 +175,32 @@
         margin: 0.25rem 1rem;
         transition: all 0.3s ease;
         display: flex;
-        font-size: 18px;
+        letter-spacing: 0.05rem;
         align-items: center;
         white-space: nowrap;
         position: relative;
-        font-weight: 400;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        letter-spacing: 0.05rem;
-        backdrop-filter: blur(10px);
+        font-family:'Segoe UI', Verdana, sans-serif;
         text-decoration: none;
+        color: #374151;
     }
 
 
     .nav-link:hover {
-        background: rgba(255, 255, 255, 0.1);
-        transform: translateX(4px);
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        background: #eff6ff;
+        color: #1d4ed8;
+        transform: none;
+        box-shadow: none;
         text-decoration: none;
     }
-
-    .category-label {
-        background: rgba(47, 111, 228, 0.16);
-        color: #0f172a;
-
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-
-        border: 1px solid rgba(47, 111, 228, 0.25);
-        letter-spacing: 0.06rem;
-        color: #ffffff;
-
-        box-shadow:
-            0 0 18px rgba(47, 111, 228, 0.25),
-            inset 0 0 0 1px rgba(255, 255, 255, 0.3);
-
-        transform: translateX(4px);
-    }
-
-    .category-icon {
-        width: 24px;
-        height: 24px;
-
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        background: rgba(47, 111, 228, 0.62);
-        color: #ffffff;
-
-        border-radius: 6px;
-
-        box-shadow:
-            0 0 8px rgba(47, 111, 228, 0.5);
-
-        flex-shrink: 0;
-    }
-
-
     .nav-link.active {
         background: #2F6FE4;
-        /* translucent blue */
         color: #ffffff;
-
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        font-weight: 700;
-        font-size: 1.05rem;
         letter-spacing: 0.05rem;
-
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-
-        border: 1px solid rgba(255, 255, 255, 0.25);
-        border-radius: 10px;
-
-        box-shadow:
-            0 8px 24px rgba(47, 111, 228, 0.35),
-            inset 0 0 0 1px rgba(255, 255, 255, 0.2);
-
-        transform: translateX(4px);
+        border: 1px solid #2F6FE4;
+        border-radius: 12px;
+        box-shadow: none;
+        transform: none;
     }
 
     .nav-link svg {
@@ -285,7 +219,7 @@
     .nav-link:hover svg,
     .nav-link.active svg {
         opacity: 1;
-        transform: scale(1.1);
+        transform: none;
     }
 
 
