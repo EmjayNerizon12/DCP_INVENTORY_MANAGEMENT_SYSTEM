@@ -14,7 +14,7 @@
             </div>
             <div style="letter-spacing: 0.05rem">
                 <h2 class="text-2xl font-bold text-gray-700" style="font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
-                    Admin Account
+                    Administrator
                 </h2>
                 <div class="text-md text-gray-600">Manage your admin credentials and account security.</div>
             </div>
