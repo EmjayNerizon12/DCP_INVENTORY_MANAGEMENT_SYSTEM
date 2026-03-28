@@ -18,9 +18,11 @@ class DatabaseSeeder extends Seeder
         $this->call([
             SchoolGradeLevelSeeder::class,
             SchoolAndSchoolUserSeeder::class,
+            DCPWarrantyStatusSeeder::class,
             DCPItemTypeSeeder::class,
             DCPPackageTypeSeeder::class,
             DCPBatchSeeder::class,
+            DCPCurrentConditionSeeder::class,
         ]);
     }
 }
