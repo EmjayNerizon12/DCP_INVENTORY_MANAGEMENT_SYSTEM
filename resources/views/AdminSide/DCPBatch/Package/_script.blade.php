@@ -154,7 +154,7 @@
 					return `
 						<div class="rounded-sm shadow-lg bg-white overflow-hidden border border-gray-300">
 							<div class="p-4 flex justify-between md:flex-row flex-col items-center gap-2">
-								<div class="tracking-wider text-left text-lg font-bold w-full">
+								<div class="tracking-wider text-left text-lg font-semibold w-full">
 									${pkgIndex + 1}. <span>${escapeHtml(pkg.name)}</span>
 									<div class="flex flex-start gap-2">
 										<x-badge color="blue">Product: ${productCount}</x-badge>
@@ -177,10 +177,10 @@
 										data-action="insert-product"
 										data-package-id="${escapeAttr(pkg.id)}"
 										data-package-name="${escapeAttr(pkg.name)}"
-									> 	
+									>
 										Add Product
 									</button>
-								
+
 									<button
 										type="button"
 										class="btn-delete px-2 py-1 rounded"
