@@ -27,7 +27,7 @@
 							<h3 class="dashboard-card-value">{{ $totalSchools }}</h3>
 						</div>
 						<div class="flex justify-end items-center ">
-							<a href="{{ url('Schools/index') }}" class="admin-button btn-submit px-4 py-1 rounded">
+							<a href="{{ route('index.schools') }}" class="admin-button btn-submit px-4 py-1 rounded">
 								Schools
 							</a>
 						</div>
@@ -58,7 +58,7 @@
 						</div>
 
 						<div class="flex justify-end items-center  ">
-							<a href="{{ url('Admin/DCPBatch/index') }}" class="admin-button btn-green px-4 py-1 rounded">
+							<a href="{{ route('index.batch') }}" class="admin-button btn-green px-4 py-1 rounded">
 								Batches
 							</a>
 						</div>
@@ -85,7 +85,7 @@
 						</div>
 
 						<div class="flex justify-end items-center ">
-							<a href="{{ url('item-type') }}" class="admin-button btn-update px-4 py-1 rounded">
+							<a href="{{ route('index.dcp.items') }}" class="admin-button btn-update px-4 py-1 rounded">
 								Items
 							</a>
 						</div>
@@ -110,7 +110,7 @@
 						</div>
 
 						<div class="flex justify-end items-center ">
-							<a href="{{ url('package-type/create') }}" class="admin-button btn-delete px-4 py-1 rounded">
+							<a href="{{ route('index.dcp.package') }}" class="admin-button btn-delete px-4 py-1 rounded">
 								Packages
 							</a>
 						</div>
