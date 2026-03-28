@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\Rule;
 
 class AdminController extends Controller
 {
@@ -158,7 +159,37 @@ class AdminController extends Controller
 
     public function account()
     {
-        return view('AdminSide.Account.index');
+        $adminUser = SchoolUser::whereNull('pk_school_id')->first();
+
+        return view('AdminSide.Account.index', compact('adminUser'));
+    }
+
+    public function change_username(Request $request)
+    {
+        $adminUser = SchoolUser::whereNull('pk_school_id')->first();
+
+        if (! $adminUser) {
+            return back()->with('error', 'Admin account not found.');
+        }
+
+        $validated = $request->validate([
+            'username' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('school_users', 'username')->ignore($adminUser->id),
+            ],
+        ]);
+
+        if ($validated['username'] === $adminUser->username) {
+            return back()->withErrors(['username' => 'New username cannot be the same as the current username.']);
+        }
+
+        $adminUser->update([
+            'username' => $validated['username'],
+        ]);
+
+        return back()->with('success', 'Username changed successfully.');
     }
 
     public function change_password(Request $request)
@@ -169,7 +200,11 @@ class AdminController extends Controller
             'new_password' => 'required|min:8|confirmed',
         ]);
 
-        $user = SchoolUser::where('default_password', 'admin')->first();
+        $user = SchoolUser::whereNull('pk_school_id')->first();
+
+        if (! $user) {
+            return back()->with('error', 'Admin account not found.');
+        }
 
         if (! Hash::check($request->current_password, $user->password)) {
             return back()->withErrors(['current_password' => 'Current password is incorrect.']);
