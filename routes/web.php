@@ -206,6 +206,7 @@ Route::post('Admin/CCTV-Biometrics/submit', [EquipmentController::class, 'store'
 Route::put('Admin/CCTV-Biometrics/update', [EquipmentController::class, 'update'])->name('equipment.update');
 Route::delete('Admin/CCTV-Biometrics/delete/{id}/{type}', [EquipmentController::class, 'destroy'])->name('equipment.delete');
 Route::get('Admin/Account', [AdminController::class, 'account'])->name('admin.account.index');
+Route::put('Admin/change-username', [AdminController::class, 'change_username'])->name('admin.change.username');
 Route::put('Admin/reset-school-user-password', [SchoolAccountController::class, 'reset_password'])->name('admin.reset.school_user.password');
 Route::put('Admin/change-password', [AdminController::class, 'change_password'])->name('admin.change.password');
 
