@@ -1,5 +1,5 @@
 @import "tailwindcss";
- 
+
 
 @layer components {
 
@@ -7,7 +7,7 @@
         @apply xl:w-16 xl:h-16 h-12 w-12 rounded-full flex items-center justify-center;
     }
     .dashboard-icon-container{
-        @apply bg-white p-1 rounded-full shadow-md border border-gray-300 flex items-center justify-center shadow;
+        @apply bg-white p-1 rounded-full shadow-md border border-gray-300 mx-auto flex items-center justify-center shadow;
     }
     .dashboard-container{
         @apply flex flex-col justify-center items-center w-full gap-4;

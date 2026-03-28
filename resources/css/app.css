@@ -39,7 +39,7 @@
     }
     button {
           border: 1px solid rgba(255,255,255,0.12);
-          
+
     @apply whitespace-nowrap sm:text-base text-sm;
   /* THIS creates the reflection look */
         box-shadow:
@@ -55,7 +55,7 @@
         @apply  bg-amber-400 text-white hover:bg-amber-500 sm:text-base text-sm font-medium tracking-wider;
     }
     .btn-delete{
-       
+
     transition: all .15s ease;
         @apply bg-red-600 text-white hover:bg-red-700 sm:text-base text-sm font-medium tracking-wider;
     }
@@ -86,7 +86,7 @@
     .large-text {
         @apply text-sm md:text-lg;
     }
-    .td-cell{   
+    .td-cell{
             @apply px-3 py-1 md:text-base text-xs text-black border border-gray-800;
             letter-spacing: 0.05rem;
     }
@@ -113,14 +113,14 @@
         background-color: #6b7280; /* gray-500 */
     }
     .top-header{
-        background-color: #16247B;  
+        background-color: #16247B;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         @apply text-white text-left border border-gray-800 uppercase font-bold md:text-lg text-sm  px-4 py-1 ;
     }
-    
+
     .sub-header{
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-       
+
         @apply bg-gray-200 text-black text-left tracking-wide border border-gray-800 font-medium md:text-base text-xs  px-4 py-1 ;
     }
     .secondary-header{
@@ -128,8 +128,8 @@
         @apply bg-amber-200 text-black tracking-wide text-left border border-gray-800 font-medium md:text-base text-xs  px-4 py-1  ;
     }
     .theme-button{
-        background-color: #01378E; 
-         
+        background-color: #01378E;
+
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         border: 1px solid rgba(255,255,255,0.12);
 
@@ -142,11 +142,11 @@
         @apply text-white px-4 py-1 rounded  sm:text-base text-sm  font-medium tracking-wider;
     }
     .theme-button:hover{
-        background-color: #012F6C; 
+        background-color: #012F6C;
     }
     .form-label{
         @apply block  text-black sm:text-base lg:text-lg text-sm font-normal font-sans  mb-1;
-      
+
     }
     .form-input{
         @apply sm:text-base lg:text-lg text-sm  border border-gray-400 rounded-sm bg-white w-full px-3 py-1 focus:outline-none focus:ring-1 focus:ring-gray-500 focus:border-gray-500  ;
@@ -167,7 +167,7 @@
         @apply text-sm md:text-base font-medium text-gray-800;
     }
     .card-macaron-value {
-        @apply text-lg md:text-xl font-semibold text-gray-800;  
+        @apply text-lg md:text-xl font-semibold text-gray-800;
     }
     .dashboard-title{
         @apply text-xl md:text-2xl font-bold text-gray-800  ;
@@ -179,8 +179,8 @@
     @apply flex justify-center items-center ;
      }
     .dashboard-loading-component {
-        @apply w-12 h-12 border-[5px] border-transparent 
-           border-t-blue-500 border-r-blue-500 border-b-blue-500 
+        @apply w-12 h-12 border-[5px] border-transparent
+           border-t-blue-500 border-r-blue-500 border-b-blue-500
            rounded-full animate-spin;
     }
    .spinner-xs {

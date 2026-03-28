@@ -65,8 +65,7 @@ return [
     |
     */
 
-   'timezone' => 'Asia/Manila', // or your preferred timezone
-
+    'timezone' => 'Asia/Manila', // or your preferred timezone
 
     /*
     |--------------------------------------------------------------------------
