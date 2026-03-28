@@ -2,44 +2,7 @@
 <title>@yield('title', 'DCP Dashboard')</title>
 
 @section('content')
-	<style>
-		.table {
-			border-collapse: collapse;
-			width: 100%;
-			border: 1px solid #282828;
-			font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-		}
 
-		.table th,
-		.table td {
-			border: 1px solid #989898;
-			padding: 10px;
-			text-align: left;
-		}
-
-		.table th {
-			background: #e9e9e9;
-			color: #333;
-		}
-
-		.school-rows {
-			text-align: center;
-		}
-
-		button {
-			font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-			letter-spacing: 0.05rem;
-			font-weight: 500 !important;
-		}
-
-		input,
-		textarea,
-		select {
-			border: 1px solid #ccc
-		}
-	</style>
-
-	<!-- Select2 (used in modals) -->
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 	<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
@@ -75,19 +38,18 @@
 			</div>
 		</div>
 
-		<div class="my-3 flex justify-end gap-2 w-full">
-			<button id="btnBatchList" type="button" class="theme-button px-4 py-1 rounded" onclick="showContainer1()">
-				Overview
-			</button>
-			<button id="btnSchoolBatch" type="button" class="btn-cancel px-4 py-1 rounded" onclick="showContainer2()">
-				Table
-			</button>
+		<div class="my-3 flex justify-end w-full">
+			<div class="w-full sm:w-40">
+				<label for="batchViewSelector" class="sr-only">Select batch view</label>
+				<select id="batchViewSelector" class="form-input" onchange="toggleBatchView(this.value)">
+					<option value="overview">Overview</option>
+					<option value="table">Table</option>
+				</select>
+			</div>
 		</div>
 
 		<div id="batch-list-display">
 			@include('AdminSide.DCPBatch.Batch._cards')
-			<div class="form-label">Search</div>
-			
 			<div class="flex w-full sm:max-w-sm items-stretch my-2 ">
 				<div class="bg-blue-600 flex items-center px-3 rounded-l h-10">
 					@include('svg.search-sm')
@@ -95,7 +57,7 @@
 				<input type="text" id="searchBatch"
 					class="form-input" />
 			</div>
-		
+
 			<div id="batchCardLoading" class="text-center text-gray-500 py-8">Loading batches...</div>
 			<div id="batchCardEmpty" class="text-center text-gray-500 py-8 hidden">No batches found.</div>
 			<div id="batchCardContainer" class="grid grid-cols-1 xl:grid-cols-3 sm:grid-cols-2 gap-4"></div>
@@ -103,17 +65,17 @@
 		</div>
 
 		<div id="school-batch-list" class="overflow-x-auto thin-scroll" style="display:none">
-			<table class="table bg-white">
+			<table class="table bg-white w-full">
 				<thead class="text-gray-700 uppercase text-md">
 					<tr class="top-header">
-						<td colspan="5">DCP Batch Cost per school</td>
+						<th colspan="5" class="p-1">DCP Batch Cost per school</th>
 					</tr>
-					<tr class="sub-header">
-						<td class="text-center">No.</td>
-						<td>School Name</td>
-						<td>School Level</td>
-						<td class="text-center">Total Batch Received</td>
-						<td>Overall Cost</td>
+					<tr>
+						<th class="text-center sub-header">No.</th>
+						<th class="sub-header">School Name</th>
+						<th class="sub-header">School Level</th>
+						<th class="text-center sub-header">Total Batch Received</th>
+						<th class="sub-header">Overall Cost</td>
 					</tr>
 				</thead>
 				<tbody id="tbody-school"></tbody>
@@ -123,4 +85,3 @@
 
 	@include('AdminSide.DCPBatch.Batch._script')
 @endsection
-

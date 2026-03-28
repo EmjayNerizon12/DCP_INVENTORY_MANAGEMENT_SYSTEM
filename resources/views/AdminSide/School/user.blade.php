@@ -26,13 +26,14 @@
 				</div>
 			</div>
 		</div>
-		<div class="flex gap-2 my-2">
-			<button class="btn-submit px-4 py-1 rounded" id="btnDiv1" onclick="showDiv1()">
-				Cards
-			</button>
-			<button class="btn-cancel px-4 py-1 rounded" id="btnDiv2" onclick="showDiv2()">
-				List
-			</button>
+		<div class="flex justify-end my-2">
+			<div class="w-full sm:w-40">
+				<label for="viewSelector" class="sr-only">Select school user view</label>
+				<select id="viewSelector" data-switch-selector class="form-input" onchange="toggleUserView(this.value)">
+					<option value="0">Overview</option>
+					<option value="1">Table</option>
+				</select>
+			</div>
 		</div>
 		<div id="divContainer1">
 			<div class="flex w-full sm:max-w-sm my-2">
@@ -204,7 +205,7 @@
 
 		document.addEventListener('DOMContentLoaded', () => {
 			loadSchoolUsers('', 1);
-		}); 
+		});
 		async function getAccountList() {
 			const container = document.getElementById("list-account");
 			const response = await fetch('api-get-accounts?all=1');
@@ -232,8 +233,8 @@
                     <th class="secondary-header text-center">No.</th>
                     <th class="secondary-header">School Name</th>
                     <th class="secondary-header">School Level</th>
-                    <th class="secondary-header">Email Address</th> 
-                    <th class="secondary-header">Default Password</th> 
+                    <th class="secondary-header">Email Address</th>
+                    <th class="secondary-header">Default Password</th>
                 </tr>
             `;
 			const tbody = document.createElement('tbody');

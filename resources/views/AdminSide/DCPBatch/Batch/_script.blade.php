@@ -38,33 +38,28 @@
 		if (emptyEl) emptyEl.classList.toggle('hidden', !empty);
 	}
 
-	function showContainer1() {
-		document.getElementById('batch-list-display').style.display = 'block';
-		document.getElementById('school-batch-list').style.display = 'none';
+		function toggleBatchView(view) {
+			const batchListDisplay = document.getElementById('batch-list-display');
+			const schoolBatchList = document.getElementById('school-batch-list');
+			const selector = document.getElementById('batchViewSelector');
 
-		const btnSchoolBatch = document.getElementById('btnSchoolBatch');
-		const btnBatchList = document.getElementById('btnBatchList');
+			const showOverview = view !== 'table';
 
-		btnSchoolBatch.classList.remove('theme-button');
-		btnSchoolBatch.classList.add('btn-cancel');
+			batchListDisplay.style.display = showOverview ? 'block' : 'none';
+			schoolBatchList.style.display = showOverview ? 'none' : 'block';
 
-		btnBatchList.classList.remove('btn-cancel');
-		btnBatchList.classList.add('theme-button');
-	}
+			if (selector) {
+				selector.value = showOverview ? 'overview' : 'table';
+			}
+		}
 
-	function showContainer2() {
-		document.getElementById('batch-list-display').style.display = 'none';
-		document.getElementById('school-batch-list').style.display = 'block';
+		function showContainer1() {
+			toggleBatchView('overview');
+		}
 
-		const btnSchoolBatch = document.getElementById('btnSchoolBatch');
-		const btnBatchList = document.getElementById('btnBatchList');
-
-		btnBatchList.classList.remove('theme-button');
-		btnBatchList.classList.add('btn-cancel');
-
-		btnSchoolBatch.classList.remove('btn-cancel');
-		btnSchoolBatch.classList.add('theme-button');
-	}
+		function showContainer2() {
+			toggleBatchView('table');
+		}
 
 	function openCreateBatchModal() {
 		const form = document.getElementById('batch-create-form');
@@ -576,13 +571,13 @@
 				? `<x-badge color="red">No Batch Received</x-badge>`
 				: `<x-badge color="green">${escapeHtml(school.TotalBatch)} Batch Received</x-badge>`;
 			row.innerHTML = `
-				<td class="bg-white text-center">${index + 1}</td>
-				<td class="bg-white tracking-wide">${escapeHtml(school.SchoolName)}</td>
-				<td class="bg-white tracking-wide text-center">${escapeHtml(school.SchoolLevel)}</td>
-				<td class="font-bold text-lg whitespace-nowrap" style="text-align:center;">
+				<td class="td-cell text-center">${index + 1}</td>
+				<td class="td-cell">${escapeHtml(school.SchoolName)}</td>
+				<td class="td-cell text-center">${escapeHtml(school.SchoolLevel)}</td>
+				<td class="td-cell text-center">
 					${batchDisplay}
 				</td>
-				<td class="bg-white font-semibold whitespace-nowrap" style="text-align:right">
+				<td class="td-cell text-center font-semibold">
 					₱ ${Number(school.TotalCost || 0).toLocaleString('en-PH', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
 				</td>
 			`;
