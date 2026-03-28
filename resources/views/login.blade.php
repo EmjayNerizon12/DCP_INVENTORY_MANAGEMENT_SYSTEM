@@ -45,17 +45,6 @@
 					</p>
 				</div>
 
-				@if ($errors->any())
-					<div class="mb-4 rounded-md border border-red-300 bg-red-50 px-4 py-3 text-sm text-red-700">
-						Incorrect login credentials, please try again.
-						<ul class="mt-2 list-disc pl-5">
-							@foreach ($errors->all() as $error)
-								<li>{{ $error }}</li>
-							@endforeach
-						</ul>
-					</div>
-				@endif
-
 				<form class="space-y-5" onsubmit="event.preventDefault(); login();">
 					<div>
 						<label for="username"
@@ -94,16 +83,29 @@
 		</div>
 
 		<div id="login-modal" class="fixed inset-0 z-50 hidden">
-			<div class="fixed inset-0 bg-gray-500/60 transition-opacity"></div>
+			<div class="fixed inset-0 bg-gray-950/50 backdrop-blur-sm transition-opacity" data-close-login-modal></div>
 			<div class="fixed inset-0 flex items-center justify-center p-4">
 				<div
-					class="w-full max-w-md transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all border border-gray-200">
-					<div class="px-6 py-5">
-						<div id="status-text" class="text-[0.94rem] leading-6 text-gray-700"></div>
+					class="w-full max-w-md transform overflow-hidden rounded-2xl bg-white text-left shadow-2xl transition-all border border-gray-200">
+					<div class="px-6 py-6">
+						<div class="flex items-start gap-4">
+							<div id="status-icon-wrapper"
+								class="flex h-12 w-12 items-center justify-center rounded-xl border shrink-0">
+								<div id="status-icon"></div>
+							</div>
+							<div class="flex-1">
+								<h3 id="status-title" class="text-lg font-semibold text-gray-950"></h3>
+								<div id="status-text" class="mt-2 text-sm leading-6 text-gray-600"></div>
+							</div>
+						</div>
 					</div>
-					<div class="px-6 py-3 flex justify-end">
+					<div class="px-6 py-4 flex justify-end gap-3 bg-gray-50 border-t border-gray-100">
+						<button id="modal-cancel-button" type="button"
+							class="hidden justify-center rounded-xl border border-gray-300 bg-white px-4 py-2.5 text-[0.9rem] font-medium text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2 shadow-none">
+							Cancel
+						</button>
 						<button id="modal-button"
-							class="shadow inline-flex justify-center rounded-md border border-transparent bg-gray-800 px-4 py-2 text-[0.9rem] font-medium text-white hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2">
+							class="inline-flex justify-center rounded-xl border border-transparent bg-gray-800 px-4 py-2.5 text-[0.9rem] font-medium text-white hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 shadow-none">
 							Continue
 						</button>
 					</div>
@@ -117,6 +119,13 @@
 			const eyeIcon = document.getElementById('eyeIcon');
 			const loginButton = document.getElementById('login-button-submit');
 			const usernameInput = document.getElementById('username');
+			const loginModal = document.getElementById('login-modal');
+			const modalButton = document.getElementById('modal-button');
+			const modalCancelButton = document.getElementById('modal-cancel-button');
+			const statusTitle = document.getElementById('status-title');
+			const statusText = document.getElementById('status-text');
+			const statusIcon = document.getElementById('status-icon');
+			const statusIconWrapper = document.getElementById('status-icon-wrapper');
 
 			togglePassword.addEventListener('click', () => {
 				const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
@@ -134,15 +143,66 @@
 				}
 			});
 
-			async function login() {
-				const modal = document.getElementById('login-modal');
-				const modalButton = document.getElementById('modal-button');
-				const statusText = document.getElementById('status-text');
-				const successButtonClasses =
-					'inline-flex justify-center shadow rounded-md border border-transparent bg-gray-800 px-4 py-2 text-sm font-medium text-white hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2';
-				const errorButtonClasses =
-					'inline-flex justify-center shadow rounded-md border border-transparent bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2';
+			function openLoginModal() {
+				loginModal.classList.remove('hidden');
+				document.body.classList.add('overflow-hidden');
+			}
 
+			function closeLoginModal() {
+				loginModal.classList.add('hidden');
+				document.body.classList.remove('overflow-hidden');
+			}
+
+			function setLoginModalState({
+				type,
+				title,
+				message,
+				confirmText,
+				onConfirm,
+				showCancel = false,
+			}) {
+				const isSuccess = type === 'success';
+
+				statusTitle.textContent = title;
+				statusText.innerHTML = message;
+				statusIconWrapper.className =
+					`flex h-12 w-12 items-center justify-center rounded-xl border shrink-0 ${isSuccess ? 'bg-green-50 text-green-600 border-green-100' : 'bg-red-50 text-red-600 border-red-100'}`;
+				statusIcon.innerHTML = isSuccess ?
+					`<svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<circle cx="12" cy="12" r="9" stroke-width="2"></circle>
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M8 12.5l2.5 2.5L16 9"></path>
+					</svg>` :
+					`<svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<path d="M12 8V13" stroke-width="2.2" stroke-linecap="round"></path>
+						<path d="M12 16H12.01" stroke-width="2.2" stroke-linecap="round"></path>
+						<circle cx="12" cy="12" r="9" stroke-width="2"></circle>
+					</svg>`;
+
+				modalButton.textContent = confirmText;
+				modalButton.className = isSuccess ?
+					'inline-flex justify-center rounded-xl border border-transparent bg-gray-900 px-4 py-2.5 text-[0.9rem] font-medium text-white hover:bg-black focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 shadow-none' :
+					'inline-flex justify-center rounded-xl border border-transparent bg-red-600 px-4 py-2.5 text-[0.9rem] font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 shadow-none';
+				modalButton.onclick = onConfirm;
+
+				modalCancelButton.classList.toggle('hidden', !showCancel);
+				modalCancelButton.classList.toggle('inline-flex', showCancel);
+
+				openLoginModal();
+			}
+
+			document.querySelectorAll('[data-close-login-modal]').forEach((element) => {
+				element.addEventListener('click', closeLoginModal);
+			});
+
+			modalCancelButton.addEventListener('click', closeLoginModal);
+
+			document.addEventListener('keydown', (event) => {
+				if (event.key === 'Escape' && !loginModal.classList.contains('hidden')) {
+					closeLoginModal();
+				}
+			});
+
+			async function login() {
 				try {
 					loginButton.disabled = true;
 					loginButton.textContent = 'Signing In...';
@@ -161,92 +221,57 @@
 
 					const data = await response.json();
 
-					modal.classList.remove('hidden');
-
 					if (data.success) {
-						statusText.innerHTML = `
-                            <div class="flex gap-4 items-start">
-                                
-                                <div class="flex items-center justify-center w-12 h-12 rounded-full bg-green-100 shrink-0">
-                                    <svg class="w-12 h-12 text-green-600" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                                        <circle cx="12" cy="12" r="9"></circle>
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M8 12.5l2.5 2.5L16 9"></path>
-                                    </svg>
-                                </div>
-
-                                <div class="flex-1">
-                                    <h3 class="text-base sm:text-2xl font-semibold text-gray-900">
-                                    ${data.message}
-                                    </h3>
-
-                                    <p class="mt-1 text-sm sm:text-base text-gray-600 leading-relaxed">
-                                          You have successfully logged into your account.
-                                    </p>
-                                </div>
-
-                            </div>
-                            `;
-						modalButton.className = successButtonClasses;
-						modalButton.textContent = 'Continue';
-						modalButton.onclick = function() {
-							window.location.href = data.redirect_url;
-						};
+						setLoginModalState({
+							type: 'success',
+							title: data.message ?? 'Login successful',
+							message: 'You have successfully logged into your account.',
+							confirmText: 'Continue',
+							onConfirm: function() {
+								window.location.href = data.redirect_url;
+							},
+						});
 					} else {
-						statusText.innerHTML = `
-                            <div class="flex gap-4 items-start">
-
-                                <div class="flex items-center justify-center w-12 h-12 rounded-full bg-red-100 shrink-0">
-                                    <svg class="w-12 h-12 text-red-600" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                                        <circle cx="12" cy="12" r="9"></circle>
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 9l-6 6"></path>
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 9l6 6"></path>
-                                    </svg>
-                                </div>
-
-                                <div class="flex-1">
-                                    <h3 class="text-base font-semibold text-gray-900">
-                                        Login Failed
-                                    </h3>
-
-                                    <p class="mt-1 text-sm sm:text-base text-gray-600 leading-relaxed">
-                                        ${data.message ?? "Invalid username or password. Please try again."}
-                                    </p>
-                                </div>
-
-                            </div>
-                            `;
-						modalButton.className = errorButtonClasses;
-						modalButton.textContent = 'Try Again';
-						modalButton.onclick = function() {
-							modal.classList.add('hidden');
-						};
+						setLoginModalState({
+							type: 'error',
+							title: 'Login failed',
+							message: data.message ?? 'Invalid username or password. Please try again.',
+							confirmText: 'Try Again',
+							showCancel: true,
+							onConfirm: function() {
+								closeLoginModal();
+							},
+						});
 					}
 				} catch (error) {
-					modal.classList.remove('hidden');
-					statusText.innerHTML =
-						`<div class="flex items-start gap-3">
-                        <div class="mt-0.5 h-10 w-10 rounded-full bg-red-100 text-red-700 flex items-center justify-center shrink-0">
-                            <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 8v5"></path>
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 16h.01"></path>
-                                <circle cx="12" cy="12" r="9" stroke-width="2"></circle>
-                            </svg>
-                        </div>
-                        <div>
-                            <p class="text-[0.98rem] font-semibold text-gray-900">Login failed</p>
-                            <p class="mt-1 text-[0.92rem] text-gray-600">Something went wrong.</p>
-                        </div>
-                    </div>`;
-					modalButton.className = errorButtonClasses;
-					modalButton.textContent = 'Try Again';
-					modalButton.onclick = function() {
-						modal.classList.add('hidden');
-					};
+					setLoginModalState({
+						type: 'error',
+						title: 'Login failed',
+						message: 'Something went wrong. Please try again.',
+						confirmText: 'Try Again',
+						showCancel: true,
+						onConfirm: function() {
+							closeLoginModal();
+						},
+					});
 				} finally {
 					loginButton.disabled = false;
 					loginButton.textContent = 'Sign In';
 				}
 			}
+
+			@if ($errors->any())
+				setLoginModalState({
+					type: 'error',
+					title: 'Login failed',
+					message: `{!! implode('<br>', $errors->all()) !!}`,
+					confirmText: 'Try Again',
+					showCancel: true,
+					onConfirm: function() {
+						closeLoginModal();
+					},
+				});
+			@endif
 		</script>
 	</body>
 
