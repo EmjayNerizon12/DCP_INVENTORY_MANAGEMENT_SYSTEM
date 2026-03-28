@@ -55,7 +55,7 @@
                       class="block px-4 py-2 text-gray-700 hover:bg-green-50">Account</a>
                   <a href="{{ route('admin.reports.index') }}"
                       class="block px-4 py-2 text-gray-700 hover:bg-green-50">Reports</a>
-                  <a href="{{ url('logout') }}" class="block px-4 py-2 text-red-600 hover:bg-red-50">Logout</a>
+                  <a href="{{ route('logout') }}" class="block px-4 py-2 text-red-600 hover:bg-red-50">Logout</a>
               </div>
           </div>
       </div>

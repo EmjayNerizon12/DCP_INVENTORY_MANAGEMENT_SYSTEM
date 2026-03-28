@@ -96,12 +96,88 @@
 
 		</div>
 
+        <div id="logoutConfirmModal" class="fixed inset-0 z-[120] hidden">
+            <div class="absolute inset-0 bg-gray-950/50 backdrop-blur-sm" data-close-logout-modal></div>
+
+            <div class="relative min-h-screen flex items-center justify-center p-4">
+                <div class="w-full max-w-md rounded-2xl border border-gray-200 bg-white shadow-2xl overflow-hidden">
+                    <div class="px-6 pt-6 pb-4">
+                        <div class="flex items-start gap-4">
+                            <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-red-50 text-red-600 border border-red-100">
+                                <svg viewBox="0 0 24 24" class="w-6 h-6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M15.75 9V5.25C15.75 4.00736 14.7426 3 13.5 3H6.75C5.50736 3 4.5 4.00736 4.5 5.25V18.75C4.5 19.9926 5.50736 21 6.75 21H13.5C14.7426 21 15.75 19.9926 15.75 18.75V15" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+                                    <path d="M18 12H9.75" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+                                    <path d="M14.25 8.25L18 12L14.25 15.75" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="text-lg font-semibold text-gray-950">Log out</h3>
+                                <p class="mt-2 text-sm leading-6 text-gray-600">
+                                    Are you sure you want to log out of the admin portal?
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center justify-end gap-3 px-6 py-4 bg-gray-50 border-t border-gray-100">
+                        <button type="button" id="cancelLogoutButton"
+                            class="px-4 py-2.5 rounded-xl border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-100 transition shadow-none">
+                            Cancel
+                        </button>
+                        <a href="{{ route('logout') }}" id="confirmLogoutButton"
+                            class="px-4 py-2.5 rounded-xl bg-red-600 text-sm font-semibold text-white hover:bg-red-700 transition shadow-none">
+                            Log out
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 	</body>
 	<script>
 		document.addEventListener('DOMContentLoaded', function() {
 			if (typeof renderIcons === 'function') {
 				renderIcons();
 			}
+
+            const logoutModal = document.getElementById('logoutConfirmModal');
+            const cancelLogoutButton = document.getElementById('cancelLogoutButton');
+            const logoutTriggers = document.querySelectorAll('[data-open-logout-modal]');
+            const logoutCloseTargets = document.querySelectorAll('[data-close-logout-modal]');
+
+            function openLogoutModal(event) {
+                if (event) {
+                    event.preventDefault();
+                }
+
+                if (!logoutModal) return;
+
+                logoutModal.classList.remove('hidden');
+                document.body.classList.add('overflow-hidden');
+            }
+
+            function closeLogoutModal() {
+                if (!logoutModal) return;
+
+                logoutModal.classList.add('hidden');
+                document.body.classList.remove('overflow-hidden');
+            }
+
+            logoutTriggers.forEach((trigger) => {
+                trigger.addEventListener('click', openLogoutModal);
+            });
+
+            logoutCloseTargets.forEach((target) => {
+                target.addEventListener('click', closeLogoutModal);
+            });
+
+            cancelLogoutButton?.addEventListener('click', closeLogoutModal);
+
+            document.addEventListener('keydown', function(event) {
+                if (event.key === 'Escape' && logoutModal && !logoutModal.classList.contains('hidden')) {
+                    closeLogoutModal();
+                }
+            });
 		});
 	</script>
 
