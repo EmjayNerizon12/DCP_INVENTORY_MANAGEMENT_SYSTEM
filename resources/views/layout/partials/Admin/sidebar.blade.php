@@ -4,7 +4,7 @@
 		    'DCP Item' => [
 		        [
 		            'label' => 'Product',
-                    'new' => true,
+                    'core' => true,
 		            'url' => route('index.dcp.items'),
 		            'active' => request()->routeIs('index.dcp.items'),
 		            'icon' => '<svg viewBox="0 0 24 24" class="w-10 h-10" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -22,7 +22,7 @@
 		        ],
 		        [
 		            'label' => 'Package',
-                    'new' => true,
+                    'core' => true,
 		            'url' => route('index.dcp.package'),
 		            'active' => request()->routeIs('index.dcp.package'),
 		            'icon' => '<svg viewBox="0 0 24 24" class="w-10 h-10" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -40,7 +40,7 @@
 		        ],
 		        [
 		            'label' => 'Batch',
-                    'new' => true,
+                    'core' => true,
 		            'url' => route('index.batch'),
 		            'active' => Request::is('Admin/DCPBatch/index'),
 		            'icon' => '<svg viewBox="0 0 24 24" class="w-10 h-10" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -58,7 +58,7 @@
 		        ],
 		        [
 		            'label' => 'Inventory',
-                    'new' => true,
+                    'core' => true,
 		            'url' => route('index.SchoolsInventory'),
 		            'active' => request()->routeIs('index.SchoolsInventory'),
 		            'icon' => '<svg viewBox="0 0 24 24" class="w-10 h-10" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -192,7 +192,7 @@
 						{{ $link['active'] ? 'active' : '' }}">
 						{!! $link['icon'] !!}
 						{{ $link['label'] }}
-                        @if (isset($link['new']) && $link['new'])
+                        @if (isset($link['core']) && $link['core'])
                                 @if ($link['active'])
                                 <div class="ml-auto"> <x-badge color="white">Core</x-badge></div>
                                 @else
