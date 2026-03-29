@@ -17,6 +17,7 @@ class AdminDashboardController extends Controller
     {
         return view('AdminSide.Dashboard.index');
     }
+
     public function getAssetAndDeprecationValue()
     {
         $totalAssetValue = DCPBatchItem::query()->sum('unit_price');
@@ -30,6 +31,7 @@ class AdminDashboardController extends Controller
         $totalBatches = DCPBatch::query()->count();
         $totalItems = DCPBatchItem::query()->count();
         $totalPackages = DCPPackageTypes::query()->count();
+
         return response()->json([
             'total_schools' => $totalSchools,
             'total_batches' => $totalBatches,
@@ -38,9 +40,10 @@ class AdminDashboardController extends Controller
             'disposed' => $totalDisposed,
             'functional' => $totalFunctional,
             'asset_value' => number_format((float) $totalAssetValue, 2, '.', ''),
-            'deprecation_value' => $totalDeprecationValue
+            'deprecation_value' => $totalDeprecationValue,
         ]);
     }
+
     public function get_current_condition_of_item()
     {
         $allConditions = \App\Models\DCPCurrentCondition::all();

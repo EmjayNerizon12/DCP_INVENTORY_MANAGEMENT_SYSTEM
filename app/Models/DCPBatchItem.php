@@ -54,10 +54,12 @@ class DCPBatchItem extends Model
         return Attribute::make(
             get: function () {
                 $startDate = $this->dcpItemWarranties?->warranty_start_date ?? null;
+
                 return $startDate ? Carbon::parse($startDate) : null;
             },
         );
     }
+
     public function computedDeprecationRate(): Attribute
     {
         return Attribute::make(
@@ -71,17 +73,20 @@ class DCPBatchItem extends Model
                     } else {
                         $deprecationRate = 0;
                     }
+
                     return $deprecationRate;
                 }
             }
         );
     }
+
     public function scopeOlderThanFiveYears($query)
     {
         return $query->whereHas('dcpItemWarranties', function ($q) {
             $q->where('warranty_start_date', '<=', now()->subYears(5));
         });
     }
+
     public function brand_details()
     {
         return $this->belongsTo(DCPBatchItemBrand::class, 'brand', 'pk_dcp_batch_item_brands_id');

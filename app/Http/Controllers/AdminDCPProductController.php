@@ -20,10 +20,10 @@ class AdminDCPProductController extends Controller
             'searchInput' => 'nullable|string',
         ]);
         $searchInput = $validated['searchInput'];
-        if (!$searchInput) {
+        if (! $searchInput) {
             return response()->json([]);
         }
-        $items = DCPBatchItem::where('generated_code', 'like', '%' . $searchInput . '%')->with(['dcpItemType'])->orderBy('generated_code', 'desc')
+        $items = DCPBatchItem::where('generated_code', 'like', '%'.$searchInput.'%')->with(['dcpItemType'])->orderBy('generated_code', 'desc')
             ->paginate(10);
 
         return response()->json($items);
