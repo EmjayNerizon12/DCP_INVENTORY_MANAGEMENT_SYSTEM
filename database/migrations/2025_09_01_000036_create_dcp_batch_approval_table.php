@@ -18,7 +18,7 @@ return new class extends Migration
             $table->timestamp('submitted_at')->useCurrent()->useCurrentOnUpdate();
             $table->timestamp('created_at')->nullable();
             $table->timestamp('updated_at')->nullable();
-            $table->index('dcp_batches_id', 'fk_dcp_batches_id');
+            $table->index('dcp_batches_id');
             $table->foreign('dcp_batches_id', 'fk_dcp_batches_id')
                 ->references('pk_dcp_batches_id')
                 ->on('dcp_batches')

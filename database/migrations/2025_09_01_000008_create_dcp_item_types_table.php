@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('name', 100);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
-            $table->unique('code', 'code');
+            $table->unique('code');
         });
     }
 

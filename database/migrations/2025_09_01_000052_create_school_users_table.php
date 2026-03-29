@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('remember_token', 100)->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
-            $table->index('pk_school_id', 'pk_school_id');
+            $table->index('pk_school_id');
             $table->foreign('pk_school_id', 'school_users_ibfk_1')
                 ->references('pk_school_id')
                 ->on('schools')

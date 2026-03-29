@@ -14,14 +14,10 @@ class DCPPackageTypeSeeder extends Seeder
     {
         $now = now();
 
-        DB::table('dcp_package_types')->upsert(
-            [
-                ['code' => 'PKG-A', 'name' => 'Package A', 'created_at' => $now, 'updated_at' => $now],
-                ['code' => 'PKG-B', 'name' => 'Package B', 'created_at' => $now, 'updated_at' => $now],
-                ['code' => 'PKG-C', 'name' => 'Package C', 'created_at' => $now, 'updated_at' => $now],
-            ],
-            ['code'],
-            ['name', 'updated_at']
-        );
+        DB::table('dcp_package_types')->insertOrIgnore([
+            ['code' => 'PKG-A', 'name' => 'Package A', 'created_at' => $now, 'updated_at' => $now],
+            ['code' => 'PKG-B', 'name' => 'Package B', 'created_at' => $now, 'updated_at' => $now],
+            ['code' => 'PKG-C', 'name' => 'Package C', 'created_at' => $now, 'updated_at' => $now],
+        ]);
     }
 }

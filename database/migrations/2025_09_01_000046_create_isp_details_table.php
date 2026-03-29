@@ -20,11 +20,7 @@ return new class extends Migration
             $table->integer('isp_internet_quality_id');
             $table->timestamp('created_at')->nullable();
             $table->timestamp('updated_at')->nullable();
-            $table->index('school_id', 'fk_school_id');
-            $table->index('isp_connection_type_id', 'fk_isp_connection_type_id');
-            $table->index('isp_internet_quality_id', 'fk_internet_quality_id');
-            $table->index('isp_list_id', 'fk_list_Id');
-            $table->index('isp_purpose_id', 'fk_isp_purpose_id');
+            $table->index('school_id');
             $table->foreign('isp_internet_quality_id', 'fk_internet_quality_id')
                 ->references('pk_isp_internet_quality_id')
                 ->on('isp_internet_quality');

@@ -50,21 +50,6 @@ class DCPBatchSeeder extends Seeder
             ];
         }
 
-        DB::table('dcp_batches')->upsert(
-            $rows,
-            ['batch_label'],
-            [
-                'dcp_package_type_id',
-                'school_id',
-                'description',
-                'email',
-                'budget_year',
-                'delivery_date',
-                'supplier_name',
-                'mode_of_delivery',
-                'submission_status',
-                'updated_at',
-            ]
-        );
+        DB::table('dcp_batches')->insert($rows);
     }
 }

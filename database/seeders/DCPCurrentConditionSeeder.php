@@ -22,6 +22,6 @@ class DCPCurrentConditionSeeder extends Seeder
             ['name' => 'Transferred'],
         ];
 
-        DB::table('dcp_current_conditions')->insert($conditions);
+        DB::table('dcp_current_conditions')->insertOrIgnore($conditions);
     }
 }

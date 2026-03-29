@@ -42,11 +42,11 @@ return new class extends Migration
             $table->integer('monitored')->default(0);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
-            $table->unique('generated_code', 'generated_code');
-            $table->unique(['generated_code', 'serial_number'], 'generated_code_2');
-            $table->unique('serial_number', 'serial_number');
-            $table->index('dcp_batch_id', 'dcp_batch_id');
-            $table->index('item_type_id', 'item_type_id');
+            $table->unique('generated_code');
+            $table->unique(['generated_code', 'serial_number']);
+            $table->unique('serial_number');
+            $table->index('dcp_batch_id');
+            $table->index('item_type_id');
             $table->foreign('dcp_batch_id', 'dcp_batch_items_ibfk_1')
                 ->references('pk_dcp_batches_id')
                 ->on('dcp_batches')

@@ -19,7 +19,6 @@ return new class extends Migration
             $table->string('ping', 100);
             $table->timestamp('created_at')->nullable();
             $table->timestamp('updated_at')->nullable();
-            $table->index('isp_details_id', 'fk_isp_details_id');
             $table->foreign('isp_details_id', 'fk_isp_details_id')
                 ->references('pk_isp_details_id')
                 ->on('isp_details')

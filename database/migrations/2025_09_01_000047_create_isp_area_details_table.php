@@ -17,8 +17,6 @@ return new class extends Migration
             $table->integer('isp_area_available_id');
             $table->timestamp('created_at')->nullable();
             $table->timestamp('updated_at')->nullable();
-            $table->index('isp_area_available_id', 'fk_isp_area_available_id');
-            $table->index('isp_details_id', 'fk_isp_list_details_id');
             $table->foreign('isp_area_available_id', 'fk_isp_area_available_id')
                 ->references('pk_isp_area_available_id')
                 ->on('isp_area_available');

@@ -26,8 +26,8 @@ return new class extends Migration
             $table->date('date_approved')->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
-            $table->index('dcp_package_type_id', 'dcp_package_type_id');
-            $table->index('school_id', 'school_id');
+            $table->index('dcp_package_type_id');
+            $table->index('school_id');
             $table->foreign('dcp_package_type_id', 'dcp_batches_ibfk_1')
                 ->references('pk_dcp_package_types_id')
                 ->on('dcp_package_types');

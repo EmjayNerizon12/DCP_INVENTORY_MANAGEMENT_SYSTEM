@@ -17,8 +17,6 @@ return new class extends Migration
             $table->integer('current_condition_id')->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
-            $table->index('dcp_batch_item_id', 'fk_batch_item_id');
-            $table->index('current_condition_id', 'fk_current_condition_id');
             $table->foreign('dcp_batch_item_id', 'fk_batch_item_id')
                 ->references('pk_dcp_batch_items_id')
                 ->on('dcp_batch_items');

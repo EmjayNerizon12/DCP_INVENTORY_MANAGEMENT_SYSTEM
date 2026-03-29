@@ -17,8 +17,8 @@ return new class extends Migration
             $table->integer('assigned_location_id')->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
-            $table->index('dcp_batch_item_id', 'dcp_batch_item_id');
-            $table->index('assigned_location_id', 'assigned_location_id');
+            $table->index('dcp_batch_item_id');
+            $table->index('assigned_location_id');
             $table->foreign('dcp_batch_item_id', 'dcp_item_assigned_location_ibfk_1')
                 ->references('pk_dcp_batch_items_id')
                 ->on('dcp_batch_items')

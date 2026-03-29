@@ -20,9 +20,6 @@ return new class extends Migration
             $table->integer('quantity');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
-            $table->index('dcp_item_types_id', 'dcp_item_types_id');
-            $table->index('dcp_package_types_id', 'dcp_package_types_id');
-            $table->index('dcp_batch_item_brands_id', 'fk_dcp_batch_item_brands_id');
             $table->foreign('dcp_item_types_id', 'dcp_package_content_ibfk_1')
                 ->references('pk_dcp_item_types_id')
                 ->on('dcp_item_types')

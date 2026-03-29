@@ -23,12 +23,6 @@ return new class extends Migration
             $table->integer('equipment_incharge_id')->nullable();
             $table->timestamp('created_at')->nullable();
             $table->timestamp('updated_at')->nullable();
-            $table->index('equipment_type_id', 'fk_equipment_type');
-            $table->index('equipment_brand_model_id', 'fk_brand_model');
-            $table->index('equipment_location_id', 'fk_location');
-            $table->index('equipment_incharge_id', 'fk_incharge');
-            $table->index('equipment_power_source_id', 'fk_power_source');
-            $table->index('equipment_installer_id', 'fk_installer');
             $table->foreign('equipment_brand_model_id', 'fk_brand_model')
                 ->references('pk_equipment_brand_model_id')
                 ->on('equipment_brand_model');

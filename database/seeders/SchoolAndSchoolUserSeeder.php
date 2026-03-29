@@ -88,22 +88,9 @@ class SchoolAndSchoolUserSeeder extends Seeder
             ],
         ];
 
-        DB::table('schools')->upsert(
-            $schools,
-            ['SchoolID'],
-            [
-                'SchoolName',
-                'SchoolLevel',
-                'Region',
-                'Division',
-                'District',
-                'Province',
-                'CityMunicipality',
-                'SchoolAddress',
-                'SchoolEmailAddress',
-                'updated_at',
-            ]
-        );
+        foreach ($schools as $school) {
+            DB::table('schools')->insert($school);
+        }
 
         $savedSchools = DB::table('schools')
             ->whereIn('SchoolID', array_column($schools, 'SchoolID'))

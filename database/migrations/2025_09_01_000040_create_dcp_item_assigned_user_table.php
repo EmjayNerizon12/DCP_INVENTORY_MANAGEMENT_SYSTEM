@@ -20,9 +20,9 @@ return new class extends Migration
             $table->date('date_returned')->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
-            $table->index('dcp_batch_item_id', 'dcp_batch_item_id');
-            $table->index('assignment_type_id', 'assignment_type_id');
-            $table->index('assigned_user_name', 'assigned_user_id');
+            $table->index('dcp_batch_item_id');
+            $table->index('assignment_type_id');
+            $table->index('assigned_user_name');
             $table->foreign('dcp_batch_item_id', 'dcp_item_assigned_user_ibfk_1')
                 ->references('pk_dcp_batch_items_id')
                 ->on('dcp_batch_items')

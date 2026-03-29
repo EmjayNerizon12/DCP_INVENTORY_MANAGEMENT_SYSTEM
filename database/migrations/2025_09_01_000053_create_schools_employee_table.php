@@ -50,14 +50,7 @@ return new class extends Migration
             $table->text('detailed_transfer_to')->nullable();
             $table->timestamp('created_at')->nullable();
             $table->timestamp('updated_at')->nullable();
-            $table->unique('deped_email', 'deped_email');
-            $table->index('school_id', 'fk_school_employee_id');
-            $table->index('position_title_id', 'fk_position_title_id_employee');
-            $table->index('ro_office_id', 'schools_employee_ro_office_id_foreign');
-            $table->index('sdo_office_id', 'schools_employee_sdo_office_id_foreign');
-            $table->index('position_id', 'schools_employee_position_id_foreign');
-            $table->index('cause_of_separation_id', 'schools_employee_cause_of_separation');
-            $table->index('sources_of_fund_id', 'school_employee_source_of_fund_id');
+            $table->unique('deped_email');
             $table->foreign('position_title_id', 'fk_position_title_id_employee')
                 ->references('pk_school_position_id')
                 ->on('position_title');

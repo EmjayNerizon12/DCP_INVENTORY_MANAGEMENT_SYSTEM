@@ -22,8 +22,7 @@ return new class extends Migration
             $table->integer('NonTeachingPersonnel')->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
-            $table->index('pk_school_id', 'pk_school_id');
-            $table->index('GradeLevelID', 'fk_grade_level');
+            $table->index('pk_school_id');
             $table->foreign('GradeLevelID', 'fk_grade_level')
                 ->references('GradeLevelID')
                 ->on('school_grade_levels')

@@ -20,9 +20,6 @@ return new class extends Migration
             $table->integer('no_of_functional')->nullable();
             $table->timestamp('created_at')->nullable();
             $table->timestamp('updated_at')->nullable();
-            $table->index('e_biometric_type_id', 'fk_e_biometric_type');
-            $table->index('equipment_details_id', 'fk_biometric_equipment_details');
-            $table->index('school_id', 'fk_school_id_biometric');
             $table->foreign('equipment_details_id', 'fk_biometric_equipment_details')
                 ->references('pk_equipment_details_id')
                 ->on('equipment_details')

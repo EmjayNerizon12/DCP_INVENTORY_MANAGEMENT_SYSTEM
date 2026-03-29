@@ -35,7 +35,6 @@ class DCPPackageTypeController extends Controller
                 'dcp_package_content.dcp_batch_item_brands_id as brand_id',
                 'dcp_batch_item_brands.brand_name as brand_name',
             )
-            ->orderByRaw("CAST(REGEXP_SUBSTR(dcp_package_types.name, '[0-9]{4}') AS UNSIGNED) DESC")
             ->orderBy('dcp_package_types.pk_dcp_package_types_id', 'desc')
             ->orderBy('dcp_package_content.pk_dcp_package_content_id', 'asc')
             ->get();

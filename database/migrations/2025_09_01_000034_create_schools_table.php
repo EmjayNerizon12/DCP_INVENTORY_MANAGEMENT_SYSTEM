@@ -47,7 +47,7 @@ return new class extends Migration
             $table->string('image_path', 255)->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
-            $table->index('SchoolLevel', 'fk_schools_gradelevel');
+            $table->index('SchoolLevel');
         });
     }
 

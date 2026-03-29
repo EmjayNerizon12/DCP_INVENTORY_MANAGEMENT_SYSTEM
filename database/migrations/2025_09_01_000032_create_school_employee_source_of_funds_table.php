@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name', 255);
             $table->timestamp('created_at')->nullable();
             $table->timestamp('updated_at')->nullable();
-            $table->unique('name', 'emp_source_of_funds_name_unique');
+            $table->unique('name');
         });
     }
 

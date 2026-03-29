@@ -24,8 +24,6 @@ return new class extends Migration
             $table->text('remarks')->nullable();
             $table->timestamp('created_at')->nullable();
             $table->timestamp('updated_at')->nullable();
-            $table->index('fund_source_id', 'fk_fund_source_id');
-            $table->index('school_id', 'fk_school_id_for_non_dcp');
             $table->foreign('fund_source_id', 'fk_fund_source_id')
                 ->references('pk_fund_source_id')
                 ->on('fund_source');
