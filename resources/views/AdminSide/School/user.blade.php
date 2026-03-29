@@ -18,12 +18,9 @@
 					</svg>
 				</div>
 			</div>
-			<div style="letter-spacing: 0.05rem  ">
-				<h2 class="text-2xl font-bold text-gray-700  " style="font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
-					School User Account
-				</h2>
-				<div class="text-md text-gray-600  ">School User Account List
-				</div>
+			<div>
+				<h2 class="page-title">School User Account</h2>
+				<div class="page-subtitle">School User Account List</div>
 			</div>
 		</div>
 		<div class="flex justify-end my-2">
@@ -45,15 +42,17 @@
 					</svg>
 				</div>
 				<input type="text" id="searchSchoolUser" placeholder="Search School..."
-					class="w-full border border-gray-300 border-l-0 rounded-r h-10 px-3 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+					class="form-input" />
 			</div>
 
 			<div id="schoolUsersCardContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2"></div>
 			<div id="schoolUsersPagination" class="flex flex-wrap justify-center gap-2 my-5"></div>
 
 		</div>
+        <div class="my-2">
+            <button class="btn-submit rounded px-4 py-1" onclick="window.print()">Print Document</button>
+        </div>
 		<div class="hidden border border-gray-200 shadow p-4 bg-white" id="divContainer2">
-			<button class="theme-button uppercase rounded px-4 py-1" onclick="window.print()">Print List</button>
 			<div id="printableArea" class="bg-white ">
 				<div id="list-account" class="bg-white"></div>
 			</div>
