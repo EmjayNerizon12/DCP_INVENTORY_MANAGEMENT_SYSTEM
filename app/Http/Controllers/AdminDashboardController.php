@@ -10,6 +10,7 @@ use App\Models\Equipment\EquipmentBiometricDetails;
 use App\Models\Equipment\EquipmentCCTVDetails;
 use App\Models\ISP\ISPDetails;
 use App\Models\School;
+use App\Models\SchoolEquipment\SchoolEquipment;
 
 class AdminDashboardController extends Controller
 {
@@ -122,9 +123,18 @@ class AdminDashboardController extends Controller
         $isp_count = ISPDetails::where('school_id', '!=', null)
             ->distinct('school_id')
             ->count('school_id');
-        $total_schools = School::all()->count();
 
-        return response()->json(['cctv_count' => $cctv_count, 'biometric_count' => $biometric_count, 'isp_count' => $isp_count, 'total_schools' => $total_schools]);
+        $school_equipment_count = SchoolEquipment::where('school_id', '!=', null)
+            ->distinct('school_id')
+            ->count('school_id');
+
+
+        return response()->json([
+            'cctv_count' => $cctv_count,
+            'biometric_count' => $biometric_count,
+            'isp_count' => $isp_count,
+            'school_equipment_count' => $school_equipment_count
+        ]);
     }
 
     public function get_item_categories()

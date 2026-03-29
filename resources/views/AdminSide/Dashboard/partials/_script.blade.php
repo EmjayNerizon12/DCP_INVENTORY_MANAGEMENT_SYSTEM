@@ -427,6 +427,18 @@
 								<rect x="3" y="8" width="12" height="8" rx="2" stroke-linecap="round" stroke-linejoin="round" />
 							</svg>
 						`
+					},
+					schoolEquipment: {
+						label: "Specific Equipment",
+						backgroundColor: "#6366F1",
+						icon: `
+							<svg class="w-10 h-10" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24">
+								<path d="M4 7.5L12 3L20 7.5L12 12L4 7.5Z" stroke-linecap="round" stroke-linejoin="round" />
+								<path d="M4 16.5L12 21L20 16.5" stroke-linecap="round" stroke-linejoin="round" />
+								<path d="M4 12L12 16.5L20 12" stroke-linecap="round" stroke-linejoin="round" />
+								<path d="M12 12V21" stroke-linecap="round" stroke-linejoin="round" />
+							</svg>
+						`
 					}
 				};
 
@@ -458,6 +470,10 @@
 					{
 						id: "cctv-card-content",
 						type: "cctv"
+					},
+					{
+						id: "school-equipment-card-content",
+						type: "schoolEquipment"
 					}
 				];
 
@@ -469,6 +485,7 @@
 					document.getElementById("isp-card-content").innerHTML = renderEquipmentCardContent("isp", res?.isp_count ?? 0);
 					document.getElementById("biometric-card-content").innerHTML = renderEquipmentCardContent("biometric", res?.biometric_count ?? 0);
 					document.getElementById("cctv-card-content").innerHTML = renderEquipmentCardContent("cctv", res?.cctv_count ?? 0);
+					document.getElementById("school-equipment-card-content").innerHTML = renderEquipmentCardContent("schoolEquipment", res?.school_equipment_count ?? 0);
 				} catch (error) {
 					console.error('Error fetching equipment counts:', error);
 					cardTargets.forEach((card) => {

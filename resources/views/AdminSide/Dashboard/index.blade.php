@@ -103,20 +103,32 @@
             </div>
         </div>
 
-        <!-- CCTV Card -->
-        <div class="bg-white shadow-md rounded-md border border-gray-300 p-5 flex flex-col gap-3">
-            <div id="cctv-card-content" class="flex flex-col gap-3">
-                <div class="dashboard-icon-container">
-                    <div class="h-16 w-16 rounded-full bg-gray-200 animate-pulse"></div>
+	        <!-- CCTV Card -->
+	        <div class="bg-white shadow-md rounded-md border border-gray-300 p-5 flex flex-col gap-3">
+	            <div id="cctv-card-content" class="flex flex-col gap-3">
+	                <div class="dashboard-icon-container">
+	                    <div class="h-16 w-16 rounded-full bg-gray-200 animate-pulse"></div>
                 </div>
                 <div>
                     <div class="h-4 w-28 rounded bg-gray-200 animate-pulse"></div>
                     <div class="h-8 w-16 rounded-md bg-gray-200 animate-pulse mt-3"></div>
                 </div>
-            </div>
-        </div>
+	            </div>
+	        </div>
 
-    </div>
+	        <div class="bg-white shadow-md rounded-md border border-gray-300 p-5 flex flex-col gap-3">
+	            <div id="school-equipment-card-content" class="flex flex-col gap-3">
+	                <div class="dashboard-icon-container">
+	                    <div class="h-16 w-16 rounded-full bg-gray-200 animate-pulse"></div>
+	                </div>
+	                <div>
+	                    <div class="h-4 w-40 rounded bg-gray-200 animate-pulse"></div>
+	                    <div class="h-8 w-16 rounded-md bg-gray-200 animate-pulse mt-3"></div>
+	                </div>
+	            </div>
+	        </div>
+
+	    </div>
 
     <div class="md:text-xl text-lg font-semibold text-gray-800 my-2 mt-5">Product Value Summary</div>
     <div class="grid grid-cols-1 overflow-x-auto">
