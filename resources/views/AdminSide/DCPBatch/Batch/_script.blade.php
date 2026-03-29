@@ -287,19 +287,21 @@
 		return expanded;
 	}
 
-	function toggleBatchDetails(batchId) {
-		const details = document.getElementById(`batch-details-${batchId}`);
-		const btn = document.getElementById(`toggle-batch-details-${batchId}`);
-		if (!details) return;
+		function toggleBatchDetails(batchId) {
+			const details = document.getElementById(`batch-details-${batchId}`);
+			const btn = document.getElementById(`toggle-batch-details-${batchId}`);
+			if (!details) return;
 
-		details.classList.toggle('hidden');
-		details.classList.toggle('block');
+			details.classList.toggle('hidden');
+			details.classList.toggle('block');
 
-		if (btn) {
-			const label = btn.querySelector('span');
-			if (label) label.textContent = details.classList.contains('hidden') ? 'View' : 'Hide';
+			if (btn) {
+				const isHidden = details.classList.contains('hidden');
+				btn.setAttribute('aria-expanded', String(!isHidden));
+				btn.setAttribute('aria-label', isHidden ? 'Show batch details' : 'Hide batch details');
+				btn.classList.toggle('rotate-180', !isHidden);
+			}
 		}
-	}
 
 	function statusBadge(batch) {
 		if (batch.approval_status === 'Pending') {
@@ -352,9 +354,18 @@
 								<x-badge color="green">${escapeHtml(batch.school_level || '')}</x-badge>
 							</div>
 						</div>
-						<button id="toggle-batch-details-${batch.id}" type="button" class="btn-cancel px-3 py-1 rounded" data-action="toggle" data-batch-id="${batch.id}">
-							<span>View</span>
-						</button>
+							<button
+								id="toggle-batch-details-${batch.id}"
+								type="button"
+								class="p-0 text-gray-500 transition-transform duration-200 hover:text-[#0B3C8A] focus:outline-none shadow-none border-0 bg-transparent"
+								data-action="toggle"
+								data-batch-id="${batch.id}"
+								aria-expanded="false"
+								aria-label="Show batch details">
+								<svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24" aria-hidden="true">
+									<path d="M6 9L12 15L18 9" stroke-linecap="round" stroke-linejoin="round" />
+								</svg>
+							</button>
 					</div>
 
 					<div id="batch-details-${batch.id}" data-batch-id="${batch.id}" class="js-batch-details mt-3 hidden">
