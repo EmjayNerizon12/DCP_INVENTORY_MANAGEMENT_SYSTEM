@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Models\SchoolEquipment\SchoolEquipment;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 
 class DCPBatchItem extends Model
@@ -47,6 +49,39 @@ class DCPBatchItem extends Model
         'quantity' => 'integer',
     ];
 
+    public function itemStartedDate(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                $startDate = $this->dcpItemWarranties?->warranty_start_date ?? null;
+                return $startDate ? Carbon::parse($startDate) : null;
+            },
+        );
+    }
+    public function computedDeprecationRate(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                $startDate = $this->item_started_date;
+                if ($startDate instanceof Carbon) {
+                    $now = Carbon::now();
+                    $yearsPassed = $startDate->diffInYears($now);
+                    if ($yearsPassed <= 5) {
+                        $deprecationRate = ($this->unit_price * 0.95) / 5;
+                    } else {
+                        $deprecationRate = 0;
+                    }
+                    return $deprecationRate;
+                }
+            }
+        );
+    }
+    public function scopeOlderThanFiveYears($query)
+    {
+        return $query->whereHas('dcpItemWarranties', function ($q) {
+            $q->where('warranty_start_date', '<=', now()->subYears(5));
+        });
+    }
     public function brand_details()
     {
         return $this->belongsTo(DCPBatchItemBrand::class, 'brand', 'pk_dcp_batch_item_brands_id');

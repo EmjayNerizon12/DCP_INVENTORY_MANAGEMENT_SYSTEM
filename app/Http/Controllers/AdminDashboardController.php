@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\DCPBatch;
 use App\Models\DCPBatchItem;
 use App\Models\DCPItemCondition;
+use App\Models\DCPPackageTypes;
 use App\Models\Equipment\EquipmentBiometricDetails;
 use App\Models\Equipment\EquipmentCCTVDetails;
 use App\Models\ISP\ISPDetails;
@@ -12,6 +13,34 @@ use App\Models\School;
 
 class AdminDashboardController extends Controller
 {
+    public function index()
+    {
+        return view('AdminSide.Dashboard.index');
+    }
+    public function getAssetAndDeprecationValue()
+    {
+        $totalAssetValue = DCPBatchItem::query()->sum('unit_price');
+        $totalDeprecationValue = DCPBatchItem::all()->sum('computed_deprecation_rate');
+        $totalDisposed = DCPBatchItem::whereHas('dcpItemWarranties', function ($q) {
+            $q->where('warranty_start_date', '<=', now()->subYears(5));
+        })->count();
+        $totalItems = DCPBatchItem::query()->count();
+        $totalFunctional = max($totalItems - $totalDisposed, 0);
+        $totalSchools = School::query()->count();
+        $totalBatches = DCPBatch::query()->count();
+        $totalItems = DCPBatchItem::query()->count();
+        $totalPackages = DCPPackageTypes::query()->count();
+        return response()->json([
+            'total_schools' => $totalSchools,
+            'total_batches' => $totalBatches,
+            'total_items' => $totalItems,
+            'total_packages' => $totalPackages,
+            'disposed' => $totalDisposed,
+            'functional' => $totalFunctional,
+            'asset_value' => number_format((float) $totalAssetValue, 2, '.', ''),
+            'deprecation_value' => $totalDeprecationValue
+        ]);
+    }
     public function get_current_condition_of_item()
     {
         $allConditions = \App\Models\DCPCurrentCondition::all();

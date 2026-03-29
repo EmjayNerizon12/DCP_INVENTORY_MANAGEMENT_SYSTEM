@@ -66,36 +66,17 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-Route::get('/test', function () {
-    return view('test-view');
-});
 Route::get('/', function () {
     return view('login');
 })->name('login')->middleware('loginMW');
-
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
-
 Route::post('login-submit', [LoginController::class, 'login'])->name('submit-login');
-
-Route::get('Admin/Dashboard/index', function () {
-
-    $totalSchools = DB::table('schools')->count();
-    $totalBatches = DCPBatch::all()->count();
-    $totalItems = DCPBatchItem::all()->count();
-    $totalPackages = DCPPackageTypes::all()->count();
-
-    return view('AdminSide.Dashboard.index', compact('totalSchools', 'totalBatches', 'totalItems', 'totalPackages'));
-})->name('admin.dashboard');
-
+Route::get('Admin/Dashboard/index', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
+Route::get('/Admin/Dashboard/api/asset-deprecation-value', [AdminDashboardController::class, 'getAssetAndDeprecationValue'])->name('admin.dashboard.api');
 Route::get('/Admin/SchoolUser/search', [SchoolDetailsController::class, 'search'])->name('user.search');
-
 Route::get('Admin/Product/Show/{code}', [AdminDCPProductController::class, 'showItem'])->name('index.product.view');
 Route::get('Admin/Product/Search', [AdminDCPProductController::class, 'searchPage'])->name('index.page.search');
 Route::post('Admin/Product/Api/search-product', [AdminDCPProductController::class, 'findItem'])->name('index.api.search');
-
 Route::get('Admin/SchoolsInventory/inventory', [DCPSchoolsInventoryController::class, 'inventory'])->name('index.SchoolsInventory');
 Route::get('Admin/SchoolsInventory/{code}', [DCPSchoolsInventoryController::class, 'showItems'])->name('show.SchoolsInventory');
 Route::get('Admin/DCPBatch/search', [DCPBatchController::class, 'search'])->name('search.batch');
