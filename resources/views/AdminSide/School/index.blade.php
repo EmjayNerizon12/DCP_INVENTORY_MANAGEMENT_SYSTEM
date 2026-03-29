@@ -93,17 +93,13 @@
 			</div>
 			<div style="letter-spacing: 0.05rem  ">
 				<h2 class="page-title">School Recipient</h2>
-				<div class="page-subtitle">List of Schools under DepEd Computerization Program
+				<div class="page-subtitle">DCP Package Recipient
 				</div>
 			</div>
 		</div>
 
-		<div class="my-2 sm:px-2 px-0 w-full flex justify-between sm:flex-row flex-col gap-2">
-			<div>
-				<button class="btn-submit px-4 h-10 rounded  text-base w-fit" onclick="openAddModal()" type="button">
-					Add School
-				</button>
-			</div>
+		<div class="my-2 w-full flex justify-between sm:flex-row flex-col gap-2">
+			
 			<div class="flex w-full sm:max-w-sm items-stretch">
 				<div class="bg-blue-600 flex items-center px-3 rounded-l h-10">
 					<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24"
@@ -114,6 +110,11 @@
 				</div>
 				<input type="text" id="searchSchool" placeholder="Search School..."
 					class="form-input" />
+			</div>
+            <div>
+				<button class="btn-submit px-4 py-1 rounded" onclick="openAddModal()" type="button">
+					Add School
+				</button>
 			</div>
 
 		</div>
