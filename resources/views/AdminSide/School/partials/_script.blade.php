@@ -3,7 +3,7 @@
 	function openAddModal() {
 		document.getElementById('add-school-modal').classList.remove('hidden');
 	}
- 
+
 	document.addEventListener('DOMContentLoaded', function() {
 		document.getElementById('school_add_form').addEventListener('submit', function(e) {
 			e.preventDefault();
@@ -97,7 +97,7 @@
 				});
 		}
 	}
- 
+
 	document.addEventListener('DOMContentLoaded', function() {
 		var map = L.map('map').setView([15.928, 120.348], 12); // Centered on Pangasinan
 		L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -185,49 +185,64 @@
 		return String(value).replace(/'/g, "\\'");
 	}
 
-	function renderSchoolCard(school) {
-		return `
-        <div class="bg-white rounded-lg shadow-md border border-gray-200 p-4 flex flex-col items-center text-center transition hover:shadow-lg">
-            <img class="w-24 h-24 object-cover rounded-full mb-3"
-                src="${school.image_path ? '/school-logo/' + school.image_path : '/icon/logo.png'}"
-                alt="School Logo">
-            <h3 class="text-lg font-semibold text-gray-800">${school.SchoolName}</h3>
-            <x-badge color="blue">${school.SchoolLevel}</x-badge>
-            <x-badge color="green">${school.SchoolID}</x-badge>
-            <x-badge color="yellow">${school.SchoolEmailAddress ?? 'Email not found'}</x-badge>
-            <p class="text-sm text-gray-700 mt-2">Last Login: ${formatLastLogin(school.school_user?.last_login)}</p>
-            <div class="mt-4 w-full">
-                <form action="/send-mail/${school.pk_school_id}" method="POST" class="w-full">
-                    <input type="hidden" name="_token" value="${csrfToken}">
-                    <button type="submit" class="btn-green px-4 py-1 rounded w-full my-2">
-                        Notify School ICT Coor.
-                    </button>
-                </form>
-            </div>
-            <div class="flex flex-row gap-2 w-full">
-                <button type="button"
-                    onclick="window.location.href='/schools/${school.pk_school_id}'"
-                    class="btn-submit px-4 py-1 rounded flex-1 w-full">
-                    Details
-                </button>
-                <button
-                    onclick="showEditSchoolForm(
-                        '${school.pk_school_id}',
-                        '${escapeJsString(school.SchoolID)}',
-                        '${escapeJsString(school.SchoolName)}',
-                        '${escapeJsString(school.SchoolLevel)}',
-                        '${escapeJsString(school.SchoolEmailAddress ?? '')}'
-                    )"
-                    class="btn-update px-4 py-1 rounded flex-1 w-full">
-                    Edit
-                </button>
-                <button type="button" onclick="deleteSchool('${school.pk_school_id}')"
-                    class="btn-delete px-4 py-1 rounded flex-1 w-full">
-                    Delete
-                </button>
-            </div>
-        </div>`;
-	}
+		function renderSchoolCard(school) {
+			return `
+	        <div class="bg-gradient-to-br from-white to-gray-50 border border-gray-300 rounded-md p-6 shadow-sm hover:shadow-md transition duration-300">
+	            <div class="grid grid-cols-3 items-center justify-between mb-6">
+	                <div>
+	                    <img class="md:w-24 md:h-24 w-20 h-20 rounded-full object-cover"
+	                        src="${school.image_path ? '/school-logo/' + school.image_path : '/icon/logo.png'}"
+	                        alt="School Logo">
+	                </div>
+	                <div class="col-span-2 flex flex-col justify-start text-left">
+	                    <div class="text-xl font-bold text-gray-900">${school.SchoolName ?? ''}</div>
+	                    <div class="flex flex-wrap gap-2 mt-2">
+	                        <x-badge color="blue">${school.SchoolLevel ?? ''}</x-badge>
+	                        <x-badge color="green">${school.SchoolID ?? ''}</x-badge>
+	                    </div>
+	                </div>
+	            </div>
+
+	            <div class="space-y-3">
+	                <div class="flex justify-between gap-4">
+	                    <p class="text-sm text-gray-500">Email</p>
+	                    <p class="text-sm font-medium text-gray-800 break-all text-right">${school.SchoolEmailAddress ?? 'Email not found'}</p>
+	                </div>
+	                <div class="flex justify-between gap-4">
+	                    <p class="text-sm text-gray-500">Last Login</p>
+	                    <p class="text-sm font-medium text-gray-800 text-right">${formatLastLogin(school.school_user?.last_login)}</p>
+	                </div>
+	            </div>
+
+	            <div class="border-t border-gray-200 my-6"></div>
+
+	            <div class="flex flex-wrap gap-3">
+	                <button type="button"
+	                    onclick="window.location.href='/schools/${school.pk_school_id}'"
+	                    class="btn-submit px-4 py-1 rounded">
+	                    Details
+	                </button>
+
+	                <button type="button"
+	                    onclick="showEditSchoolForm(
+	                        '${school.pk_school_id}',
+	                        '${escapeJsString(school.SchoolID)}',
+	                        '${escapeJsString(school.SchoolName)}',
+	                        '${escapeJsString(school.SchoolLevel)}',
+	                        '${escapeJsString(school.SchoolEmailAddress ?? '')}'
+	                    )"
+	                    class="btn-update px-4 py-1 rounded">
+	                    Edit
+	                </button>
+
+	                <button type="button"
+	                    onclick="deleteSchool('${school.pk_school_id}')"
+	                    class="btn-delete px-4 py-1 rounded">
+	                    Delete
+	                </button>
+	            </div>
+	        </div>`;
+		}
 
 	function renderPagination(pagination, query) {
 		const paginationContainer = document.getElementById('schoolPagination');

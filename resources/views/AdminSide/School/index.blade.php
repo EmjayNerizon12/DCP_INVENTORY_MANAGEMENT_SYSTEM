@@ -113,7 +113,7 @@
 					</svg>
 				</div>
 				<input type="text" id="searchSchool" placeholder="Search School..."
-					class="w-full border border-l-0 rounded-r h-10 px-3 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+					class="form-input" />
 			</div>
 
 		</div>
