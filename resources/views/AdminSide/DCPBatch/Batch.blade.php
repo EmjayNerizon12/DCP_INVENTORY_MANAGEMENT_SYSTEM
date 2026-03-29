@@ -27,8 +27,8 @@
 				</div>
 
 				<div class="tracking-wider">
-					<h2 class="text-2xl font-bold text-gray-800 uppercase">DCP Batch List</h2>
-					<div class="text-lg text-gray-600 mb-2">List of Batches assigned in every Schools</div>
+					<h2 class="page-title">DCP Batch List</h2>
+					<div class="page-subtitle">List of Batches assigned in every Schools</div>
 				</div>
 			</div>
 			<div class="w-full flex md:justify-end justify-start my-2">
@@ -37,6 +37,8 @@
 				</button>
 			</div>
 		</div>
+        
+        @include('AdminSide.DCPBatch.Batch._cards')
 
 		<div class="my-3 flex justify-end w-full">
 			<div class="w-full sm:w-40">
@@ -49,7 +51,6 @@
 		</div>
 
 		<div id="batch-list-display">
-			@include('AdminSide.DCPBatch.Batch._cards')
 			<div class="flex w-full sm:max-w-sm items-stretch my-2 ">
 				<div class="bg-blue-600 flex items-center px-3 rounded-l h-10">
 					@include('svg.search-sm')
