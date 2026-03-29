@@ -37,7 +37,7 @@ class AdminIspLookupController extends Controller
             $itemsByType[$type] = $modelClass::listForAdmin();
         }
 
-        return view('AdminSide.ISP.isp-index', compact('itemsByType'));
+        return view('AdminSide.ISP.index', compact('itemsByType'));
     }
 
     public function store(Request $request)

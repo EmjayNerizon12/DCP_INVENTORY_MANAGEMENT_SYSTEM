@@ -20,7 +20,7 @@ class ISPController extends Controller
         $ISPArea = ISPAreaAvailable::all();
         $ISPInternetQ = ISPInternetQuality::all();
 
-        return view('AdminSide.ISP.isp-index', compact('ISPList', 'ISPInternetQ', 'ISPArea', 'ISPConnectionType'));
+        return view('AdminSide.ISP.index', compact('ISPList', 'ISPInternetQ', 'ISPArea', 'ISPConnectionType'));
     }
 
     public function storeISPList(Request $request)
