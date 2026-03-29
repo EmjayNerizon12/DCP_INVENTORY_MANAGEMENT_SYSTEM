@@ -43,28 +43,21 @@
 
 		<!-- Search -->
 		<div class="my-2 sm:px-2 px-0 w-full flex justify-between sm:flex-row flex-col gap-2">
+			<div class="flex w-full sm:max-w-sm items-stretch">
+				<div class="bg-blue-600 flex items-center px-3 rounded-l h-10">
+					@include('svg.search-sm')
+				</div>
+				<input type="text" id="searchItemType" class="form-input" />
+			</div>
 			<div>
 				<button class="btn-submit px-4 py-1 rounded" onclick="openAddItemTypeModal()" type="button">
 					Add Product
 				</button>
 			</div>
-			<div class="flex w-full sm:max-w-sm items-stretch">
-
-				<!-- Icon -->
-				<div class="bg-blue-600 flex items-center px-3 rounded-l h-10">
-					 @include('svg.search-sm')
-				</div>
-
-				<!-- Input -->
-				<input type="text" id="searchItemType"
-					class="form-input" />
-			</div>
-
 		</div>
 
 		<!-- Card Grid -->
-		<div id="itemTypeCardGrid"
-			class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-2 p-2">
+		<div id="itemTypeCardGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-2 p-2">
 		</div>
 	</div>
 	@include('AdminSide.DCPBatch.ItemType._script')

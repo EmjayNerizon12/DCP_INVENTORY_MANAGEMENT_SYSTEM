@@ -84,124 +84,136 @@
 		}
 
 		const html = packages
-				.map((pkg, pkgIndex) => {
-					const items = Array.isArray(pkg.items) ? pkg.items : [];
-					const productCount = items.length;
-					const totalQty = items.reduce((sum, item) => sum + (Number(item?.quantity) || 0), 0);
-					const itemsHtml = items
-						.map((item, itemIndex) => {
-							const brandName = item.brand_name ? escapeHtml(item.brand_name) : '';
-							const brandLabel = brandName ? `Brand: ${brandName}` : 'Brand: -';
+			.map((pkg, pkgIndex) => {
+				const items = Array.isArray(pkg.items) ? pkg.items : [];
+				const productCount = items.length;
+				const totalQty = items.reduce((sum, item) => sum + (Number(item?.quantity) || 0), 0);
+
+				const itemsRowsHtml = items
+					.map((item, itemIndex) => {
+						const brandName = item.brand_name ? escapeHtml(item.brand_name) : '-';
 						const brandId = item.brand_id ?? '';
 
 						return `
-								<div class="w-full px-4 py-2  border border-gray-300 shadow-lg flex flex-col">
-									<div class="w-full flex flex-col md:justify-between justify-start items-center pb-2">
-										<div class="w-full text-left">
-											<div class="font-semibold text-left flex gap-2 flex-start items-center sm:text-lg text-base">
-												${itemIndex + 1}. ${escapeHtml(item.item_name)}
-											</div>
-											<p class="text-md text-gray-500 text-left">${brandLabel}</p>
-										</div>
-										<div class="text-left w-full">
-											<p class="text-md">Qty: <span class="font-bold">${escapeHtml(item.quantity)}</span></p>
-											<p class="text-md">₱${formatCurrency(item.unit_price)}</p>
-										</div>
-									</div>
-									<div class="flex w-full flex-row gap-2 mt-2 items-center justify-start">
-										<div class="flex flex-start">
-											<button
-												type="button"
-												class="btn-update sm:w-full w-auto px-4 py-1 rounded"
-												data-action="edit-item"
-												data-package-id="${escapeAttr(pkg.id)}"
-												data-item-type-id="${escapeAttr(item.item_type_id)}"
-												data-item-id="${escapeAttr(item.id)}"
-												data-package-name="${escapeAttr(pkg.name)}"
-												data-package-content-name="${escapeAttr(item.item_name)}"
-												data-quantity="${escapeAttr(item.quantity)}"
-												data-brand-id="${escapeAttr(brandId)}"
-												data-unit-price="${escapeAttr(item.unit_price)}"
-											>
-												Edit
-											</button>
-										</div>
+                    <tr>
+                        <td class="td-cell text-center">${itemIndex + 1}</td>
+                        <td class="td-cell">${escapeHtml(item.item_name)}</td>
+                        <td class="td-cell">${brandName}</td>
+                        <td class="td-cell text-center font-semibold">${escapeHtml(item.quantity)}</td>
+                        <td class="td-cell whitespace-nowrap">₱ ${formatCurrency(item.unit_price)}</td>
+                        <td class="td-cell">
+                            <div class="flex flex-wrap gap-2">
+                                <button
+                                    type="button"
+                                    class="btn-update px-4 py-1 rounded"
+                                    data-action="edit-item"
+                                    data-package-id="${escapeAttr(pkg.id)}"
+                                    data-item-type-id="${escapeAttr(item.item_type_id)}"
+                                    data-item-id="${escapeAttr(item.id)}"
+                                    data-package-name="${escapeAttr(pkg.name)}"
+                                    data-package-content-name="${escapeAttr(item.item_name)}"
+                                    data-quantity="${escapeAttr(item.quantity)}"
+                                    data-brand-id="${escapeAttr(brandId)}"
+                                    data-unit-price="${escapeAttr(item.unit_price)}"
+                                >
+                                    Edit Item
+                                </button>
+                                <button
+                                    type="button"
+                                    class="btn-delete px-4 py-1 rounded"
+                                    data-action="delete-item"
+                                    data-item-id="${escapeAttr(item.id)}"
+                                >
+                                    Remove Item
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+					})
+					.join('');
 
-										<div class="flex flex-start">
-											<button
-												type="button"
-												class="btn-delete sm:w-full w-auto px-4 py-1 rounded"
-												data-action="delete-item"
-												data-item-id="${escapeAttr(item.id)}"
-											>
-												Remove
-											</button>
-										</div>
-									</div>
-								</div>
-							`;
-						})
-						.join('');
+				const itemsContentHtml = productCount > 0 ?
+					`
+                <div class="overflow-x-auto">
+                    <table class="table w-full border-collapse border border-gray-300">
+                        <thead>
+                            <tr class="top-header">
+                                <th colspan="6" class="px-4">Package Product List</th>
+                            </tr>
+                            <tr class="sub-header">
+                                <th class="td-cell text-center">No.</th>
+                                <th class="td-cell">Product Name</th>
+                                <th class="td-cell">Brand</th>
+                                <th class="td-cell text-center">Qty</th>
+                                <th class="td-cell">Unit Price</th>
+                                <th class="td-cell">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${itemsRowsHtml}
+                        </tbody>
+                    </table>
+                </div>
+            ` :
+					`
+                <div class="w-full px-4 py-4 text-center text-gray-500 border border-gray-300 rounded">
+                    No Product Found
+                </div>
+            `;
 
-					const itemsContentHtml = productCount > 0
-						? itemsHtml
-						: `
-							<div class="w-full px-4 py-4 text-center text-gray-500">
-								No Product Found
-							</div>
-						`;
+				return `
+            <div class="rounded-sm shadow-lg bg-white overflow-hidden border border-gray-300">
+                <div class="p-4 flex justify-between md:flex-row flex-col items-center gap-2">
+                    <div class="tracking-wider text-left text-lg font-semibold w-full">
+                        ${pkgIndex + 1}. <span>${escapeHtml(pkg.name)}</span>
+                        <div class="flex flex-start gap-2">
+                            <x-badge color="blue">Product: ${productCount}</x-badge>
+                            <x-badge color="green">Total: ${totalQty}</x-badge>
+                        </div>
+                    </div>
+                    <div class="flex flex-row items-center gap-2">
+                        <button
+                            type="button"
+                            id="toggle-package-products-${escapeAttr(pkg.id)}"
+                            data-action="toggle-products"
+                            data-package-id="${escapeAttr(pkg.id)}"
+                            class="btn-cancel px-2 py-1 rounded"
+                        >
+                            <span>Show Product</span>
+                        </button>
+                        <button
+                            type="button"
+                            class="btn-submit px-2 py-1 rounded"
+                            data-action="insert-product"
+                            data-package-id="${escapeAttr(pkg.id)}"
+                            data-package-name="${escapeAttr(pkg.name)}"
+                        >
+                            Add Product
+                        </button>
 
-					return `
-						<div class="rounded-sm shadow-lg bg-white overflow-hidden border border-gray-300">
-							<div class="p-4 flex justify-between md:flex-row flex-col items-center gap-2">
-								<div class="tracking-wider text-left text-lg font-semibold w-full">
-									${pkgIndex + 1}. <span>${escapeHtml(pkg.name)}</span>
-									<div class="flex flex-start gap-2">
-										<x-badge color="blue">Product: ${productCount}</x-badge>
-										<x-badge color="green">Total: ${totalQty}</x-badge>
-									</div>
-								</div>
-								<div class="flex flex-row items-center gap-2">
-										<button
-										type="button"
-										id="toggle-package-products-${escapeAttr(pkg.id)}"
-										data-action="toggle-products"
-										data-package-id="${escapeAttr(pkg.id)}"
-										class="btn-cancel px-2 py-1 rounded"
-									>
-										<span>Show Product</span>
-									</button>
-									<button
-										type="button"
-										class="btn-submit px-2 py-1 rounded"
-										data-action="insert-product"
-										data-package-id="${escapeAttr(pkg.id)}"
-										data-package-name="${escapeAttr(pkg.name)}"
-									>
-										Add Product
-									</button>
+                        <button
+                            type="button"
+                            class="btn-delete px-2 py-1 rounded"
+                            data-action="delete-package"
+                            data-package-id="${escapeAttr(pkg.id)}"
+                        >
+                            <span>Delete</span>
+                        </button>
+                    </div>
+                </div>
+                <div
+                    id="package-products-${escapeAttr(pkg.id)}"
+                    class="p-4 bg-white hidden js-package-products"
+                    data-package-id="${escapeAttr(pkg.id)}"
+                >
+                    ${itemsContentHtml}
+                </div>
+            </div>
+        `;
+			})
+			.join('');
 
-									<button
-										type="button"
-										class="btn-delete px-2 py-1 rounded"
-										data-action="delete-package"
-										data-package-id="${escapeAttr(pkg.id)}"
-									>
-										<span>Delete</span>
-									</button>
-								</div>
-							</div>
-							<div
-								id="package-products-${escapeAttr(pkg.id)}"
-								class="p-4 space-y-3 bg-white hidden js-package-products"
-								data-package-id="${escapeAttr(pkg.id)}"
-							>
-								${itemsContentHtml}
-							</div>
-						</div>
-					`;
-				})
-				.join('');
 
 		listEl.innerHTML = html;
 		setPackageListState({
