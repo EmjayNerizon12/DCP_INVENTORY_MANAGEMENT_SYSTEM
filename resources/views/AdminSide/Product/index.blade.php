@@ -19,7 +19,7 @@
         }
     </style>
 <div class="p-2">
-    <div class="flex justify-start gap-2 items-center">
+    <div class="flex justify-start gap-2 mb-2 items-center">
         <div class="h-10 w-10 bg-white p-3 border border-gray-300 shadow-lg rounded-full flex items-center justify-center">
             <div class="text-white bg-blue-600 p-1 rounded-md">
                 <svg fill="currentColor" class="w-8 h-8" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
@@ -27,10 +27,9 @@
                 </svg>
             </div>
         </div>
-
         <div>
-            <div class="text-2xl font-bold text-gray-700">DCP Products Details</div>
-            <div class="text-lg font-normal text-gray-600">Create, View, Edit and Remove Details</div>
+            <div class="page-title">DCP Products Details</div>
+            <div class="page-subtitle">Create, View, Edit and Remove Details</div>
         </div>
     </div>
 

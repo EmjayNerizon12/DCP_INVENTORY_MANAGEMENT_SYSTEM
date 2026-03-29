@@ -1,32 +1,13 @@
-    @extends('layout.Admin-Side')
-    <title>@yield('title', 'DCP Dashboard')</title>
+@extends('layout.Admin-Side')
+<title>@yield('title', 'DCP Dashboard')</title>
 
-    @section('content')
-        <style>
-            th {
-                text-transform: uppercase;
-                letter-spacing: 0.05rem;
-
-            }
-
-            td {
-                letter-spacing: 0.05rem
-            }
-
-            button {
-                letter-spacing: 0.05rem;
-                font-weight: 500 !important;
-                border-radius: 5px !important;
-            }
-        </style>
-        <div class="my-5   flex justify-start gap-2 items-center ">
-
-            <div
-                class="h-16 w-16 bg-white p-3 border border-gray-300 shadow-lg rounded-full flex items-center justify-center">
-                <div class="text-white bg-blue-600 p-2 rounded-full">
-                    <svg class="w-10 h-10" version="1.1" id="_x32_" xmlns="http://www.w3.org/2000/svg"
-                        xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve"
-                        fill="currentColor">
+@section('content')
+    <div class="p-2">
+        <div class="flex justify-start gap-2 items-center mb-2">
+            <div class="h-10 w-10 bg-white p-3 border border-gray-300 shadow-lg rounded-full flex items-center justify-center">
+                <div class="text-white bg-blue-600 p-1 rounded-md">
+                    <svg class="w-8 h-8" version="1.1" id="_x32_" xmlns="http://www.w3.org/2000/svg"
+                        xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve" fill="currentColor">
                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                         <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
                         <g id="SVGRepo_iconCarrier">
@@ -47,13 +28,10 @@
                 </div>
             </div>
 
-            <div style="letter-spacing: 0.05rem">
-                <h2 class="text-2xl font-bold text-gray-800 uppercase">Digital Identity Information</h2>
-                <div class="text-lg text-gray-600 ">Create, View, Edit and Remove Details</div>
-
+            <div>
+                <h2 class="page-title">Digital Identity Information</h2>
+                <div class="page-subtitle">Create, View, Edit and Remove Details</div>
             </div>
-
-
 
         </div>
         <div class="grid md:grid-cols-2 grid-cols-1 gap-2">
@@ -76,6 +54,5 @@
                 ])
             @endforeach
         </div>
-        <br>
-        <br>
-    @endsection
+    </div>
+@endsection

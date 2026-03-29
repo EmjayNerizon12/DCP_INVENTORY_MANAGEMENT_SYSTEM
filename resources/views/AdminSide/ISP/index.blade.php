@@ -2,55 +2,70 @@
 <title>@yield('title', 'DCP Dashboard')</title>
 
 @section('content')
-    <style>
-        th {
-            text-transform: uppercase;
-            letter-spacing: 0.05rem
-        }
+	<style>
+		th {
+			text-transform: uppercase;
+			letter-spacing: 0.05rem
+		}
 
-        td {
-            letter-spacing: 0.05rem
-        }
+		td {
+			letter-spacing: 0.05rem
+		}
 
-        button {
-            letter-spacing: 0.05rem;
-            font-weight: 500 !important;
-            border-radius: 5px !important;
-        }
-    </style>
-    <div class="md:my-5 mx-0 my-0">
+		button {
+			letter-spacing: 0.05rem;
+			font-weight: 500 !important;
+			border-radius: 5px !important;
+		}
+	</style>
+	<div class="p-2">
 
-        <div class="flex justify-start gap-2 my-2 items-center">
-            <div class="h-16 w-16 bg-white p-3 border border-gray-300 shadow-lg rounded-full flex items-center justify-center">
-                <div class="text-white bg-blue-600 p-2 rounded-full">
-                    <svg viewBox="0 -2 20 20" class="w-10 h-10" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
-                        <path d="M11.9795939,3535.00003 C11.9795939,3536.00002 12.8837256,3537 14,3537 C15.1162744,3537 16.0204061,3536.00002 16.0204061,3535.00003 C16.0204061,3532.00008 11.9795939,3532.00008 11.9795939,3535.00003 M9.71370846,3530.7571 L11.1431458,3532.17208 C12.7180523,3530.6121 15.2819477,3530.6121 16.8568542,3532.17208 L18.2862915,3530.7571 C15.9183756,3528.41413 12.0816244,3528.41413 9.71370846,3530.7571 M4,3525.10019 L5.42842711,3526.51516 C10.1551672,3521.83624 17.8448328,3521.83624 22.5715729,3526.51516 L24,3525.10019 C18.4772199,3519.63327 9.52278008,3519.63327 4,3525.10019 M21.1431458,3527.92914 L19.7147187,3529.34312 C16.5638953,3526.22417 11.4361047,3526.22417 8.28528134,3529.34312 L6.85685423,3527.92914 C10.8016971,3524.0242 17.1983029,3524.0242 21.1431458,3527.92914"/>
-                    </svg>
-                </div>
-            </div>
-            <div style="letter-spacing: 0.05rem">
-                <h2 class="text-2xl font-bold text-gray-800 uppercase">Internet Service Providers Details</h2>
-                <div class="text-lg text-gray-600">Create, View, Edit and Remove Details</div>
-            </div>
-        </div>
+		<div class="flex justify-start gap-2 mb-2 items-center">
+			<div class="h-10 w-10 bg-white p-3 border border-gray-300 shadow-lg rounded-full flex items-center justify-center">
+				<div class="text-white bg-blue-600 p-1 rounded-md">
+					<svg class="w-8 h-8" fill="currentColor" viewBox="0 0 96 96" xmlns="http://www.w3.org/2000/svg">
+						<g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+						<g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
+						</g>
+						<g id="SVGRepo_iconCarrier">
+							<title></title>
+							<g>
+								<path d="M48,60A12,12,0,1,0,60,72,12.0081,12.0081,0,0,0,48,60Z"></path>
+								<path
+									d="M22.6055,46.6289A5.9994,5.9994,0,1,0,31.1133,55.09a24.2258,24.2258,0,0,1,33.7734,0,5.9512,5.9512,0,0,0,4.2539,1.77,6,6,0,0,0,4.2539-10.23C59.7773,32.918,36.2227,32.918,22.6055,46.6289Z">
+								</path>
+								<path
+									d="M90.27,29.7773a59.1412,59.1412,0,0,0-84.539,0,5.9994,5.9994,0,1,0,8.5312,8.4375c18.1172-18.3281,49.3594-18.3281,67.4766,0A5.9994,5.9994,0,1,0,90.27,29.7773Z">
+								</path>
+							</g>
+						</g>
+					</svg>
 
-        <div class="grid md:grid-cols-2 grid-cols-1 md:gap-4 gap-2 mb-10">
-            @php
-                $lookupCards = [
-                    ['type' => 'provider', 'title' => 'Internet Service Providers List'],
-                    ['type' => 'connection_type', 'title' => 'Connection Type for the ISP'],
-                    ['type' => 'area', 'title' => 'Area Distribution for the ISP'],
-                    ['type' => 'internet_quality', 'title' => 'Internet Quality for the ISP'],
-                ];
-            @endphp
+				</div>
+			</div>
+			<div style="letter-spacing: 0.05rem">
+				<h2 class="page-title">Internet Service Providers Details</h2>
+				<div class="page-subtitle">Create, View, Edit and Remove Details</div>
+			</div>
+		</div>
 
-            @foreach ($lookupCards as $card)
-                @include('AdminSide.ISP.Crud._lookupCrud', [
-                    'type' => $card['type'],
-                    'title' => $card['title'],
-                    'items' => $itemsByType[$card['type']] ?? collect(),
-                ])
-            @endforeach
-        </div>
-    </div>
+		<div class="grid md:grid-cols-2 grid-cols-1 md:gap-4 gap-2 mb-10">
+			@php
+				$lookupCards = [
+				    ['type' => 'provider', 'title' => 'Internet Service Providers List'],
+				    ['type' => 'connection_type', 'title' => 'Connection Type for the ISP'],
+				    ['type' => 'area', 'title' => 'Area Distribution for the ISP'],
+				    ['type' => 'internet_quality', 'title' => 'Internet Quality for the ISP'],
+				];
+			@endphp
+
+			@foreach ($lookupCards as $card)
+				@include('AdminSide.ISP.Crud._lookupCrud', [
+					'type' => $card['type'],
+					'title' => $card['title'],
+					'items' => $itemsByType[$card['type']] ?? collect(),
+				])
+			@endforeach
+		</div>
+	</div>
 @endsection

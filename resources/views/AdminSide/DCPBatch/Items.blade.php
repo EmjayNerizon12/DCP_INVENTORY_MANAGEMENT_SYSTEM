@@ -23,7 +23,7 @@
 					</svg>
 				</div>
 			</div>
-			<div class="w-full" style="letter-spacing: 0.05rem flex flex-col items-center">
+			<div>
 				<div class="page-title">Batch Items List</div>
 				<div class="page-subtitle">For Viewing and Monitoring the items in the batch</div>
 			</div>

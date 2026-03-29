@@ -1,82 +1,79 @@
- @extends('layout.Admin-Side')
- <title>@yield('title', 'DCP Dashboard')</title>
+	@extends('layout.Admin-Side')
+	<title>@yield('title', 'DCP Dashboard')</title>
 
- @section('content')
-     <style>
-         th {
-             text-transform: uppercase;
-             letter-spacing: 0.05rem
-         }
+	@section('content')
+		<style>
+			th {
+				text-transform: uppercase;
+				letter-spacing: 0.05rem
+			}
 
-         td {
-             letter-spacing: 0.05rem
-         }
+			td {
+				letter-spacing: 0.05rem
+			}
 
-         button {
-             letter-spacing: 0.05rem;
-             font-weight: 500 !important;
-             border-radius: 5px !important;
-         }
-     </style>
-     <div class=" md:my-5 mx-0 my-0">
-         <div class=" flex justify-start gap-2 items-center mb-2">
+			button {
+				letter-spacing: 0.05rem;
+				font-weight: 500 !important;
+				border-radius: 5px !important;
+			}
+		</style>
+		<div class="p-2">
+			<div class=" flex justify-start gap-2 mb-2 items-center mb-2">
 
-             <div
-                 class="h-16 w-16 bg-white p-3 border border-gray-300 shadow-lg rounded-full flex items-center justify-center">
-                 <div class="text-white bg-blue-600 p-2 rounded-full">
-                     <svg fill="currentColor" class="h-10 w-10" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
-                         xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 507.901 507.901" xml:space="preserve"
-                         stroke="currentColor" stroke-width="8.126416">
-                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                         <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                         <g id="SVGRepo_iconCarrier">
-                             <g>
-                                 <g>
-                                     <path
-                                         d="M493.9,68.251H14.1c-7.8,0-14.1,6.3-14.1,14.1v126.4c0,7.8,6.3,14.1,14.1,14.1h9.6c7.2,120.8,107.8,216.8,230.3,216.8 s223-96,230.2-216.8h9.6c7.8,0,14.1-6.3,14.1-14.1v-126.4C508,74.551,501.7,68.251,493.9,68.251z M254,411.451 c-107,0-194.9-83.4-202-188.6h404C448.8,328.051,361,411.451,254,411.451z M479.6,194.651H28.2v-98.2h183.4v24.6 c0,7.8,6.3,14.1,14.1,14.1s14.1-6.3,14.1-14.1v-24.6H268v56.9c0,7.8,6.3,14.1,14.1,14.1c7.8,0,14.1-6.3,14.1-14.1v-56.9h183.4 V194.651z">
-                                     </path>
-                                 </g>
-                             </g>
-                             <g>
-                                 <g>
-                                     <path
-                                         d="M254,263.951c-29.4,0-53.3,23.9-53.3,53.3c0,29.4,23.9,53.3,53.3,53.3c29.4,0,53.3-23.9,53.3-53.3 C307.3,287.851,283.4,263.951,254,263.951z M254,342.351c-13.9,0-25.1-11.2-25.1-25.1c0-13.9,11.3-25.1,25.1-25.1 s25.1,11.2,25.1,25.1C279.1,331.151,267.9,342.351,254,342.351z">
-                                     </path>
-                                 </g>
-                             </g>
-                         </g>
-                     </svg>
-                 </div>
-             </div>
+				<div class="h-10 w-10 bg-white p-3 border border-gray-300 shadow-lg rounded-full flex items-center justify-center">
+					<div class="text-white bg-blue-600 p-1 rounded-md">
+						<svg viewBox="0 0 24 24" class="w-8 h-8" version="1.1" xmlns="http://www.w3.org/2000/svg"
+							xmlns:xlink="http://www.w3.org/1999/xlink" fill="currentColor">
+							<g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+							<g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+							<g id="SVGRepo_iconCarrier">
+								<title>fingerprint_line</title>
+								<g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+									<g id="System" transform="translate(-48.000000, -288.000000)">
+										<g id="fingerprint_line" transform="translate(48.000000, 288.000000)">
+											<path
+												d="M24,0 L24,24 L0,24 L0,0 L24,0 Z M12.5934901,23.257841 L12.5819402,23.2595131 L12.5108777,23.2950439 L12.4918791,23.2987469 L12.4918791,23.2987469 L12.4767152,23.2950439 L12.4056548,23.2595131 C12.3958229,23.2563662 12.3870493,23.2590235 12.3821421,23.2649074 L12.3780323,23.275831 L12.360941,23.7031097 L12.3658947,23.7234994 L12.3769048,23.7357139 L12.4804777,23.8096931 L12.4953491,23.8136134 L12.4953491,23.8136134 L12.5071152,23.8096931 L12.6106902,23.7357139 L12.6232938,23.7196733 L12.6232938,23.7196733 L12.6266527,23.7031097 L12.609561,23.275831 C12.6075724,23.2657013 12.6010112,23.2592993 12.5934901,23.257841 L12.5934901,23.257841 Z M12.8583906,23.1452862 L12.8445485,23.1473072 L12.6598443,23.2396597 L12.6498822,23.2499052 L12.6498822,23.2499052 L12.6471943,23.2611114 L12.6650943,23.6906389 L12.6699349,23.7034178 L12.6699349,23.7034178 L12.678386,23.7104931 L12.8793402,23.8032389 C12.8914285,23.8068999 12.9022333,23.8029875 12.9078286,23.7952264 L12.9118235,23.7811639 L12.8776777,23.1665331 C12.8752882,23.1545897 12.8674102,23.1470016 12.8583906,23.1452862 L12.8583906,23.1452862 Z M12.1430473,23.1473072 C12.1332178,23.1423925 12.1221763,23.1452606 12.1156365,23.1525954 L12.1099173,23.1665331 L12.0757714,23.7811639 C12.0751323,23.7926639 12.0828099,23.8018602 12.0926481,23.8045676 L12.108256,23.8032389 L12.3092106,23.7104931 L12.3186497,23.7024347 L12.3186497,23.7024347 L12.3225043,23.6906389 L12.340401,23.2611114 L12.337245,23.2485176 L12.337245,23.2485176 L12.3277531,23.2396597 L12.1430473,23.1473072 Z"
+												id="MingCute" fill-rule="nonzero"> </path>
+											<path
+												d="M12,4 C8.13401,4 5,7.13401 5,11 L5,13 C5,13.5523 4.55228,14 4,14 C3.44772,14 3,13.5523 3,13 L3,11 C3,6.02944 7.02944,2 12,2 C16.9706,2 21,6.02944 21,11 L21,14 C20.9998,14.2621 20.9888,14.5244 20.9752,14.786 C20.9508,15.2591 20.9018,15.913 20.8033,16.6351 C20.6145,18.0199 20.2178,19.8763 19.3,21.1 C18.9686,21.5418 18.3418,21.6314 17.9,21.3 C17.4582,20.9686 17.3686,20.3418 17.7,19.9 C18.2822,19.1237 18.6355,17.7301 18.8217,16.3649 C18.9107,15.712 18.9555,15.1159 18.9779,14.6827 C18.9897,14.4553 18.9996,14.2273 19,13.9996 L19,11 C19,7.13401 15.866,4 12,4 Z M12,8 C10.3431,8 9,9.34315 9,11 L9,12 C9,12.9403 8.69626,14.1008 8.13235,15.1581 C7.56532,16.2213 6.68336,17.2764 5.44721,17.8944 C4.95324,18.1414 4.35256,17.9412 4.10557,17.4472 C3.85858,16.9532 4.05881,16.3526 4.55279,16.1056 C5.31664,15.7236 5.93468,15.0287 6.36765,14.2169 C6.80374,13.3992 7,12.5597 7,12 L7,11 C7,8.23858 9.23858,6 12,6 C14.7614,6 17.0000161,8.23858 17.0000161,11 L17.0000161,12 L17.0000161,12.1166 C17.0006,15.0415 17.0014,18.9672 13.6402,21.7682 C13.2159,22.1218 12.5853,22.0645 12.2318,21.6402 C11.8782,21.2159 11.9355,20.5853 12.3598,20.2318 C14.9537,18.0702 15,15.0635 15,12 L15,11 C15,9.34315 13.6569,8 12,8 Z M13,11.5 C13,10.9477 12.5523,10.5 12,10.5 C11.4477,10.5 11,10.9477 11,11.5 C11,12.6974 10.8785,14.2023 10.4263,15.5588 C9.97506,16.9125 9.2319,18.016 8.05279,18.6056 C7.55881,18.8526 7.35858,19.4532 7.60557,19.9472 C7.85256,20.4412 8.45324,20.6414 8.94721,20.3944 C10.7681,19.484 11.7749,17.8375 12.3237,16.1912 C12.8715,14.5477 13,12.8026 13,11.5 Z"
+												id="形状" fill="currentColor"> </path>
+										</g>
+									</g>
+								</g>
+							</g>
+						</svg>
+					</div>
+				</div>
 
-             <div style="letter-spacing: 0.05rem">
-                 <h2 class="text-2xl font-bold text-gray-800 uppercase">Biometric and CCTV Equipment Details</h2>
-                 <div class="text-lg text-gray-600 ">Create, View, Edit and Remove Details</div>
+				<div>
+					<h2 class="page-title">Biometric and CCTV Equipment Details</h2>
+					<div class="page-subtitle">Create, View, Edit and Remove Details</div>
 
-             </div>
-         </div>
-         <div class="grid md:grid-cols-2 grid-cols-1 md:gap-4 gap-2  mb-10">
-             @php
-                 $lookupCards = [
-                     ['type' => 'camera_type', 'title' => 'CCTV Camera Type'],
-                     ['type' => 'biometric_type', 'title' => 'Biometric Authentication Type'],
-                     ['type' => 'powersource', 'title' => 'Equipment Power Source'],
-                     ['type' => 'installer', 'title' => 'Equipment Installer/Contractor'],
-                     ['type' => 'brand', 'title' => 'Equipment Brand / Model'],
-                     ['type' => 'location', 'title' => 'Equipment Location'],
-                     ['type' => 'incharge', 'title' => 'Person In-Charge to the Equipment'],
-                 ];
-             @endphp
+				</div>
+			</div>
+			<div class="grid md:grid-cols-2 grid-cols-1 md:gap-4 gap-2  mb-10">
+				@php
+					$lookupCards = [
+					    ['type' => 'camera_type', 'title' => 'CCTV Camera Type'],
+					    ['type' => 'biometric_type', 'title' => 'Biometric Authentication Type'],
+					    ['type' => 'powersource', 'title' => 'Equipment Power Source'],
+					    ['type' => 'installer', 'title' => 'Equipment Installer/Contractor'],
+					    ['type' => 'brand', 'title' => 'Equipment Brand / Model'],
+					    ['type' => 'location', 'title' => 'Equipment Location'],
+					    ['type' => 'incharge', 'title' => 'Person In-Charge to the Equipment'],
+					];
+				@endphp
 
-             @foreach ($lookupCards as $card)
-                 @include('AdminSide.Equipment.Crud._lookupCrud', [
-                     'type' => $card['type'],
-                     'title' => $card['title'],
-                     'items' => $itemsByType[$card['type']] ?? collect(),
-                 ])
-             @endforeach
+				@foreach ($lookupCards as $card)
+					@include('AdminSide.Equipment.Crud._lookupCrud', [
+						'type' => $card['type'],
+						'title' => $card['title'],
+						'items' => $itemsByType[$card['type']] ?? collect(),
+					])
+				@endforeach
 
-         </div>
-     </div>
-     <br><br>
- @endsection
+			</div>
+		</div>
+		<br><br>
+	@endsection
